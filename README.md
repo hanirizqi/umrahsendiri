@@ -21,6 +21,7 @@ npm run dev        # dev server
 npm run build       # build produksi
 npm run generate    # static generation
 npm run preview     # preview hasil build
+npm run start        # jalankan hasil build produksi (node .output/server/index.mjs)
 npm run typecheck   # cek tipe TypeScript
 ```
 
@@ -66,6 +67,17 @@ docs/strategy.md       Riset UX, positioning, sitemap, design system
 | `/privacy-policy` | Privacy Policy |
 | `/terms` | Terms of Service |
 | `/[...slug]` | 404 |
+
+## Deployment
+
+Deploy via `Dockerfile` (build tools untuk native module `better-sqlite3` disiapkan di image, build dijalankan di dalam container agar binary native cocok dengan platform target):
+
+```bash
+docker build -t umrahsendiri .
+docker run -p 3000:3000 umrahsendiri
+```
+
+Di [Coolify](https://coolify.io), buat resource baru dari repo GitHub ini dengan build pack **Dockerfile**, port **3000**, tanpa env var wajib (semua konfigurasi situs ada di `app/constants/site.ts`).
 
 ## Design System (ringkas)
 
