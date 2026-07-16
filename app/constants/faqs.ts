@@ -32,8 +32,8 @@ export const LANDING_FAQS: FaqItem[] = HOME_FAQS.slice(0, 4)
 export const ALL_FAQS: FaqItem[] = [
   ...HOME_FAQS,
   {
-    question: 'Apakah harga paket sudah termasuk tiket pesawat dan hotel?',
-    answer: 'Belum. Paket kami adalah biaya jasa perencanaan. Biaya tiket, hotel, dan transportasi dibayar terpisah sesuai pilihan Anda, dan kami bantu hitung estimasinya sejak awal.',
+    question: 'Berapa biaya jasa perencanaan, dan apakah sudah termasuk tiket pesawat dan hotel?',
+    answer: 'Biaya jasa perencanaan kami diskusikan langsung sesuai kebutuhan Anda via WhatsApp. Biaya tersebut belum termasuk tiket, hotel, dan transportasi — semuanya dibayar terpisah sesuai pilihan Anda, dan kami bantu hitung estimasinya sejak awal.',
   },
   {
     question: 'Berapa lama proses konsultasi hingga rencana selesai disusun?',

@@ -19,11 +19,6 @@ const { link } = useWhatsapp()
       {{ tier.tagline }}
     </p>
 
-    <div class="mt-6 flex items-baseline gap-1">
-      <span class="font-display text-3xl font-bold">{{ tier.price }}</span>
-      <span class="text-sm" :class="tier.highlighted ? 'text-background/60' : 'text-ink/50'">{{ tier.priceNote }}</span>
-    </div>
-
     <ul class="mt-8 flex-1 space-y-3">
       <li v-for="feature in tier.features" :key="feature" class="flex items-start gap-2 text-sm">
         <Icon name="lucide:check" class="mt-0.5 size-4 shrink-0" :class="tier.highlighted ? 'text-secondary-400' : 'text-secondary-700'" />

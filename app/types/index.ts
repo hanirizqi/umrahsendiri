@@ -12,8 +12,6 @@ export interface Service {
 export interface PricingTier {
   name: string
   tagline: string
-  price: string
-  priceNote: string
   features: string[]
   highlighted?: boolean
   ctaLabel: string

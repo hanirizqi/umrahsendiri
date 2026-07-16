@@ -7,7 +7,7 @@ import { PRICING_TIERS } from '~/constants/pricing'
     <SectionHeading
       eyebrow="Paket Perencanaan"
       title="Pilih Tingkat Pendampingan yang Sesuai"
-      description="Bukan paket perjalanan — ini adalah tingkat pendampingan perencanaan yang bisa Anda sesuaikan."
+      description="Bukan paket perjalanan — ini adalah tingkat pendampingan perencanaan yang bisa Anda sesuaikan. Diskusikan kebutuhan dan biaya langsung via WhatsApp."
     />
 
     <div class="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
