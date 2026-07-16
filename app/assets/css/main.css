@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --color-primary: #123c32;
+  --color-primary-50: #eef4f2;
+  --color-primary-100: #d7e5e0;
+  --color-primary-400: #2e6357;
+  --color-primary-600: #123c32;
+  --color-primary-700: #0d2823;
+
+  --color-secondary: #c39a58;
+  --color-secondary-100: #f3e9d7;
+  --color-secondary-400: #d3ae74;
+  --color-secondary-600: #c39a58;
+  --color-secondary-700: #a67f42;
+
+  --color-background: #faf8f5;
+  --color-dark: #0d2823;
+  --color-ink: #17322d;
+
+  --shadow-soft: 0 8px 30px rgba(18, 60, 50, 0.08);
+  --shadow-soft-lg: 0 20px 60px rgba(18, 60, 50, 0.12);
+
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  .glass-card {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+  }
+}
+
+@utility fade-up {
+  animation: fade-up 0.6s ease-out both;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
