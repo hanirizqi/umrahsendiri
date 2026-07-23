@@ -4,8 +4,8 @@ import { HOME_FAQS } from '~/constants/faqs'
 useSeoMeta({
   title: 'UmrahSendiri — Umrah Mandiri Planner',
   ogTitle: 'UmrahSendiri — Umrah Mandiri Planner',
-  description: 'Partner perencanaan umrah mandiri: itinerary, estimasi biaya, hotel, transportasi, dan checklist — disusun bersama Anda, keputusan tetap di tangan Anda.',
-  ogDescription: 'Partner perencanaan umrah mandiri: itinerary, estimasi biaya, hotel, transportasi, dan checklist — disusun bersama Anda, keputusan tetap di tangan Anda.',
+  description: 'Partner pendampingan umrah mandiri: itinerary, estimasi biaya, hotel, visa, hingga checklist keberangkatan — disusun bersama Anda lewat konsultasi umrah gratis, keputusan tetap di tangan Anda.',
+  ogDescription: 'Partner pendampingan umrah mandiri: itinerary, estimasi biaya, hotel, visa, hingga checklist keberangkatan — disusun bersama Anda lewat konsultasi umrah gratis, keputusan tetap di tangan Anda.',
 })
 
 useJsonLd({
@@ -18,9 +18,11 @@ useJsonLd({
 <template>
   <div>
     <HeroSection />
-    <SocialProofSection />
+    <WhyUmrahMandiriSection />
     <ProblemSection />
     <SolutionSection />
+    <AudienceFitSection />
+    <TrustSection />
     <BenefitSection />
     <HowItWorksSection />
     <ServicesSection />

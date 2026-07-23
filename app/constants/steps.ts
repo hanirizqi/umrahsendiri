@@ -9,7 +9,7 @@ export const STEPS: Step[] = [
   {
     number: '02',
     title: 'Susun Rencana',
-    description: 'Kami menyusun itinerary, estimasi biaya, dan opsi hotel — Anda yang memutuskan setiap bagiannya.',
+    description: 'Itinerary, estimasi biaya, dan opsi hotel disusun bersama — Anda yang memutuskan setiap bagiannya.',
   },
   {
     number: '03',

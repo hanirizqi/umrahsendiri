@@ -6,7 +6,7 @@ export const SITE = {
   email: 'umrahsendiri.official@gmail.com',
   whatsappNumber: '6281190000283',
   whatsappDefaultMessage: 'Assalamualaikum, saya ingin konsultasi rencana umrah mandiri saya.',
-  instagram: 'https://instagram.com/umrahsendiri',
+  instagram: 'https://instagram.com/umrah_sendiri',
 } as const
 
 export function buildWhatsappLink(message?: string): string {

@@ -12,12 +12,12 @@ export const VALUES: Benefit[] = [
     description: 'Setiap estimasi biaya dan opsi kami sampaikan apa adanya, termasuk kelebihan dan keterbatasannya.',
   },
   {
-    icon: 'lucide:graduation-cap',
+    icon: 'lucide:handshake',
     title: 'Berbasis Pengalaman Nyata',
-    description: 'Rekomendasi kami disusun dari pengalaman mendampingi ribuan rencana umrah mandiri, bukan asumsi.',
+    description: 'Rekomendasi kami disusun bersama jaringan mitra travel umrah berpengalaman, bukan asumsi.',
   },
   {
-    icon: 'lucide:heart-handshake',
+    icon: 'lucide:compass',
     title: 'Mendampingi, Bukan Menggiring',
     description: 'Kami hadir saat dibutuhkan dan diam saat tidak — tanpa memaksa Anda mengambil keputusan tertentu.',
   },

@@ -16,11 +16,11 @@ const { link } = useWhatsapp()
         <AppBadge icon="lucide:compass">Umrah Mandiri Planner</AppBadge>
 
         <h1 class="mt-6 text-4xl leading-[1.1] font-bold text-primary md:text-5xl lg:text-6xl">
-          Rencanakan Umrah Anda Sendiri, Kami Bantu Susun Rencananya
+          Umrah Sesuai Cara Anda. Bukan Jadwal Rombongan.
         </h1>
 
         <p class="mt-6 max-w-lg text-base text-ink/70 md:text-lg">
-          Itinerary, estimasi biaya, hotel, hingga checklist persiapan — disusun bersama Anda. Bukan paket jadi, bukan rombongan. Keputusan tetap di tangan Anda.
+          Bukan paket umrah, bukan rombongan. Anda tetap memegang kendali atas setiap keputusan — kami hadir membantu menyusun itinerary, hotel, estimasi biaya, hingga checklist keberangkatan.
         </p>
 
         <div class="mt-8 flex flex-col gap-4 sm:flex-row">
@@ -29,13 +29,8 @@ const { link } = useWhatsapp()
             <Icon name="lucide:arrow-right" class="size-4" />
           </AppButton>
           <AppButton to="/cara-kerja" variant="ghost" size="lg">
-            Lihat Cara Kerja
+            Pelajari Prosesnya
           </AppButton>
-        </div>
-
-        <div class="mt-10 flex items-center gap-4 text-xs text-ink/50">
-          <Icon name="lucide:shield-check" class="size-4 text-secondary-700" />
-          Dipercaya jamaah mandiri di seluruh Indonesia sejak 2019
         </div>
       </div>
 

@@ -3,17 +3,17 @@ import { SERVICES } from '~/constants/services'
 import { HOME_FAQS } from '~/constants/faqs'
 
 useSeoMeta({
-  title: 'Layanan UmrahSendiri — Itinerary, Biaya, Hotel, hingga Checklist',
-  description: 'Layanan perencanaan umrah mandiri: itinerary, estimasi biaya, rekomendasi hotel, transportasi, checklist, dan konsultasi langsung.',
+  title: 'Pendampingan UmrahSendiri — Itinerary, Biaya, Hotel, hingga Checklist',
+  description: 'Pendampingan perencanaan umrah mandiri: itinerary umrah, estimasi biaya, rekomendasi hotel umrah, visa, transportasi, checklist, dan konsultasi umrah langsung.',
 })
 </script>
 
 <template>
   <div>
     <PageHero
-      eyebrow="Layanan"
+      eyebrow="Pendampingan"
       title="Semua Bagian Perencanaan, Kami Bantu Susun Bersama Anda"
-      description="Enam layanan inti yang bisa Anda gunakan sesuai kebutuhan — sendiri-sendiri atau sekaligus dalam satu paket pendampingan."
+      description="Enam bentuk pendampingan yang bisa Anda gunakan sesuai kebutuhan — sendiri-sendiri atau sekaligus dalam satu rangkaian perencanaan."
     />
 
     <SectionContainer>

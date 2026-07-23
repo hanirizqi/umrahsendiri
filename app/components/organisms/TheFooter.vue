@@ -12,6 +12,9 @@ import { SITE } from '~/constants/site'
           <p class="mt-4 max-w-sm text-sm text-background/60">
             Partner perencanaan umrah mandiri — membantu Anda menyusun itinerary, estimasi biaya, dan persiapan, tanpa mengambil alih keputusan Anda.
           </p>
+          <p class="mt-3 text-sm font-semibold text-secondary-400 italic">
+            Bebas Berencana, Tenang Beribadah.
+          </p>
           <a :href="`mailto:${SITE.email}`" class="mt-4 inline-block text-sm text-background/70 hover:text-secondary-400">
             {{ SITE.email }}
           </a>

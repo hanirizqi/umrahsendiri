@@ -13,7 +13,7 @@ const { link } = useWhatsapp()
           Kami Bukan Mengambil Alih. Kami Membantu Anda Menyusunnya.
         </h2>
         <p class="mt-6 text-base text-background/70 md:text-lg">
-          UmrahSendiri berperan sebagai partner perencanaan. Kami menyediakan data, opsi, dan panduan yang jelas — Anda tetap memegang kendali atas setiap keputusan, dari itinerary hingga hari keberangkatan.
+          Anda tetap memegang kendali atas setiap keputusan — dari itinerary hingga hari keberangkatan. Kami hadir membantu memperjelas setiap tahapannya dengan data, opsi, dan panduan yang jelas.
         </p>
         <AppButton :href="link()" variant="secondary" size="lg" class="mt-8">
           Mulai Konsultasi

@@ -29,6 +29,6 @@ export const SERVICES: Service[] = [
   {
     icon: 'lucide:message-circle',
     title: 'Konsultasi',
-    description: 'Sesi konsultasi langsung dengan tim kami untuk setiap keputusan yang perlu didiskusikan.',
+    description: 'Sesi konsultasi langsung untuk setiap keputusan yang perlu didiskusikan bersama.',
   },
 ]

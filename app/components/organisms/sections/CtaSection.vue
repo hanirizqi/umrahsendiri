@@ -1,5 +1,11 @@
 <script setup lang="ts">
 const { link } = useWhatsapp()
+
+const MICRO_TRUST = [
+  'Konsultasi awal gratis',
+  'Tanpa kewajiban menggunakan layanan',
+  'Diskusi melalui WhatsApp',
+]
 </script>
 
 <template>
@@ -9,19 +15,28 @@ const { link } = useWhatsapp()
         class="pointer-events-none absolute inset-0 opacity-20"
         style="background: radial-gradient(50% 80% at 50% 0%, var(--color-secondary) 0%, transparent 70%)"
       />
-      <h2 class="relative text-3xl font-bold text-background md:text-4xl lg:text-5xl">
-        Siap Menyusun Rencana Umrah Anda Sendiri?
+      <p class="relative text-sm font-semibold tracking-widest text-secondary-400 uppercase">
+        Bebas Berencana, Tenang Beribadah
+      </p>
+      <h2 class="relative mt-3 text-3xl font-bold text-background md:text-4xl lg:text-5xl">
+        Perjalanan Umrah Anda Tidak Harus Mengikuti Cara Orang Lain.
       </h2>
       <p class="relative mx-auto mt-4 max-w-xl text-base text-background/70 md:text-lg">
-        Mulai dengan konsultasi awal tanpa kewajiban apa pun. Kami dengarkan dulu, baru menyarankan.
+        Mulailah dengan konsultasi awal tanpa kewajiban. Kami mendengarkan kebutuhan Anda terlebih dahulu, kemudian membantu menyusun rencana perjalanan yang paling sesuai.
       </p>
       <div class="relative mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
         <AppButton :href="link()" variant="secondary" size="lg">
           Konsultasi Gratis via WhatsApp
         </AppButton>
         <AppButton to="/layanan" variant="ghost" size="lg" class="!border-background/30 !text-background">
-          Lihat Layanan
+          Lihat Pendampingan
         </AppButton>
+      </div>
+      <div class="relative mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-background/60">
+        <div v-for="point in MICRO_TRUST" :key="point" class="flex items-center gap-1.5">
+          <Icon name="lucide:check" class="size-3.5 text-secondary-400" />
+          {{ point }}
+        </div>
       </div>
     </div>
   </SectionContainer>

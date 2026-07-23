@@ -2,17 +2,17 @@
 const PROBLEMS = [
   {
     icon: 'lucide:circle-help',
-    title: 'Biaya yang Tidak Jelas',
-    description: 'Banyak jamaah baru tahu ada biaya tambahan setelah membayar, karena rincian awal tidak transparan.',
+    title: 'Sulit Memperkirakan Total Biaya',
+    description: 'Tanpa rincian yang jelas sejak awal, total biaya sering baru diketahui mendekati keberangkatan.',
   },
   {
     icon: 'lucide:map-pin-off',
-    title: 'Salah Pilih Hotel & Lokasi',
+    title: 'Menentukan Hotel yang Tepat',
     description: 'Tanpa panduan, sulit menilai jarak hotel ke Masjidil Haram dan Masjid Nabawi sebelum berangkat.',
   },
   {
     icon: 'lucide:file-warning',
-    title: 'Dokumen dan Persiapan Ribet',
+    title: 'Dokumen yang Perlu Dipersiapkan Sejak Awal',
     description: 'Visa, vaksin, dan dokumen pendukung sering membingungkan bagi yang mengurusnya sendiri pertama kali.',
   },
 ]

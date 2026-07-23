@@ -20,7 +20,7 @@ const { data: related } = useAsyncData(`related-${route.path}`, () =>
     .all(),
 )
 
-const readingTime = useReadingTime(() => extractPlainText(article.value?.body as never))
+const readingTime = useReadingTime(() => extractPlainText(article.value?.body))
 const pageUrl = computed(() => `${SITE.url}${route.path}`)
 
 useSeoMeta({

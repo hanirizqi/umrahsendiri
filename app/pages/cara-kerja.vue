@@ -3,8 +3,8 @@ import { STEPS } from '~/constants/steps'
 import { LANDING_FAQS } from '~/constants/faqs'
 
 useSeoMeta({
-  title: 'Cara Kerja UmrahSendiri — Empat Langkah Perencanaan',
-  description: 'Proses perencanaan umrah mandiri bersama UmrahSendiri: konsultasi awal, susun rencana, persiapan, hingga berangkat.',
+  title: 'Cara Umrah Mandiri — Empat Langkah Bersama UmrahSendiri',
+  description: 'Cara umrah mandiri yang jelas dan transparan: konsultasi umrah awal, susun itinerary dan estimasi biaya, persiapan dokumen, hingga berangkat.',
 })
 </script>
 
