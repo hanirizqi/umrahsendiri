@@ -14,20 +14,20 @@ import { HOME_STATS } from '~/constants/faqs'
         <AppBadge icon="lucide:compass">Umrah Mandiri Planner</AppBadge>
 
         <h1 class="mt-6 text-4xl leading-[1.1] font-bold text-primary md:text-5xl lg:text-6xl">
-          Umrah Sesuai Jadwal Anda. Bukan Jadwal Rombongan.
+          Rencanakan Umrah Sesuai Cara Anda.
         </h1>
 
-        <p class="mt-6 max-w-lg text-base text-ink/70 md:text-lg">
-          Bukan paket umrah, bukan rombongan. Anda tetap memegang kendali atas setiap keputusan — kami hadir membantu menyusun itinerary, hotel, estimasi biaya, hingga checklist keberangkatan.
+        <p class="mt-5 max-w-lg text-base text-ink/70 md:text-lg">
+          Kami membantu menyusun perjalanan yang terencana, transparan, dan sesuai kebutuhan Anda — tanpa kehilangan kendali atas setiap keputusan.
         </p>
 
-        <div class="mt-8 flex flex-col gap-4 sm:flex-row">
+        <div class="mt-10 flex flex-col gap-4 sm:flex-row">
           <AppButton to="/kontak" variant="primary" size="lg">
-            Konsultasi Gratis
+            Mulai Konsultasi Gratis
             <Icon name="lucide:arrow-right" class="size-4" />
           </AppButton>
           <AppButton to="/cara-kerja" variant="ghost" size="lg">
-            Pelajari Prosesnya
+            Lihat Cara Kerja
           </AppButton>
         </div>
       </div>
@@ -42,8 +42,15 @@ import { HOME_STATS } from '~/constants/faqs'
         </div>
 
         <GlassCard class="absolute -bottom-8 left-1/2 w-[90%] -translate-x-1/2 md:-bottom-10">
-          <div class="grid grid-cols-3 gap-4">
-            <StatCard v-for="stat in HOME_STATS" :key="stat.label" :stat="stat" />
+          <div class="grid grid-cols-3">
+            <div
+              v-for="(stat, index) in HOME_STATS"
+              :key="stat.label"
+              class="px-3"
+              :class="{ 'border-l border-primary-100': index > 0 }"
+            >
+              <StatCard :stat="stat" />
+            </div>
           </div>
         </GlassCard>
       </div>

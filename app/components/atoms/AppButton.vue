@@ -35,7 +35,7 @@ const sizeClass = computed(() => ({
     :href="href"
     :target="href ? '_blank' : undefined"
     :rel="href ? 'noopener noreferrer' : undefined"
-    class="inline-flex items-center justify-center gap-2 rounded-full font-display font-semibold transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+    class="inline-flex items-center justify-center gap-2 rounded-full font-display font-semibold transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary-600 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     :class="[variantClass, sizeClass]"
   >
     <slot />
