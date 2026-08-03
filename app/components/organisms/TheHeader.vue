@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { MAIN_NAV } from '~/constants/nav'
 
-const { link } = useWhatsapp()
 const mobileOpen = ref(false)
 const route = useRoute()
 
@@ -28,7 +27,7 @@ watch(() => route.path, () => {
       </nav>
 
       <div class="hidden lg:block">
-        <AppButton :href="link()" variant="primary">
+        <AppButton to="/kontak" variant="primary">
           Konsultasi Gratis
         </AppButton>
       </div>
@@ -54,7 +53,7 @@ watch(() => route.path, () => {
         >
           {{ item.label }}
         </NuxtLink>
-        <AppButton :href="link()" variant="primary" class="mt-2 w-full">
+        <AppButton to="/kontak" variant="primary" class="mt-2 w-full">
           Konsultasi Gratis
         </AppButton>
       </nav>

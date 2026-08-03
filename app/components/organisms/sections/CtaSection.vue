@@ -1,6 +1,4 @@
 <script setup lang="ts">
-const { link } = useWhatsapp()
-
 const MICRO_TRUST = [
   'Konsultasi awal gratis',
   'Tanpa kewajiban menggunakan layanan',
@@ -25,8 +23,8 @@ const MICRO_TRUST = [
         Mulailah dengan konsultasi awal tanpa kewajiban. Kami mendengarkan kebutuhan Anda terlebih dahulu, kemudian membantu menyusun rencana perjalanan yang paling sesuai.
       </p>
       <div class="relative mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-        <AppButton :href="link()" variant="secondary" size="lg">
-          Konsultasi Gratis via WhatsApp
+        <AppButton to="/kontak" variant="secondary" size="lg">
+          Mulai Konsultasi Gratis
         </AppButton>
         <AppButton to="/layanan" variant="ghost" size="lg" class="!border-background/30 !text-background">
           Lihat Pendampingan

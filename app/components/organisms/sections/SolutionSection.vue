@@ -1,5 +1,4 @@
 <script setup lang="ts">
-const { link } = useWhatsapp()
 </script>
 
 <template>
@@ -15,7 +14,7 @@ const { link } = useWhatsapp()
         <p class="mt-6 text-base text-background/70 md:text-lg">
           Anda tetap memegang kendali atas setiap keputusan — dari itinerary hingga hari keberangkatan. Kami hadir membantu memperjelas setiap tahapannya dengan data, opsi, dan panduan yang jelas.
         </p>
-        <AppButton :href="link()" variant="secondary" size="lg" class="mt-8">
+        <AppButton to="/kontak" variant="secondary" size="lg" class="mt-8">
           Mulai Konsultasi
         </AppButton>
       </div>

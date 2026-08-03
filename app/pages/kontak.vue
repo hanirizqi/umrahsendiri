@@ -11,7 +11,7 @@ useSeoMeta({
 const CONTACT_CHANNELS = [
   { icon: 'lucide:message-circle', label: 'WhatsApp', value: '+62 811-9000-0283', href: link() },
   { icon: 'lucide:mail', label: 'Email', value: SITE.email, href: `mailto:${SITE.email}` },
-  { icon: 'lucide:instagram', label: 'Instagram', value: '@umrahsendiri', href: SITE.instagram },
+  { icon: 'lucide:instagram', label: 'Instagram', value: '@umrah_sendiri', href: SITE.instagram },
 ]
 </script>
 

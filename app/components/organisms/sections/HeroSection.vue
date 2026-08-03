@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { HOME_STATS } from '~/constants/faqs'
-
-const { link } = useWhatsapp()
 </script>
 
 <template>
@@ -16,7 +14,7 @@ const { link } = useWhatsapp()
         <AppBadge icon="lucide:compass">Umrah Mandiri Planner</AppBadge>
 
         <h1 class="mt-6 text-4xl leading-[1.1] font-bold text-primary md:text-5xl lg:text-6xl">
-          Umrah Sesuai Cara Anda. Bukan Jadwal Rombongan.
+          Umrah Sesuai Jadwal Anda. Bukan Jadwal Rombongan.
         </h1>
 
         <p class="mt-6 max-w-lg text-base text-ink/70 md:text-lg">
@@ -24,7 +22,7 @@ const { link } = useWhatsapp()
         </p>
 
         <div class="mt-8 flex flex-col gap-4 sm:flex-row">
-          <AppButton :href="link()" variant="primary" size="lg">
+          <AppButton to="/kontak" variant="primary" size="lg">
             Konsultasi Gratis
             <Icon name="lucide:arrow-right" class="size-4" />
           </AppButton>

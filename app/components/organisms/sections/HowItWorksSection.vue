@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { STEPS } from '~/constants/steps'
-
-const { link } = useWhatsapp()
 </script>
 
 <template>
@@ -26,7 +24,7 @@ const { link } = useWhatsapp()
     </div>
 
     <div class="mt-12 text-center">
-      <AppButton :href="link()" variant="ghost">
+      <AppButton to="/kontak" variant="ghost">
         Mulai Konsultasi Gratis
         <Icon name="lucide:arrow-right" class="size-4" />
       </AppButton>
