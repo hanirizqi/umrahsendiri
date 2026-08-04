@@ -66,6 +66,7 @@ docs/strategy.md       Riset UX, positioning, sitemap, design system
 | `/mulai` | Landing Ads (distraction-free, conversion-only, tidak diindeks sitemap) |
 | `/privacy-policy` | Privacy Policy |
 | `/terms` | Terms of Service |
+| `/internal/kalkulator-harga` | Kalkulator harga internal untuk CS (noindex, tidak ditautkan di navigasi publik) |
 | `/[...slug]` | 404 |
 
 ## Deployment
