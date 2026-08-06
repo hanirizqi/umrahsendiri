@@ -26,7 +26,6 @@ useJsonLd({
     <BenefitSection />
     <HowItWorksSection />
     <ServicesSection />
-    <TestimonialSection />
     <FaqSection :faqs="HOME_FAQS" />
     <LatestArticleSection />
     <CtaSection />

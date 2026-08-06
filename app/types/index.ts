@@ -9,13 +9,6 @@ export interface Service {
   description: string
 }
 
-export interface Testimonial {
-  name: string
-  role: string
-  quote: string
-  location: string
-}
-
 export interface FaqItem {
   question: string
   answer: string
