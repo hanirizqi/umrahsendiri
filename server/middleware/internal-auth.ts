@@ -1,44 +1,32 @@
-import { timingSafeEqual } from 'node:crypto'
-import type { H3Event } from 'h3'
-
 /**
- * Kunci sementara untuk /internal/** sampai autentikasi staf (Fase 1) siap.
- * Sengaja gagal-tertutup: tanpa kredensial di env, halaman internal tidak bisa dibuka
- * sama sekali — lebih baik tim tidak bisa masuk daripada halamannya terbuka untuk publik.
+ * Penjaga seluruh route /internal/**.
+ *
+ * Halaman tanpa sesi dialihkan ke halaman masuk; permintaan API dijawab 401
+ * agar sisi klien bisa menanganinya sendiri. Sengaja gagal-tertutup: tanpa
+ * kredensial di environment, panel internal tidak bisa dibuka sama sekali.
  */
+export default defineEventHandler(async (event) => {
+  const path = getRequestURL(event).pathname
 
-function safeEqual(a: string, b: string): boolean {
-  const bufA = Buffer.from(a)
-  const bufB = Buffer.from(b)
-  if (bufA.length !== bufB.length) return false
-  return timingSafeEqual(bufA, bufB)
-}
+  const isInternalPage = path.startsWith('/internal')
+  const isInternalApi = path.startsWith('/api/internal')
+  if (!isInternalPage && !isInternalApi) return
 
-function unauthorized(event: H3Event, statusMessage: string): never {
-  setResponseHeader(event, 'WWW-Authenticate', 'Basic realm="UmrahSendiri Internal", charset="UTF-8"')
-  throw createError({ statusCode: 401, statusMessage })
-}
-
-export default defineEventHandler((event) => {
-  if (!getRequestURL(event).pathname.startsWith('/internal')) return
-
-  const { internalAuthUser, internalAuthPassword } = useRuntimeConfig()
-
-  if (!internalAuthUser || !internalAuthPassword) {
-    throw createError({
-      statusCode: 503,
-      statusMessage: 'Halaman internal belum dikonfigurasi. Set NUXT_INTERNAL_AUTH_USER dan NUXT_INTERNAL_AUTH_PASSWORD.',
-    })
+  // Halaman masuk dan endpoint login/logout harus tetap terbuka,
+  // kalau tidak tidak ada cara untuk mulai masuk.
+  if (path === INTERNAL_LOGIN_PATH || path === '/api/internal/login' || path === '/api/internal/logout') {
+    return
   }
 
-  const header = getRequestHeader(event, 'authorization')
-  if (!header?.startsWith('Basic ')) {
-    unauthorized(event, 'Perlu login')
+  assertInternalAuthConfigured()
+
+  const session = await useInternalSession(event)
+  if (session.data?.user) return
+
+  if (isInternalApi) {
+    throw createError({ statusCode: 401, statusMessage: 'Sesi berakhir. Silakan masuk kembali.' })
   }
 
-  const [user = '', ...rest] = Buffer.from(header.slice(6), 'base64').toString('utf8').split(':')
-
-  if (!safeEqual(user, internalAuthUser) || !safeEqual(rest.join(':'), internalAuthPassword)) {
-    unauthorized(event, 'Kredensial salah')
-  }
+  const next = encodeURIComponent(path)
+  return sendRedirect(event, `${INTERNAL_LOGIN_PATH}?lanjut=${next}`, 302)
 })

@@ -4,6 +4,9 @@ interface Props {
   href?: string
   variant?: 'primary' | 'secondary' | 'ghost'
   size?: 'md' | 'lg'
+  /** Berlaku hanya saat dirender sebagai <button>. Default 'button' agar
+      tidak ada tombol yang tanpa sengaja men-submit form di sekitarnya. */
+  type?: 'button' | 'submit'
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -11,6 +14,7 @@ const props = withDefaults(defineProps<Props>(), {
   href: undefined,
   variant: 'primary',
   size: 'md',
+  type: 'button',
 })
 
 const NuxtLink = resolveComponent('NuxtLink')
@@ -35,7 +39,7 @@ const sizeClass = computed(() => ({
     :href="href"
     :target="href ? '_blank' : undefined"
     :rel="href ? 'noopener noreferrer' : undefined"
-    :type="tag === 'button' ? 'button' : undefined"
+    :type="tag === 'button' ? type : undefined"
     class="inline-flex items-center justify-center gap-2 rounded-full font-display font-semibold transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary-600 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 disabled:hover:scale-100"
     :class="[variantClass, sizeClass]"
   >

@@ -44,10 +44,12 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    // Kunci sementara halaman /internal. Isi lewat NUXT_INTERNAL_AUTH_USER
-    // dan NUXT_INTERNAL_AUTH_PASSWORD — jangan pernah ditulis di file ini.
+    // Kredensial panel internal. Isi lewat environment variable
+    // (NUXT_INTERNAL_AUTH_USER dst.) — jangan pernah ditulis di file ini.
     internalAuthUser: '',
     internalAuthPassword: '',
+    // Kunci penyegel cookie sesi, minimal 32 karakter.
+    sessionPassword: '',
   },
 
   site: {

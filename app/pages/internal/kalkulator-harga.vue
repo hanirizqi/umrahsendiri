@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { formatRupiah } from '~/utils/currency'
 
+definePageMeta({ layout: 'internal' })
+
 useSeoMeta({
   title: 'Kalkulator Harga (Internal)',
   robots: 'noindex, nofollow',
