@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { VALUES } from '~/constants/values'
 
-const MISSION_POINTS = ['Perencanaan personal', 'Informasi transparan', 'Didukung mitra resmi']
+const MISSION_POINTS = ['Layanan sesuai kebutuhan', 'Informasi transparan', 'Didukung mitra resmi']
 
 useSeoMeta({
-  title: 'Tentang UmrahSendiri — Partner Perencanaan Umrah Mandiri',
-  description: 'UmrahSendiri hadir untuk jamaah yang ingin merencanakan umrahnya sendiri: kami bantu susun rencananya, Anda yang memutuskan.',
+  title: 'Tentang UmrahSendiri — Layanan Umrah Mandiri Satu Pintu',
+  description: 'UmrahSendiri hadir untuk jamaah yang ingin berangkat umrah sesuai jadwalnya sendiri: pilih layanan yang Anda butuhkan, Anda yang memutuskan.',
 })
 </script>
 
@@ -14,7 +14,7 @@ useSeoMeta({
     <PageHero
       eyebrow="Tentang Kami"
       title="Kami Percaya Perjalanan Ibadah Ini Sebaiknya Tetap Milik Anda"
-      description="Kami melihat semakin banyak calon jamaah yang ingin mengatur perjalanan umrahnya sendiri, namun kesulitan menemukan panduan yang jujur, jelas, dan tidak memaksa. Dari kebutuhan itulah UmrahSendiri lahir."
+      description="Kami melihat semakin banyak calon jamaah yang ingin mengatur perjalanan umrahnya sendiri — termasuk yang jadwalnya sulit disesuaikan dengan rombongan. Dari kebutuhan itulah UmrahSendiri lahir."
     />
 
     <SectionContainer tone="dark">
@@ -27,14 +27,14 @@ useSeoMeta({
             Selama ini, banyak calon jamaah sebenarnya ingin berangkat umrah secara mandiri — tapi bingung harus mulai dari mana.
           </p>
           <p>
-            Ada yang ragu menentukan langkah pertama. Ada yang belum memahami proses visa dan dokumen perjalanan. Ada pula yang hanya butuh teman diskusi sebelum mengambil keputusan.
+            Ada yang jadwalnya tidak cocok dengan keberangkatan rombongan mana pun, tapi tetap ingin berangkat — sendiri maupun berdua. Ada yang belum memahami proses visa dan dokumen perjalanan. Ada pula yang hanya butuh teman diskusi sebelum mengambil keputusan.
           </p>
           <p>
-            Mereka tidak sedang mencari paket perjalanan. Mereka hanya butuh panduan yang jelas, jujur, dan tidak memaksa.
+            Jemaah seperti ini tidak sedang mencari paket perjalanan, melainkan layanan yang bisa disesuaikan dengan kebutuhan masing-masing.
           </p>
           <p>Dari situlah UmrahSendiri hadir.</p>
           <p class="font-display text-lg font-semibold text-background md:text-xl">
-            Perjalanan ibadah tetap menjadi keputusan Anda. Kami hadir agar setiap langkah perencanaannya terasa lebih jelas, lebih tenang, dan lebih terarah.
+            Bukan Anda yang mengikuti jadwal rombongan, tapi Anda yang menentukan kapan berangkat.
           </p>
         </div>
       </div>
@@ -65,7 +65,7 @@ useSeoMeta({
         <div class="rounded-3xl bg-primary p-10 text-background shadow-soft-lg">
           <p class="font-display text-lg font-semibold text-secondary-400">Misi Kami</p>
           <p class="mt-4 text-xl leading-relaxed font-semibold">
-            Membantu setiap jamaah mandiri merencanakan umrahnya dengan percaya diri, tanpa kehilangan kendali atas keputusannya sendiri.
+            Menyediakan layanan umrah mandiri yang jamaah butuhkan secara transparan, tanpa mengambil alih keputusan jemaah.
           </p>
           <div class="mt-8 space-y-3 border-t border-background/10 pt-8">
             <div v-for="point in MISSION_POINTS" :key="point" class="flex items-center gap-2 text-sm text-background/85">

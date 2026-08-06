@@ -10,7 +10,7 @@ const { link } = useWhatsapp()
       <AppBadge icon="lucide:compass">Umrah Mandiri Planner</AppBadge>
 
       <h1 class="mt-6 text-3xl leading-[1.15] font-bold text-primary md:text-5xl">
-        Rencanakan Umrah Anda Sendiri, Kami Bantu Susun Rencananya
+        Rencanakan Umrah Anda Sendiri, Pilih Layanan yang Anda Butuhkan
       </h1>
 
       <p class="mt-5 text-base text-ink/70 md:text-lg">

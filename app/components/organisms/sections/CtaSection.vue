@@ -20,7 +20,7 @@ const MICRO_TRUST = [
         Perjalanan Umrah Anda Tidak Harus Mengikuti Cara Orang Lain.
       </h2>
       <p class="relative mx-auto mt-4 max-w-xl text-base text-background/70 md:text-lg">
-        Mulailah dengan konsultasi awal tanpa kewajiban. Kami mendengarkan kebutuhan Anda terlebih dahulu, kemudian membantu menyusun rencana perjalanan yang paling sesuai.
+        Mulailah dengan konsultasi awal tanpa kewajiban. Kami mendengarkan kebutuhan Anda terlebih dahulu, kemudian menyediakan layanan yang paling sesuai.
       </p>
       <div class="relative mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
         <AppButton to="/kontak" variant="secondary" size="lg">

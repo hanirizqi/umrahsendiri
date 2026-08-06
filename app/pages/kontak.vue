@@ -55,7 +55,7 @@ const CONTACT_CHANNELS = [
           </div>
 
           <div class="mt-8 rounded-2xl bg-primary-50/60 p-6 text-sm text-ink/70">
-            <p class="font-display font-semibold text-primary">Jam Konsultasi</p>
+            <p class="font-display font-semibold text-primary">Jam Operasional</p>
             <p class="mt-2">Senin – Sabtu, 09.00 – 20.00 WIB</p>
           </div>
         </div>

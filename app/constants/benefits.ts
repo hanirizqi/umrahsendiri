@@ -4,7 +4,7 @@ export const BENEFITS: Benefit[] = [
   {
     icon: 'lucide:compass',
     title: 'Kontrol Penuh',
-    description: 'Setiap keputusan — hotel, jadwal, transportasi — tetap di tangan Anda. Kami hanya membantu menyusunnya.',
+    description: 'Setiap keputusan — hotel, jadwal, transportasi — tetap di tangan Anda. Kami hanya memproses layanan yang Anda pilih.',
   },
   {
     icon: 'lucide:eye',

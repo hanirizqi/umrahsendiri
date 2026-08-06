@@ -6,6 +6,10 @@ export const HOME_FAQS: FaqItem[] = [
     answer: 'Kami hanya menyediakan layanan yang benar-benar Anda butuhkan, bukan dalam bentuk paket. Waktu dan agenda perjalanan sepenuhnya Anda yang menentukan. Tanggung jawab kami berlaku hingga layanan yang Anda pesan selesai diberikan — kami tidak bertanggung jawab penuh atas kondisi Anda selama berada di sana.',
   },
   {
+    question: 'Apakah bisa berangkat sendirian tanpa rombongan?',
+    answer: 'Bisa. Umrah mandiri sangat cocok untuk Anda yang jadwalnya sulit disesuaikan dengan keberangkatan rombongan mana pun — sendiri maupun berdua, Anda tetap bisa berangkat. Bukan Anda yang mengikuti jadwal rombongan, tapi Anda yang menentukan kapan berangkat.',
+  },
+  {
     question: 'Apakah saya tetap perlu mengurus visa dan dokumen sendiri?',
     answer: 'Jika Anda memilih Paket Dasar, pengurusan visa, Siskopatuh, dan asuransi kesehatan sudah termasuk dalam layanan yang kami proses. Rincian dokumen dan prosesnya disampaikan transparan sejak awal.',
   },
@@ -56,5 +60,5 @@ export const ALL_FAQS: FaqItem[] = [
 export const HOME_STATS: StatItem[] = [
   { value: '4', label: 'Tahap perencanaan' },
   { value: 'Gratis', label: 'Konsultasi awal' },
-  { value: '100%', label: 'Keputusan milik Anda' },
+  { value: '100%', label: 'Keputusan Anda' },
 ]

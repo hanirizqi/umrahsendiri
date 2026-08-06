@@ -55,12 +55,6 @@ Hari ini ingin fokus ibadah. Besok ingin mengunjungi tempat bersejarah. Lusa ing
 
 Anda tidak harus mengikuti agenda yang sama setiap hari.
 
-## Anggaran Lebih Transparan
-
-Setiap komponen perjalanan dapat dipilih sendiri — mulai dari penerbangan, hotel, transportasi, hingga kebutuhan lainnya.
-
-Dengan begitu, Anda dapat menyusun perjalanan sesuai prioritas dan kemampuan finansial.
-
 ## Perjalanan yang Lebih Personal
 
 Tidak semua orang memiliki cara beribadah yang sama. Umrah mandiri memberi ruang untuk menjalani perjalanan sesuai ritme, kebutuhan, dan tujuan spiritual masing-masing.

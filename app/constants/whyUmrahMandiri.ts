@@ -3,8 +3,8 @@ import type { Benefit } from '~/types'
 export const WHY_UMRAH_MANDIRI: Benefit[] = [
   {
     icon: 'lucide:calendar-clock',
-    title: 'Tentukan Jadwal Sendiri',
-    description: 'Berangkat sesuai waktu yang paling nyaman bagi Anda.',
+    title: 'Berangkat Tanpa Menunggu Rombongan',
+    description: 'Jadwal tidak cocok dengan rombongan mana pun? Sendiri maupun berdua, Anda tetap bisa berangkat sesuai waktu yang Anda tentukan sendiri.',
   },
   {
     icon: 'lucide:building-2',
@@ -22,13 +22,13 @@ export const WHY_UMRAH_MANDIRI: Benefit[] = [
     description: 'Perjalanan dapat disusun sesuai waktu yang Anda miliki.',
   },
   {
-    icon: 'lucide:wallet',
-    title: 'Anggaran Lebih Transparan',
-    description: 'Setiap komponen perjalanan dipilih berdasarkan kebutuhan, bukan paket yang sudah ditentukan.',
-  },
-  {
     icon: 'lucide:hand-heart',
     title: 'Layanan Sesuai Kebutuhan',
     description: 'Mandiri bukan berarti sendirian. Pilih layanan yang Anda butuhkan, kami proses sesuai pesanan.',
+  },
+  {
+    icon: 'lucide:file-check',
+    title: 'Visa & Dokumen Tanpa Ribet',
+    description: 'Visa umrah, Siskopatuh, dan asuransi kesehatan diproses sebagai bagian dari layanan — Anda tetap mandiri tanpa harus mengurus semuanya sendiri.',
   },
 ]

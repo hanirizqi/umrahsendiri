@@ -18,7 +18,11 @@ import { HOME_STATS } from '~/constants/faqs'
         </h1>
 
         <p class="mt-5 max-w-lg text-base text-ink/70 md:text-lg">
-          Kami membantu menyusun perjalanan yang terencana, transparan, dan sesuai kebutuhan Anda — tanpa kehilangan kendali atas setiap keputusan.
+          Pilih layanan yang Anda butuhkan — hotel, visa, transportasi, hingga pembimbing — transparan dan sesuai kebutuhan, tanpa kehilangan kendali atas setiap keputusan.
+        </p>
+
+        <p class="mt-3 font-display text-base font-semibold text-secondary-700 md:text-lg">
+          Anda tetap mandiri tanpa harus mengurus semuanya sendiri.
         </p>
 
         <div class="mt-10 flex flex-col gap-4 sm:flex-row">
