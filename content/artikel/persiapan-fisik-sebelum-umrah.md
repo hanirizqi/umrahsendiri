@@ -20,4 +20,4 @@ Rangkaian ibadah umrah melibatkan aktivitas fisik yang cukup intens — tawaf, s
 
 Tubuh yang siap membuat Anda bisa lebih hadir secara batin selama rangkaian ibadah, tanpa terlalu terganggu oleh kelelahan fisik yang sebenarnya bisa diantisipasi.
 
-Checklist persiapan dari UmrahSendiri turut mencakup pengingat-pengingat sederhana seperti ini, agar tidak ada yang terlewat menjelang keberangkatan.
+Menyiapkan hal-hal sederhana ini jauh hari akan membuat masa menjelang keberangkatan terasa jauh lebih tenang.

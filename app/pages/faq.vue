@@ -3,7 +3,7 @@ import { ALL_FAQS } from '~/constants/faqs'
 
 useSeoMeta({
   title: 'FAQ — Pertanyaan Seputar UmrahSendiri',
-  description: 'Jawaban atas pertanyaan yang paling sering diajukan seputar pendampingan perencanaan umrah mandiri UmrahSendiri.',
+  description: 'Jawaban atas pertanyaan yang paling sering diajukan seputar layanan umrah mandiri UmrahSendiri.',
 })
 
 useJsonLd({

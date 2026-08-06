@@ -10,7 +10,7 @@ import { SITE } from '~/constants/site'
         <div class="md:col-span-2">
           <AppLogo dark />
           <p class="mt-4 max-w-sm text-sm text-background/60">
-            Partner perencanaan umrah mandiri — membantu Anda menyusun itinerary, estimasi biaya, dan persiapan, tanpa mengambil alih keputusan Anda.
+            Layanan umrah mandiri satu pintu — hotel, visa, transportasi, dan pembimbing sesuai kebutuhan Anda, tanpa mengambil alih keputusan Anda.
           </p>
           <p class="mt-3 text-sm font-semibold text-secondary-400 italic">
             Bebas Berencana, Tenang Beribadah.

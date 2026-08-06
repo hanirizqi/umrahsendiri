@@ -3,17 +3,17 @@ import { SERVICES } from '~/constants/services'
 import { HOME_FAQS } from '~/constants/faqs'
 
 useSeoMeta({
-  title: 'Pendampingan UmrahSendiri — Itinerary, Biaya, Hotel, hingga Checklist',
-  description: 'Pendampingan perencanaan umrah mandiri: itinerary umrah, estimasi biaya, rekomendasi hotel umrah, visa, transportasi, checklist, dan konsultasi umrah langsung.',
+  title: 'Layanan UmrahSendiri — Hotel, Visa, Transportasi, hingga Pembimbing',
+  description: 'Layanan umrah mandiri satu pintu: hotel, visa, transportasi, pembimbing, estimasi biaya, dan konsultasi umrah langsung.',
 })
 </script>
 
 <template>
   <div>
     <PageHero
-      eyebrow="Pendampingan"
-      title="Semua Bagian Perencanaan, Kami Bantu Susun Bersama Anda"
-      description="Enam bentuk pendampingan yang bisa Anda gunakan sesuai kebutuhan — sendiri-sendiri atau sekaligus dalam satu rangkaian perencanaan."
+      eyebrow="Layanan"
+      title="Pilih Layanan Sesuai Kebutuhan Anda"
+      description="Enam layanan yang bisa Anda pilih sesuai kebutuhan — satu per satu atau sekaligus, tanpa paket rombongan."
     />
 
     <SectionContainer>
@@ -25,8 +25,8 @@ useSeoMeta({
     <SectionContainer tone="muted">
       <SectionHeading
         eyebrow="Bagaimana Prosesnya"
-        title="Layanan Ini Berjalan Berdampingan dengan Anda"
-        description="Bukan layanan sekali jalan — kami tetap dapat dihubungi sepanjang proses perencanaan hingga hari keberangkatan."
+        title="Prosesnya Sederhana dan Transparan"
+        description="Dari konsultasi hingga layanan diberikan, Anda tahu persis di tahap mana prosesnya berada."
       />
       <div class="mx-auto mt-16 max-w-3xl space-y-6">
         <div class="flex gap-5 rounded-2xl border border-primary-100 bg-white/60 p-6">
@@ -39,15 +39,15 @@ useSeoMeta({
         <div class="flex gap-5 rounded-2xl border border-primary-100 bg-white/60 p-6">
           <Icon name="lucide:file-text" class="size-6 shrink-0 text-secondary-700" />
           <div>
-            <h3 class="font-display text-base font-semibold text-primary">2. Penyusunan Rencana</h3>
-            <p class="mt-1 text-sm text-ink/70">Itinerary, estimasi biaya, dan opsi hotel/transportasi disusun dan didiskusikan bersama Anda.</p>
+            <h3 class="font-display text-base font-semibold text-primary">2. Pilih Layanan</h3>
+            <p class="mt-1 text-sm text-ink/70">Layanan yang Anda butuhkan — hotel, visa, transportasi, atau pembimbing — dipilih dan didiskusikan bersama Anda.</p>
           </div>
         </div>
         <div class="flex gap-5 rounded-2xl border border-primary-100 bg-white/60 p-6">
           <Icon name="lucide:list-checks" class="size-6 shrink-0 text-secondary-700" />
           <div>
-            <h3 class="font-display text-base font-semibold text-primary">3. Pendampingan Persiapan</h3>
-            <p class="mt-1 text-sm text-ink/70">Checklist dokumen dan kesehatan kami pantau bersama hingga mendekati tanggal keberangkatan.</p>
+            <h3 class="font-display text-base font-semibold text-primary">3. Konfirmasi & Pemesanan</h3>
+            <p class="mt-1 text-sm text-ink/70">Layanan yang dipilih diproses dan dikonfirmasi, termasuk dokumen seperti visa dan asuransi yang menjadi bagian dari layanan Anda.</p>
           </div>
         </div>
       </div>

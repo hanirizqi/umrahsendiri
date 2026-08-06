@@ -31,13 +31,22 @@ export default defineNuxtConfig({
         { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16.png' },
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
       ],
+      script: [
+        { src: 'https://www.googletagmanager.com/gtag/js?id=AW-18371371265', async: true },
+        {
+          innerHTML: 'window.dataLayer = window.dataLayer || [];'
+            + 'function gtag(){dataLayer.push(arguments);}'
+            + 'gtag(\'js\', new Date());'
+            + 'gtag(\'config\', \'AW-18371371265\');',
+        },
+      ],
     },
   },
 
   site: {
     url: 'https://umrahsendiri.com',
     name: 'UmrahSendiri',
-    description: 'Umrah Mandiri Planner — partner perencanaan umrah mandiri dari itinerary, estimasi biaya, hingga siap berangkat.',
+    description: 'Umrah Mandiri Planner — layanan umrah mandiri satu pintu: hotel, visa, transportasi, hingga pembimbing.',
     defaultLocale: 'id',
   },
 

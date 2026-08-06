@@ -8,17 +8,17 @@ export const STEPS: Step[] = [
   },
   {
     number: '02',
-    title: 'Susun Rencana',
-    description: 'Itinerary, estimasi biaya, dan opsi hotel disusun bersama — Anda yang memutuskan setiap bagiannya.',
+    title: 'Pilih Layanan',
+    description: 'Pilih layanan yang Anda butuhkan — hotel, visa, transportasi, atau pembimbing — satu per satu sesuai kebutuhan, bukan paket rombongan.',
   },
   {
     number: '03',
-    title: 'Persiapan',
-    description: 'Checklist dokumen, kesehatan, dan perlengkapan disiapkan bersama, langkah demi langkah.',
+    title: 'Konfirmasi & Pemesanan',
+    description: 'Layanan yang dipilih diproses dan dikonfirmasi, termasuk dokumen seperti visa dan asuransi yang menjadi bagian dari layanan Anda.',
   },
   {
     number: '04',
     title: 'Berangkat',
-    description: 'Anda berangkat dengan rencana yang jelas dan tim kami tetap dapat dihubungi selama perjalanan.',
+    description: 'Anda berangkat dengan layanan yang sudah dipesan siap digunakan. Tanggung jawab kami berlaku hingga layanan tersebut selesai diberikan.',
   },
 ]

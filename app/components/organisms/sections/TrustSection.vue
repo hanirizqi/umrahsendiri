@@ -3,7 +3,7 @@ const TRUST_REASONS = [
   {
     icon: 'lucide:shield-check',
     title: 'Didukung Mitra Resmi',
-    description: 'Tiket, hotel, dan visa ditangani jaringan mitra travel resmi yang berpengalaman.',
+    description: 'Hotel, visa, dan dokumen perjalanan ditangani jaringan mitra travel resmi yang berpengalaman.',
   },
   {
     icon: 'lucide:eye',
@@ -11,19 +11,19 @@ const TRUST_REASONS = [
     description: 'Setiap opsi dan estimasi biaya disampaikan apa adanya, sebelum Anda memutuskan.',
   },
   {
-    icon: 'lucide:list-checks',
-    title: 'Checklist Terstruktur',
-    description: 'Dokumen dan persiapan dipandu langkah demi langkah, tidak ada yang terlewat.',
+    icon: 'lucide:package-check',
+    title: 'Layanan Sesuai Pesanan',
+    description: 'Setiap layanan yang Anda pesan diproses sesuai rincian yang disepakati sejak awal, tanpa kejutan.',
   },
   {
-    icon: 'lucide:plane-takeoff',
-    title: 'Pendampingan Sampai Keberangkatan',
-    description: 'Anda tetap dapat menghubungi kami hingga hari keberangkatan tiba.',
+    icon: 'lucide:clipboard-check',
+    title: 'Tanggung Jawab Jelas',
+    description: 'Tanggung jawab kami berlaku hingga layanan yang Anda pesan selesai diberikan.',
   },
   {
     icon: 'lucide:badge-check',
     title: 'Berdasarkan Pengalaman Nyata',
-    description: 'Rekomendasi disusun dari pengalaman mendampingi, bukan asumsi.',
+    description: 'Rekomendasi disusun dari pengalaman nyata melayani jemaah, bukan asumsi.',
   },
   {
     icon: 'lucide:heart-handshake',

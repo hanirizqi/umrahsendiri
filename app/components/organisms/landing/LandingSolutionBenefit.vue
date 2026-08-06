@@ -4,7 +4,7 @@ const { link } = useWhatsapp()
 const POINTS = [
   { icon: 'lucide:compass', text: 'Kontrol penuh atas setiap keputusan perjalanan Anda' },
   { icon: 'lucide:eye', text: 'Estimasi biaya transparan sejak sesi konsultasi pertama' },
-  { icon: 'lucide:users', text: 'Didampingi tim yang memahami logistik umrah mandiri' },
+  { icon: 'lucide:users', text: 'Dilayani tim yang memahami logistik umrah mandiri' },
 ]
 </script>
 

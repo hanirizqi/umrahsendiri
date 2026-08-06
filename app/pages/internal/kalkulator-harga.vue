@@ -92,7 +92,7 @@ const inputClass = 'mt-2 w-full rounded-xl border border-primary-100 bg-backgrou
             </div>
 
             <p class="pt-2 text-xs text-ink/40">
-              Belum termasuk tiket pesawat PP. Sumber rate: LPP September 2026 — cek kembali kalau sudah lewat bulan berjalan.
+              Belum termasuk penerbangan PP. Sumber rate: LPP September 2026 — cek kembali kalau sudah lewat bulan berjalan.
             </p>
           </div>
         </div>

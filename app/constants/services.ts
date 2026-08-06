@@ -2,14 +2,14 @@ import type { Service } from '~/types'
 
 export const SERVICES: Service[] = [
   {
-    icon: 'lucide:map',
-    title: 'Itinerary',
-    description: 'Susunan hari demi hari yang disesuaikan dengan durasi, tempo ibadah, dan preferensi perjalanan Anda.',
+    icon: 'lucide:file-check',
+    title: 'Visa & Dokumen',
+    description: 'Pengurusan visa umrah, Siskopatuh, dan asuransi kesehatan Arab Saudi, diproses melalui jaringan mitra resmi.',
   },
   {
     icon: 'lucide:calculator',
     title: 'Estimasi Biaya',
-    description: 'Rincian biaya transparan — tiket, hotel, transportasi, dan kebutuhan lain — tanpa angka tersembunyi.',
+    description: 'Rincian biaya transparan — hotel, transportasi, dan layanan lain — tanpa angka tersembunyi.',
   },
   {
     icon: 'lucide:building-2',
@@ -19,12 +19,12 @@ export const SERVICES: Service[] = [
   {
     icon: 'lucide:car-front',
     title: 'Transportasi',
-    description: 'Opsi transportasi antar kota dan bandara yang aman, sesuai jadwal itinerary Anda.',
+    description: 'Opsi transportasi antar kota dan bandara yang aman, sesuai jadwal keberangkatan Anda.',
   },
   {
-    icon: 'lucide:list-checks',
-    title: 'Checklist',
-    description: 'Daftar persiapan dokumen, kesehatan, dan perlengkapan agar tak ada yang terlewat.',
+    icon: 'lucide:user-round',
+    title: 'Pemandu / Pembimbing',
+    description: 'Pembimbing umrah berpengalaman, tersedia per hari sesuai kebutuhan Anda.',
   },
   {
     icon: 'lucide:message-circle',

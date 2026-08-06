@@ -27,7 +27,7 @@ useSeoMeta({
             Selama ini, banyak calon jamaah sebenarnya ingin berangkat umrah secara mandiri — tapi bingung harus mulai dari mana.
           </p>
           <p>
-            Ada yang ragu memilih tiket yang tepat. Ada yang belum memahami proses visa dan dokumen perjalanan. Ada pula yang hanya butuh teman diskusi sebelum mengambil keputusan.
+            Ada yang ragu menentukan langkah pertama. Ada yang belum memahami proses visa dan dokumen perjalanan. Ada pula yang hanya butuh teman diskusi sebelum mengambil keputusan.
           </p>
           <p>
             Mereka tidak sedang mencari paket perjalanan. Mereka hanya butuh panduan yang jelas, jujur, dan tidak memaksa.
@@ -47,17 +47,17 @@ useSeoMeta({
             Cerita Kami
           </p>
           <h2 class="text-3xl font-bold text-primary md:text-4xl">
-            Dari Pengalaman Mendampingi, Bukan Menjual Paket
+            Dari Kebutuhan Nyata, Bukan Menjual Paket Rombongan
           </h2>
           <div class="mt-6 space-y-4 text-base leading-relaxed text-ink/70">
             <p>
-              UmrahSendiri hadir untuk jamaah yang ingin berangkat umrah tanpa terikat rombongan atau paket jadi. Untuk kebutuhan operasional seperti tiket, hotel, visa, dan dokumen perjalanan, kami bekerja sama dengan jaringan mitra travel resmi yang telah berpengalaman — sementara perencanaan tetap personal dan sepenuhnya mengikuti kebutuhan Anda.
+              UmrahSendiri hadir untuk jamaah yang ingin berangkat umrah tanpa terikat rombongan atau paket jadi. Untuk kebutuhan operasional seperti hotel, visa, penerbangan, dan dokumen perjalanan, kami bekerja sama dengan jaringan mitra travel resmi yang telah berpengalaman — Anda memilih layanan sesuai kebutuhan, bukan paket yang sudah ditentukan.
             </p>
             <p>
-              Itinerary, estimasi biaya, dan checklist disusun bersama-sama. Namun keputusan akhir selalu ada di tangan Anda, bukan kami.
+              Layanan yang Anda pilih — hotel, visa, transportasi, hingga pembimbing — kami proses sesuai pesanan. Keputusan akhir selalu ada di tangan Anda, bukan kami.
             </p>
             <p>
-              UmrahSendiri bukan biro travel, dan tidak berniat menjadi salah satu. Kami hadir agar proses perencanaan Anda terasa lebih jelas, transparan, dan tidak membingungkan.
+              UmrahSendiri bukan biro travel, dan tidak berniat menjadi salah satu. Kami hadir agar proses pemesanan layanan Anda terasa lebih jelas, transparan, dan tidak membingungkan.
             </p>
           </div>
         </div>

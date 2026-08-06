@@ -49,7 +49,7 @@ Ada yang ingin 9 hari. Ada yang ingin 14 hari. Ada pula yang ingin tinggal hampi
 
 Umrah mandiri memberi fleksibilitas untuk menyesuaikan perjalanan dengan kebutuhan Anda.
 
-## Itinerary yang Fleksibel
+## Jadwal Harian yang Fleksibel
 
 Hari ini ingin fokus ibadah. Besok ingin mengunjungi tempat bersejarah. Lusa ingin beristirahat.
 
@@ -57,7 +57,7 @@ Anda tidak harus mengikuti agenda yang sama setiap hari.
 
 ## Anggaran Lebih Transparan
 
-Setiap komponen perjalanan dapat dipilih sendiri — mulai dari tiket pesawat, hotel, transportasi, hingga kebutuhan lainnya.
+Setiap komponen perjalanan dapat dipilih sendiri — mulai dari penerbangan, hotel, transportasi, hingga kebutuhan lainnya.
 
 Dengan begitu, Anda dapat menyusun perjalanan sesuai prioritas dan kemampuan finansial.
 
@@ -69,16 +69,13 @@ Karena setiap perjalanan menuju Allah adalah perjalanan yang unik.
 
 ## Umrah Mandiri Bukan Berarti Sendirian
 
-Banyak orang mengira umrah mandiri berarti harus mengurus semuanya sendiri. Padahal, Anda tetap bisa mendapatkan pendampingan dalam setiap tahap perjalanan, mulai dari:
+Banyak orang mengira umrah mandiri berarti harus mengurus semuanya sendiri. Padahal, ada layanan yang bisa Anda pesan sesuai kebutuhan, seperti:
 
-- Menyusun itinerary
-- Memilih tiket pesawat
-- Menentukan hotel
-- Mengurus visa
-- Menyiapkan dokumen
-- Panduan ibadah
-- Tips selama di Arab Saudi
+- Hotel
+- Visa dan dokumen perjalanan (Siskopatuh, asuransi kesehatan)
+- Transportasi
+- Pembimbing / pemandu umrah
 
-Anda tetap memegang kendali atas perjalanan, sementara kami membantu memastikan setiap langkahnya lebih mudah dan terarah.
+Anda tetap memegang kendali penuh atas perjalanan — layanan yang Anda pilih akan diproses sesuai pesanan.
 
 > **Kebebasan bukan berarti tanpa arah.** Dengan perencanaan yang tepat, umrah mandiri memberi Anda keleluasaan untuk beribadah dengan lebih tenang, lebih fleksibel, dan sesuai kebutuhan pribadi.

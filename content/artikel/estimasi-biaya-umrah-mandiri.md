@@ -1,6 +1,6 @@
 ---
 title: "Cara Menghitung Estimasi Biaya Umrah Mandiri secara Realistis"
-description: "Komponen biaya yang perlu diperhitungkan sebelum menyusun anggaran umrah mandiri, dari tiket hingga pengeluaran harian."
+description: "Komponen biaya yang perlu diperhitungkan sebelum menyusun anggaran umrah mandiri, dari penerbangan hingga pengeluaran harian."
 date: "2026-05-18"
 category: "Biaya"
 tags: ["biaya", "budget", "perencanaan"]
@@ -11,7 +11,7 @@ Salah satu keluhan paling umum jamaah mandiri adalah biaya yang membengkak dari 
 
 ## Komponen Utama
 
-- **Tiket pesawat** — harga sangat bervariasi tergantung musim dan maskapai.
+- **Penerbangan** — harga sangat bervariasi tergantung musim dan maskapai.
 - **Akomodasi** — biaya hotel berbeda jauh tergantung jarak ke Masjidil Haram dan Masjid Nabawi.
 - **Transportasi darat** — antar kota dan antar-jemput bandara.
 - **Visa dan asuransi perjalanan.**

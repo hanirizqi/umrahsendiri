@@ -28,7 +28,7 @@ export const WHY_UMRAH_MANDIRI: Benefit[] = [
   },
   {
     icon: 'lucide:hand-heart',
-    title: 'Tetap Didampingi',
-    description: 'Mandiri bukan berarti sendirian. Kami membantu proses perencanaan agar lebih jelas dan terarah.',
+    title: 'Layanan Sesuai Kebutuhan',
+    description: 'Mandiri bukan berarti sendirian. Pilih layanan yang Anda butuhkan, kami proses sesuai pesanan.',
   },
 ]

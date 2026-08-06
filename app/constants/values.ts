@@ -18,7 +18,7 @@ export const VALUES: Benefit[] = [
   },
   {
     icon: 'lucide:compass',
-    title: 'Mendampingi, Bukan Menggiring',
-    description: 'Kami hadir saat dibutuhkan dan diam saat tidak — tanpa memaksa Anda mengambil keputusan tertentu.',
+    title: 'Melayani, Bukan Menggiring',
+    description: 'Kami menyediakan layanan yang Anda butuhkan, tanpa memaksa Anda mengambil keputusan tertentu.',
   },
 ]

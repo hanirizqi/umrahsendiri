@@ -3,7 +3,7 @@ definePageMeta({ layout: 'landing' })
 
 useSeoMeta({
   title: 'Konsultasi Gratis Perencanaan Umrah Mandiri — UmrahSendiri',
-  description: 'Susun rencana umrah mandiri Anda sendiri: itinerary, estimasi biaya, hotel, dan checklist. Konsultasi awal gratis via WhatsApp.',
+  description: 'Pesan layanan umrah mandiri Anda sendiri: hotel, visa, transportasi, dan pembimbing. Konsultasi awal gratis via WhatsApp.',
   robots: 'noindex, follow',
 })
 </script>

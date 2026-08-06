@@ -14,7 +14,7 @@ const { link } = useWhatsapp()
       </h1>
 
       <p class="mt-5 text-base text-ink/70 md:text-lg">
-        Itinerary, estimasi biaya, hotel, dan checklist — disusun bersama Anda. Konsultasi awal tanpa kewajiban apa pun.
+        Hotel, visa, transportasi, dan pembimbing — pilih sesuai kebutuhan Anda. Konsultasi awal tanpa kewajiban apa pun.
       </p>
 
       <AppButton :href="link()" variant="primary" size="lg" class="mt-8 w-full sm:w-auto">

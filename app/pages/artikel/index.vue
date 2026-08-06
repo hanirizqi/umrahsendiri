@@ -35,7 +35,7 @@ const filteredArticles = computed(() => {
     <PageHero
       eyebrow="Artikel"
       title="Panduan dan Wawasan Umrah Mandiri"
-      description="Ditulis dari pengalaman mendampingi jamaah mandiri — praktis dan tanpa basa-basi."
+      description="Ditulis dari pengalaman melayani jemaah mandiri — praktis dan tanpa basa-basi."
     />
 
     <SectionContainer>

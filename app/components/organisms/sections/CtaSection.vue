@@ -27,7 +27,7 @@ const MICRO_TRUST = [
           Mulai Konsultasi Gratis
         </AppButton>
         <AppButton to="/layanan" variant="ghost" size="lg" class="!border-background/30 !text-background">
-          Lihat Pendampingan
+          Lihat Layanan
         </AppButton>
       </div>
       <div class="relative mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-background/60">

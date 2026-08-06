@@ -1,6 +1,6 @@
 # UmrahSendiri
 
-Situs Nuxt Content untuk **UmrahSendiri** — *umrah mandiri planner*: partner perencanaan yang membantu jamaah menyusun itinerary, estimasi biaya, hotel, transportasi, dan checklist umrah sendiri, tanpa paket jadi.
+Situs Nuxt Content untuk **UmrahSendiri** — *umrah mandiri planner*: layanan umrah mandiri satu pintu (hotel, visa, transportasi, pembimbing) yang bisa dipesan sesuai kebutuhan jamaah, tanpa paket rombongan.
 
 Detail riset, positioning, sitemap, dan design system ada di [docs/strategy.md](docs/strategy.md).
 
@@ -37,7 +37,7 @@ app/
       landing/          Blok khusus landing ads (/mulai)
       sections/          Blok section untuk home & halaman lain
   composables/        useJsonLd, useReadingTime, useWhatsapp
-  constants/          Data statis (nav, pricing, faqs, services, dst.)
+  constants/          Data statis (nav, faqs, services, dst.)
   layouts/            default (halaman umum) & landing (/mulai)
   pages/              Routing berbasis file (lihat Sitemap di bawah)
   types/               Tipe TypeScript bersama
@@ -57,7 +57,7 @@ docs/strategy.md       Riset UX, positioning, sitemap, design system
 |---|---|
 | `/` | Home |
 | `/tentang` | Tentang (cerita, misi, tim) |
-| `/layanan` | Layanan (itinerary, biaya, hotel, transport, checklist, konsultasi) |
+| `/layanan` | Layanan (visa & dokumen, biaya, hotel, transport, pembimbing, konsultasi) |
 | `/cara-kerja` | Cara Kerja (proses 4 langkah) |
 | `/artikel` | Blog listing (search, kategori, tag) |
 | `/artikel/[slug]` | Artikel detail |

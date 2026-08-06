@@ -30,6 +30,14 @@ const NEEDS_OPTIONS = [
   },
 ] as const
 
+const MONTH_NAMES = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
+
+const nextMonthLabel = computed(() => {
+  const now = new Date()
+  const next = new Date(now.getFullYear(), now.getMonth() + 1, 1)
+  return `${MONTH_NAMES[next.getMonth()]} ${next.getFullYear()}`
+})
+
 const HOTEL_STAR_OPTIONS = [
   { value: '3', label: 'Bintang 3' },
   { value: '4', label: 'Bintang 4' },
@@ -40,7 +48,7 @@ const form = reactive({
   name: '',
   pax: '',
   date: '',
-  ticketStatus: '',
+  flightStatus: '',
   planStatus: '',
   referralName: '',
   referralPhone: '',
@@ -87,7 +95,7 @@ const isFormValid = computed(() => Boolean(
   form.name.trim()
   && form.pax
   && form.date.trim()
-  && form.ticketStatus
+  && form.flightStatus
   && form.planStatus,
 ))
 
@@ -95,8 +103,8 @@ function buildMessage(): string {
   const parts = [`Assalamualaikum, nama saya ${form.name || '-'}.`]
   if (form.pax) parts.push(`Rencana berangkat ${form.pax} orang.`)
   if (form.date) parts.push(`Target keberangkatan sekitar ${form.date}.`)
-  if (form.ticketStatus === 'sudah') parts.push('Sudah punya tiket pesawat.')
-  if (form.ticketStatus === 'belum') parts.push('Belum punya tiket pesawat.')
+  if (form.flightStatus === 'sudah') parts.push('Sudah pesan penerbangan.')
+  if (form.flightStatus === 'belum') parts.push('Belum pesan penerbangan.')
   if (form.planStatus === 'sendiri') parts.push('Sudah punya sebagian rencana, ingin dibantu bagian tertentu.')
   if (form.planStatus === 'awal') parts.push('Belum punya rencana, ingin dibantu menyusun dari awal.')
 
@@ -119,6 +127,12 @@ function buildMessage(): string {
 }
 
 const whatsappHref = computed(() => (isFormValid.value ? link(buildMessage()) : undefined))
+
+function handleSubmit(event: MouseEvent) {
+  if (!whatsappHref.value) return
+  event.preventDefault()
+  reportWhatsappFormConversion(whatsappHref.value)
+}
 
 const inputClass = 'mt-2 w-full rounded-xl border border-primary-100 bg-background px-4 py-3 text-sm text-ink outline-none focus:border-secondary-600'
 const checkboxClass = 'size-4 rounded border-primary-100 accent-primary'
@@ -158,7 +172,7 @@ const checkboxClass = 'size-4 rounded border-primary-100 accent-primary'
           id="date"
           v-model="form.date"
           type="text"
-          placeholder="Contoh: Maret 2027"
+          :placeholder="`Contoh: ${nextMonthLabel}`"
           required
           :class="inputClass"
         >
@@ -166,11 +180,11 @@ const checkboxClass = 'size-4 rounded border-primary-100 accent-primary'
     </div>
 
     <div>
-      <label for="ticketStatus" class="text-sm font-medium text-ink/70">Status Tiket Pesawat</label>
-      <select id="ticketStatus" v-model="form.ticketStatus" required :class="inputClass">
-        <option value="">Pilih status tiket</option>
-        <option value="sudah">Sudah punya tiket</option>
-        <option value="belum">Belum punya tiket</option>
+      <label for="flightStatus" class="text-sm font-medium text-ink/70">Status Penerbangan</label>
+      <select id="flightStatus" v-model="form.flightStatus" required :class="inputClass">
+        <option value="">Pilih status penerbangan</option>
+        <option value="sudah">Sudah pesan penerbangan</option>
+        <option value="belum">Belum pesan penerbangan</option>
       </select>
     </div>
 
@@ -271,6 +285,7 @@ const checkboxClass = 'size-4 rounded border-primary-100 accent-primary'
       variant="primary"
       size="lg"
       class="w-full"
+      @click="handleSubmit"
     >
       Kirim via WhatsApp
       <Icon name="lucide:send" class="size-4" />

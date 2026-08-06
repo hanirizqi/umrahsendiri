@@ -12,13 +12,13 @@ export const BENEFITS: Benefit[] = [
     description: 'Estimasi biaya yang jelas sejak awal, tanpa biaya tersembunyi atau titipan yang tidak perlu.',
   },
   {
-    icon: 'lucide:users',
-    title: 'Pendampingan Ahli',
-    description: 'Tim yang memahami logistik umrah membantu Anda menghindari kesalahan umum jamaah mandiri.',
+    icon: 'lucide:layout-grid',
+    title: 'Layanan Satu Pintu',
+    description: 'Hotel, visa, transportasi, hingga pembimbing — pilih sesuai kebutuhan Anda dalam satu layanan, tanpa paket rombongan.',
   },
   {
-    icon: 'lucide:clipboard-check',
-    title: 'Checklist Lengkap',
-    description: 'Panduan persiapan dokumen hingga hari keberangkatan, agar Anda merasa siap dan tenang.',
+    icon: 'lucide:users',
+    title: 'Sesuai Jumlah Jemaah',
+    description: 'Layanan dan estimasi biaya menyesuaikan jumlah jemaah yang berangkat, dihitung transparan sejak awal.',
   },
 ]

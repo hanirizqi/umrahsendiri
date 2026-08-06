@@ -4,7 +4,7 @@ import { LANDING_FAQS } from '~/constants/faqs'
 
 useSeoMeta({
   title: 'Cara Umrah Mandiri — Empat Langkah Bersama UmrahSendiri',
-  description: 'Cara umrah mandiri yang jelas dan transparan: konsultasi umrah awal, susun itinerary dan estimasi biaya, persiapan dokumen, hingga berangkat.',
+  description: 'Cara umrah mandiri yang jelas dan transparan: konsultasi awal, pilih layanan sesuai kebutuhan, proses dokumen, hingga berangkat.',
 })
 </script>
 

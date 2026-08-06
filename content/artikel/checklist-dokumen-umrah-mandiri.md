@@ -14,7 +14,7 @@ Menyiapkan dokumen adalah bagian yang paling sering diremehkan dalam perencanaan
 1. **Paspor** dengan masa berlaku minimal 7 bulan sejak tanggal keberangkatan.
 2. **Visa umrah** yang diajukan sesuai jadwal keberangkatan yang sudah ditetapkan.
 3. **Sertifikat vaksin meningitis** yang masih berlaku.
-4. **Bukti pemesanan hotel dan tiket pulang-pergi**, yang biasanya diminta saat pengajuan visa.
+4. **Bukti pemesanan hotel dan penerbangan pulang-pergi**, yang biasanya diminta saat pengajuan visa.
 
 ## Kesalahan Umum
 

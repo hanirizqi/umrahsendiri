@@ -5,7 +5,7 @@ import { SERVICES } from '~/constants/services'
 <template>
   <SectionContainer tone="muted">
     <SectionHeading
-      eyebrow="Pendampingan"
+      eyebrow="Layanan"
       title="Semua yang Anda Butuhkan untuk Merencanakan Umrah Sendiri"
     />
 

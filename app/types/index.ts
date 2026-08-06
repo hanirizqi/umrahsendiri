@@ -9,14 +9,6 @@ export interface Service {
   description: string
 }
 
-export interface PricingTier {
-  name: string
-  tagline: string
-  features: string[]
-  highlighted?: boolean
-  ctaLabel: string
-}
-
 export interface Testimonial {
   name: string
   role: string
