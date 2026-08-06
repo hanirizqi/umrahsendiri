@@ -43,6 +43,13 @@ export default defineNuxtConfig({
     },
   },
 
+  runtimeConfig: {
+    // Kunci sementara halaman /internal. Isi lewat NUXT_INTERNAL_AUTH_USER
+    // dan NUXT_INTERNAL_AUTH_PASSWORD — jangan pernah ditulis di file ini.
+    internalAuthUser: '',
+    internalAuthPassword: '',
+  },
+
   site: {
     url: 'https://umrahsendiri.com',
     name: 'UmrahSendiri',
@@ -56,7 +63,9 @@ export default defineNuxtConfig({
 
   sitemap: {
     sources: ['/api/sitemap-urls'],
-    exclude: ['/mulai'],
+    // /internal sengaja tidak didaftarkan di robots.txt — file itu publik,
+    // dan menuliskan path-nya di sana justru mengumumkan keberadaannya.
+    exclude: ['/mulai', '/internal/**'],
   },
 
   fonts: {

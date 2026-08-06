@@ -25,6 +25,23 @@ npm run start        # jalankan hasil build produksi (node .output/server/index.
 npm run typecheck   # cek tipe TypeScript
 ```
 
+## Environment
+
+Salin `.env.example` menjadi `.env`, lalu isi kedua variabelnya:
+
+```bash
+cp .env.example .env
+```
+
+| Variabel | Keterangan |
+|---|---|
+| `NUXT_INTERNAL_AUTH_USER` | Username Basic Auth untuk seluruh route `/internal/**` |
+| `NUXT_INTERNAL_AUTH_PASSWORD` | Password Basic Auth untuk seluruh route `/internal/**` |
+
+Di produksi, kedua variabel ini diset lewat **Coolify → Environment Variables**, bukan lewat file.
+
+Perlindungan ini **gagal-tertutup**: kalau salah satu variabel kosong, seluruh route `/internal/**` menjawab `503` dan tidak bisa dibuka siapa pun. Ini disengaja — halaman internal memuat daftar tarif yang tidak ditampilkan ke publik. Sifatnya sementara sampai autentikasi staf berbasis database tersedia.
+
 ## Struktur Proyek
 
 ```
@@ -66,7 +83,7 @@ docs/strategy.md       Riset UX, positioning, sitemap, design system
 | `/mulai` | Landing Ads (distraction-free, conversion-only, tidak diindeks sitemap) |
 | `/privacy-policy` | Privacy Policy |
 | `/terms` | Terms of Service |
-| `/internal/kalkulator-harga` | Kalkulator harga internal untuk CS (noindex, tidak ditautkan di navigasi publik) |
+| `/internal/kalkulator-harga` | Kalkulator harga internal untuk CS (noindex, dilindungi Basic Auth — lihat [Environment](#environment)) |
 | `/[...slug]` | 404 |
 
 ## Deployment
