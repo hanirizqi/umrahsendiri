@@ -12,6 +12,7 @@ export function usePriceCalculator() {
 
   const parsed = reactive({
     pax: null as number | null,
+    hotelReservationStatus: null as 'sudah' | 'belum' | null,
     paketDasar: false,
     hotel: false,
     hotelStar: null as HotelTier | null,
@@ -27,26 +28,33 @@ export function usePriceCalculator() {
   function parseMessage() {
     const text = rawMessage.value
 
-    const paxMatch = text.match(/berangkat (\d+) orang/i)
-    parsed.pax = paxMatch ? Number(paxMatch[1]) : null
+    const numberFrom = (source: string, pattern: RegExp): number | null => {
+      const value = source.match(pattern)?.[1]
+      return value ? Number(value) : null
+    }
 
-    const needsMatch = text.match(/Kebutuhan:\s*([^.]+)\./i)
-    const needsText = needsMatch ? needsMatch[1] : text
+    parsed.pax = numberFrom(text, /berangkat (\d+) orang/i)
+
+    parsed.hotelReservationStatus = /belum punya reservasi hotel/i.test(text)
+      ? 'belum'
+      : /sudah punya reservasi hotel/i.test(text)
+        ? 'sudah'
+        : null
+
+    const needsText = text.match(/Kebutuhan:\s*([^.]+)\./i)?.[1] ?? text
 
     parsed.paketDasar = /Paket Dasar/i.test(needsText)
     parsed.hotel = /Hotel/i.test(needsText)
-    const starMatch = needsText.match(/Hotel Bintang (\d)/i)
-    parsed.hotelStar = starMatch ? (Number(starMatch[1]) as HotelTier) : null
 
-    const nightsMakkahMatch = needsText.match(/(\d+)\s*malam Makkah/i)
-    parsed.nightsMakkah = nightsMakkahMatch ? Number(nightsMakkahMatch[1]) : null
-    const nightsMadinahMatch = needsText.match(/(\d+)\s*malam Madinah/i)
-    parsed.nightsMadinah = nightsMadinahMatch ? Number(nightsMadinahMatch[1]) : null
+    const star = numberFrom(needsText, /Hotel Bintang (\d)/i)
+    parsed.hotelStar = star ? (star as HotelTier) : null
+
+    parsed.nightsMakkah = numberFrom(needsText, /(\d+)\s*malam Makkah/i)
+    parsed.nightsMadinah = numberFrom(needsText, /(\d+)\s*malam Madinah/i)
 
     parsed.handlingBandara = /Handling Bandara PP/i.test(needsText)
     parsed.pembimbing = /Pemandu\s*\/\s*Pembimbing/i.test(needsText)
-    const pembimbingDaysMatch = needsText.match(/Pemandu\s*\/\s*Pembimbing[^(]*\((\d+)\s*hari\)/i)
-    parsed.pembimbingDays = pembimbingDaysMatch ? Number(pembimbingDaysMatch[1]) : null
+    parsed.pembimbingDays = numberFrom(needsText, /Pemandu\s*\/\s*Pembimbing[^(]*\((\d+)\s*hari\)/i)
 
     parsed.jabalKhandamah = /Jabal Khandamah/i.test(needsText)
     parsed.cityTour = /City Tour/i.test(needsText)

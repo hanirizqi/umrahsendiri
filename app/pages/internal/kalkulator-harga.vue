@@ -52,6 +52,9 @@ const inputClass = 'mt-2 w-full rounded-xl border border-primary-100 bg-backgrou
                   Tidak
                 </template>
               </li>
+              <li v-if="parsed.hotelReservationStatus">
+                Status reservasi hotel jemaah: {{ parsed.hotelReservationStatus === 'sudah' ? 'Sudah punya reservasi sendiri' : 'Belum punya reservasi' }}
+              </li>
               <li>Handling Bandara PP: {{ parsed.handlingBandara ? 'Ya' : 'Tidak' }}</li>
               <li>Pemandu / Pembimbing: {{ parsed.pembimbing ? `Ya, ${parsed.pembimbingDays ?? 1} hari` : 'Tidak' }}</li>
               <li>Transport Jabal Khandamah PP: {{ parsed.jabalKhandamah ? 'Ya' : 'Tidak' }}</li>

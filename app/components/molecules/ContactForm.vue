@@ -49,6 +49,7 @@ const form = reactive({
   pax: '',
   date: '',
   flightStatus: '',
+  hotelStatus: '',
   planStatus: '',
   referralName: '',
   referralPhone: '',
@@ -75,6 +76,10 @@ watch(() => form.needs.hotel, (checked) => {
   }
 })
 
+watch(() => form.hotelStatus, (status) => {
+  if (status === 'belum') form.needs.hotel = true
+})
+
 watch(() => form.needs.pembimbing, (checked) => {
   if (!checked) form.pembimbingDays = '1'
 })
@@ -96,6 +101,7 @@ const isFormValid = computed(() => Boolean(
   && form.pax
   && form.date.trim()
   && form.flightStatus
+  && form.hotelStatus
   && form.planStatus,
 ))
 
@@ -105,6 +111,8 @@ function buildMessage(): string {
   if (form.date) parts.push(`Target keberangkatan sekitar ${form.date}.`)
   if (form.flightStatus === 'sudah') parts.push('Sudah pesan penerbangan.')
   if (form.flightStatus === 'belum') parts.push('Belum pesan penerbangan.')
+  if (form.hotelStatus === 'sudah') parts.push('Sudah punya reservasi hotel.')
+  if (form.hotelStatus === 'belum') parts.push('Belum punya reservasi hotel.')
   if (form.planStatus === 'sendiri') parts.push('Sudah punya sebagian rencana, ingin dibantu bagian tertentu.')
   if (form.planStatus === 'awal') parts.push('Belum punya rencana, ingin dibantu menyusun dari awal.')
 
@@ -179,13 +187,24 @@ const checkboxClass = 'size-4 rounded border-primary-100 accent-primary'
       </div>
     </div>
 
-    <div>
-      <label for="flightStatus" class="text-sm font-medium text-ink/70">Status Penerbangan</label>
-      <select id="flightStatus" v-model="form.flightStatus" required :class="inputClass">
-        <option value="">Pilih status penerbangan</option>
-        <option value="sudah">Sudah pesan penerbangan</option>
-        <option value="belum">Belum pesan penerbangan</option>
-      </select>
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div>
+        <label for="flightStatus" class="text-sm font-medium text-ink/70">Status Penerbangan</label>
+        <select id="flightStatus" v-model="form.flightStatus" required :class="inputClass">
+          <option value="">Pilih status penerbangan</option>
+          <option value="sudah">Sudah pesan penerbangan</option>
+          <option value="belum">Belum pesan penerbangan</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="hotelStatus" class="text-sm font-medium text-ink/70">Status Reservasi Hotel</label>
+        <select id="hotelStatus" v-model="form.hotelStatus" required :class="inputClass">
+          <option value="">Pilih status reservasi</option>
+          <option value="sudah">Sudah punya reservasi</option>
+          <option value="belum">Belum punya reservasi</option>
+        </select>
+      </div>
     </div>
 
     <div>
