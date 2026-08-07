@@ -11,6 +11,14 @@ import { seedCatalog } from '../database/seed'
  * gagal jauh lebih merugikan daripada sementara kehilangan pencatatan lead.
  */
 export default defineNitroPlugin(async () => {
+  /**
+   * Nitro menjalankan aplikasi juga saat prerender di tahap build, dan plugin ini
+   * ikut terpanggil di sana. Kalau dibiarkan, ia membuka kolam koneksi Postgres
+   * yang tidak pernah ditutup — proses build jadi tidak pernah keluar dan akhirnya
+   * dibunuh setelah menggantung. Build bukan tempat menyentuh database produksi.
+   */
+  if (import.meta.prerender) return
+
   if (!process.env.DATABASE_URL) {
     console.warn('[db] DATABASE_URL belum diset — migrasi dan katalog dilewati.')
     return
