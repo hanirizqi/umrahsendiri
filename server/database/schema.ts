@@ -117,6 +117,10 @@ export const rates = pgTable('rates', {
   city: text('city'),
   amount: bigint('amount', { mode: 'number' }).notNull(),
 }, table => [
+  // Catatan: hotel_tier dan city bernilai NULL untuk layanan non-hotel, dan
+  // Postgres menganggap NULL saling berbeda — jadi indeks ini TIDAK mencegah
+  // duplikat pada baris tersebut, dan ON CONFLICT pun tidak akan cocok.
+  // Karena itu penyemaian mengganti seluruh tarif satu periode, bukan meng-upsert.
   uniqueIndex('rate_unique').on(table.ratePeriodId, table.serviceId, table.occupancy, table.hotelTier, table.city),
 ])
 
