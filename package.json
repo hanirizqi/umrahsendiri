@@ -9,14 +9,20 @@
     "preview": "nuxt preview",
     "start": "node .output/server/index.mjs",
     "postinstall": "nuxt prepare",
-    "typecheck": "nuxt typecheck"
+    "typecheck": "nuxt typecheck",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio",
+    "db:seed": "node --env-file=.env server/database/seed.mjs"
   },
   "dependencies": {
     "@nuxt/content": "^3.2.2",
     "@nuxt/icon": "^1.10.3",
     "@nuxt/image": "^1.9.0",
     "@nuxtjs/seo": "^2.2.0",
+    "drizzle-orm": "^0.45.2",
     "nuxt": "^4.0.0",
+    "postgres": "^3.4.9",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },
@@ -25,6 +31,7 @@
     "@nuxt/fonts": "^0.11.0",
     "@tailwindcss/vite": "^4.0.9",
     "better-sqlite3": "^12.5.0",
+    "drizzle-kit": "^0.31.10",
     "tailwindcss": "^4.0.9",
     "typescript": "^5.7.3",
     "vue-tsc": "^3.3.7"

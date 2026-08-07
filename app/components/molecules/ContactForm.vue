@@ -1,30 +1,36 @@
 <script setup lang="ts">
 const { link } = useWhatsapp()
 
+// `code` harus sama dengan kolom services.code di database.
 const NEEDS_OPTIONS = [
   {
     key: 'paketDasar',
+    code: 'paket_dasar',
     label: 'Paket Dasar',
     desc: 'Transportasi 3 rute (Bandara Jeddah–Makkah Hotel, Makkah Hotel–Madinah Hotel, Madinah Hotel–Bandara Jeddah), paket dokumen wajib (Visa Umrah, Siskopatuh, Asuransi Kesehatan Arab Saudi), dan pembimbing umrah + manasik online (untuk 1x pelaksanaan umrah).',
   },
-  { key: 'hotel', label: 'Hotel (termasuk makan 3x sehari)', desc: '' },
+  { key: 'hotel', code: 'hotel', label: 'Hotel (termasuk makan 3x sehari)', desc: '' },
   {
     key: 'pembimbing',
+    code: 'pembimbing',
     label: 'Pemandu / Pembimbing Tambahan',
     desc: 'Tarif per hari, maksimal 9 jam. Pembimbing WNI (orang Indonesia).',
   },
   {
     key: 'airportHandling',
+    code: 'handling_bandara',
     label: 'Handling Bandara PP',
     desc: 'Termasuk makan saat kedatangan dan kepulangan, serta air zamzam saat kepulangan.',
   },
   {
     key: 'jabalKhandamah',
+    code: 'jabal_khandamah',
     label: 'Transport Jabal Khandamah PP',
     desc: 'Driver berbahasa Inggris.',
   },
   {
     key: 'cityTour',
+    code: 'city_tour',
     label: 'City Tour Makkah',
     desc: 'Driver berbahasa Inggris.',
   },
@@ -46,6 +52,7 @@ const HOTEL_STAR_OPTIONS = [
 
 const form = reactive({
   name: '',
+  phone: '',
   pax: '',
   date: '',
   flightStatus: '',
@@ -98,6 +105,7 @@ watch(() => form.nightsMadinah, clampPembimbingDays)
 
 const isFormValid = computed(() => Boolean(
   form.name.trim()
+  && form.phone.trim()
   && form.pax
   && form.date.trim()
   && form.flightStatus
@@ -107,6 +115,7 @@ const isFormValid = computed(() => Boolean(
 
 function buildMessage(): string {
   const parts = [`Assalamualaikum, nama saya ${form.name || '-'}.`]
+  if (form.phone) parts.push(`No. HP saya ${form.phone}.`)
   if (form.pax) parts.push(`Rencana berangkat ${form.pax} orang.`)
   if (form.date) parts.push(`Target keberangkatan sekitar ${form.date}.`)
   if (form.flightStatus === 'sudah') parts.push('Sudah pesan penerbangan.')
@@ -136,9 +145,67 @@ function buildMessage(): string {
 
 const whatsappHref = computed(() => (isFormValid.value ? link(buildMessage()) : undefined))
 
+const { read: readAttribution } = useAttribution()
+
+function buildSelections() {
+  return NEEDS_OPTIONS.filter(opt => form.needs[opt.key]).map((opt) => {
+    if (opt.key === 'hotel') {
+      return {
+        code: opt.code,
+        hotelTier: Number(form.hotelStar) || undefined,
+        quantity: (Number(form.nightsMakkah) || 0) + (Number(form.nightsMadinah) || 0) || undefined,
+      }
+    }
+    if (opt.key === 'pembimbing') {
+      return { code: opt.code, quantity: Number(form.pembimbingDays) || 1 }
+    }
+    return { code: opt.code }
+  })
+}
+
+/**
+ * Disengaja tidak di-await. Menunggu jawaban server sebelum membuka WhatsApp
+ * membuat popup blocker menganggapnya bukan lagi hasil klik pengguna, dan
+ * kegagalan menyimpan tidak boleh menghalangi jemaah menghubungi kami.
+ * `keepalive` menjaga permintaan tetap terkirim meski halaman berpindah.
+ */
+function saveLead() {
+  const payload = {
+    name: form.name.trim(),
+    phone: form.phone.trim(),
+    pax: Number(form.pax),
+    departureTarget: form.date.trim(),
+    flightStatus: form.flightStatus,
+    hotelStatus: form.hotelStatus,
+    planStatus: form.planStatus,
+    hotelTier: Number(form.hotelStar) || undefined,
+    nightsMakkah: form.needs.hotel ? Number(form.nightsMakkah) || undefined : undefined,
+    nightsMadinah: form.needs.hotel ? Number(form.nightsMadinah) || undefined : undefined,
+    pembimbingDays: form.needs.pembimbing ? Number(form.pembimbingDays) || undefined : undefined,
+    message: form.message.trim() || undefined,
+    referralName: form.referralName.trim() || undefined,
+    referralPhone: form.referralPhone.trim() || undefined,
+    selections: buildSelections(),
+    ...readAttribution(),
+  }
+
+  try {
+    fetch('/api/leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      keepalive: true,
+    }).catch(() => {})
+  }
+  catch {
+    // Jemaah tetap diteruskan ke WhatsApp apa pun yang terjadi di sini.
+  }
+}
+
 function handleSubmit(event: MouseEvent) {
   if (!whatsappHref.value) return
   event.preventDefault()
+  saveLead()
   reportWhatsappFormConversion(whatsappHref.value)
 }
 
@@ -148,16 +215,33 @@ const checkboxClass = 'size-4 rounded border-primary-100 accent-primary'
 
 <template>
   <form class="space-y-5 rounded-3xl border border-primary-100 bg-white/60 p-8 shadow-soft" @submit.prevent>
-    <div>
-      <label for="name" class="text-sm font-medium text-ink/70">Nama</label>
-      <input
-        id="name"
-        v-model="form.name"
-        type="text"
-        placeholder="Nama Anda"
-        required
-        :class="inputClass"
-      >
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div>
+        <label for="name" class="text-sm font-medium text-ink/70">Nama</label>
+        <input
+          id="name"
+          v-model="form.name"
+          type="text"
+          placeholder="Nama Anda"
+          autocomplete="name"
+          required
+          :class="inputClass"
+        >
+      </div>
+
+      <div>
+        <label for="phone" class="text-sm font-medium text-ink/70">No. WhatsApp</label>
+        <input
+          id="phone"
+          v-model="form.phone"
+          type="tel"
+          inputmode="tel"
+          placeholder="Contoh: 0812xxxxxxx"
+          autocomplete="tel"
+          required
+          :class="inputClass"
+        >
+      </div>
     </div>
 
     <div class="grid gap-5 sm:grid-cols-2">

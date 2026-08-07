@@ -38,12 +38,35 @@ cp .env.example .env
 | `NUXT_INTERNAL_AUTH_USER` | Username untuk masuk panel internal |
 | `NUXT_INTERNAL_AUTH_PASSWORD` | Kata sandi untuk masuk panel internal |
 | `NUXT_SESSION_PASSWORD` | Kunci penyegel cookie sesi, minimal 32 karakter acak |
+| `DATABASE_URL` | Koneksi PostgreSQL |
 
 Buat kunci sesi dengan:
 
 ```bash
 openssl rand -base64 32
 ```
+
+### Database
+
+Pengembangan lokal memakai PostgreSQL yang berdiri sendiri, terpisah dari produksi:
+
+```bash
+brew install postgresql@17 && brew services start postgresql@17
+createdb umrahsendiri_dev
+npm run db:migrate
+npm run db:seed
+```
+
+| Perintah | Kegunaan |
+|---|---|
+| `npm run db:generate` | Membuat berkas migrasi dari perubahan `server/database/schema.ts` |
+| `npm run db:migrate` | Menerapkan migrasi ke database |
+| `npm run db:seed` | Mengisi katalog layanan (aman diulang) |
+| `npm run db:studio` | Menjelajah isi database lewat peramban |
+
+Di produksi, database dibuat sebagai layanan PostgreSQL terpisah di Coolify. **Aktifkan Scheduled Backup di layanan tersebut** — inilah alasan memilih Postgres ketimbang SQLite.
+
+Migrasi belum berjalan otomatis saat deploy, jadi setelah menambah migrasi baru jalankan `npm run db:migrate` dengan `DATABASE_URL` produksi.
 
 Di produksi ketiganya diset lewat **Coolify → Environment Variables**, bukan lewat file. Nilai lokal dan produksi berdiri sendiri — mengubah salah satunya tidak memengaruhi yang lain.
 
@@ -62,7 +85,8 @@ app/
     organisms/          Blok halaman penuh (header, footer, hero)
       landing/          Blok khusus landing ads (/mulai)
       sections/          Blok section untuk home & halaman lain
-  composables/        useJsonLd, useReadingTime, useWhatsapp
+  composables/        useJsonLd, useReadingTime, useWhatsapp, useAttribution
+  plugins/            attribution.client (menangkap asal-usul di kunjungan pertama)
   constants/          Data statis (nav, faqs, services, dst.)
   layouts/            default (halaman umum), landing (/mulai), internal (panel staf)
   pages/              Routing berbasis file (lihat Sitemap di bawah)
@@ -72,7 +96,11 @@ content/
   artikel/            Artikel blog (Markdown, dibaca lewat @nuxt/content)
 content.config.ts     Skema koleksi content (articles)
 server/
-  api/sitemap-urls.ts  Sumber URL dinamis untuk sitemap
+  api/                 Route API (leads publik, internal terlindungi, sitemap-urls)
+  database/            Skema Drizzle, migrasi, dan seed katalog layanan
+  middleware/          Penjaga sesi untuk /internal/**
+  utils/               Koneksi database, sesi internal, pembatas laju
+drizzle.config.ts      Konfigurasi Drizzle Kit
 public/                Aset statis (favicon, gambar, brand assets)
 docs/strategy.md       Riset UX, positioning, sitemap, design system
 ```
@@ -93,6 +121,8 @@ docs/strategy.md       Riset UX, positioning, sitemap, design system
 | `/privacy-policy` | Privacy Policy |
 | `/terms` | Terms of Service |
 | `/internal/masuk` | Halaman masuk panel internal (noindex) |
+| `/internal/leads` | Daftar lead masuk beserta asal-usulnya (noindex, perlu sesi) |
+| `/internal/leads/[id]` | Detail lead, status, dan catatan tindak lanjut (noindex, perlu sesi) |
 | `/internal/kalkulator-harga` | Kalkulator harga internal untuk CS (noindex, perlu sesi — lihat [Environment](#environment)) |
 | `/[...slug]` | 404 |
 

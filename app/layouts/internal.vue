@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const INTERNAL_NAV = [
+  { label: 'Lead', to: '/internal/leads', icon: 'lucide:inbox' },
   { label: 'Kalkulator Harga', to: '/internal/kalkulator-harga', icon: 'lucide:calculator' },
 ]
 
