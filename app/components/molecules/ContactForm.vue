@@ -143,8 +143,6 @@ function buildMessage(): string {
   return parts.join(' ')
 }
 
-const whatsappHref = computed(() => (isFormValid.value ? link(buildMessage()) : undefined))
-
 const { read: readAttribution } = useAttribution()
 
 function buildSelections() {
@@ -163,14 +161,15 @@ function buildSelections() {
   })
 }
 
-/**
- * Disengaja tidak di-await. Menunggu jawaban server sebelum membuka WhatsApp
- * membuat popup blocker menganggapnya bukan lagi hasil klik pengguna, dan
- * kegagalan menyimpan tidak boleh menghalangi jemaah menghubungi kami.
- * `keepalive` menjaga permintaan tetap terkirim meski halaman berpindah.
- */
-function saveLead() {
-  const payload = {
+type SubmitStatus = 'idle' | 'sending' | 'success' | 'error'
+
+const status = ref<SubmitStatus>('idle')
+const errorMessage = ref('')
+/** Disimpan sebelum form dikosongkan, karena pesannya dirakit dari isi form. */
+const pendingWhatsappUrl = ref('')
+
+function buildPayload() {
+  return {
     name: form.name.trim(),
     phone: form.phone.trim(),
     pax: Number(form.pax),
@@ -188,25 +187,64 @@ function saveLead() {
     selections: buildSelections(),
     ...readAttribution(),
   }
-
-  try {
-    fetch('/api/leads', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-      keepalive: true,
-    }).catch(() => {})
-  }
-  catch {
-    // Jemaah tetap diteruskan ke WhatsApp apa pun yang terjadi di sini.
-  }
 }
 
-function handleSubmit(event: MouseEvent) {
-  if (!whatsappHref.value) return
-  event.preventDefault()
-  saveLead()
-  reportWhatsappFormConversion(whatsappHref.value)
+function resetForm() {
+  form.name = ''
+  form.phone = ''
+  form.pax = ''
+  form.date = ''
+  form.flightStatus = ''
+  form.hotelStatus = ''
+  form.planStatus = ''
+  form.referralName = ''
+  form.referralPhone = ''
+  form.needs.paketDasar = true
+  form.needs.hotel = false
+  form.needs.pembimbing = false
+  form.needs.airportHandling = false
+  form.needs.jabalKhandamah = false
+  form.needs.cityTour = false
+  form.hotelStar = ''
+  form.nightsMakkah = '3'
+  form.nightsMadinah = '3'
+  form.pembimbingDays = '1'
+  form.message = ''
+}
+
+/**
+ * Perpindahan ke WhatsApp memakai location.href, bukan window.open. Setelah
+ * menunggu jawaban server, peramban tidak lagi menganggapnya hasil klik langsung
+ * dan pemblokir popup akan menutup tab baru — sedangkan navigasi biasa selalu lolos.
+ */
+function goToWhatsapp() {
+  if (pendingWhatsappUrl.value) window.location.href = pendingWhatsappUrl.value
+}
+
+async function handleSubmit() {
+  if (!isFormValid.value || status.value === 'sending') return
+
+  status.value = 'sending'
+  errorMessage.value = ''
+  pendingWhatsappUrl.value = link(buildMessage())
+
+  try {
+    await $fetch('/api/leads', { method: 'POST', body: buildPayload() })
+  }
+  catch (e) {
+    const code = (e as { statusCode?: number })?.statusCode
+    errorMessage.value = code === 429
+      ? 'Terlalu banyak pengiriman dari perangkat ini. Coba lagi dalam satu jam.'
+      : 'Data Anda belum tersimpan karena ada gangguan di sistem kami. Anda tetap bisa melanjutkan ke WhatsApp.'
+    status.value = 'error'
+    return
+  }
+
+  resetForm()
+  status.value = 'success'
+
+  await reportWhatsappFormConversion()
+  goToWhatsapp()
 }
 
 const inputClass = 'mt-2 w-full rounded-xl border border-primary-100 bg-background px-4 py-3 text-sm text-ink outline-none focus:border-secondary-600'
@@ -214,7 +252,24 @@ const checkboxClass = 'size-4 rounded border-primary-100 accent-primary'
 </script>
 
 <template>
-  <form class="space-y-5 rounded-3xl border border-primary-100 bg-white/60 p-8 shadow-soft" @submit.prevent>
+  <div
+    v-if="status === 'success'"
+    class="rounded-3xl border border-primary-100 bg-white/60 p-8 text-center shadow-soft"
+  >
+    <div class="mx-auto flex size-12 items-center justify-center rounded-full bg-primary-50">
+      <Icon name="lucide:check" class="size-6 text-primary" />
+    </div>
+    <h3 class="mt-4 font-display text-xl font-bold text-primary">Data Anda sudah kami terima</h3>
+    <p class="mt-2 text-sm text-ink/60">
+      Sedang mengarahkan Anda ke WhatsApp dengan pesan yang sudah terisi otomatis.
+    </p>
+    <AppButton variant="ghost" class="mt-6" @click="goToWhatsapp">
+      Buka WhatsApp sekarang
+      <Icon name="lucide:message-circle" class="size-4" />
+    </AppButton>
+  </div>
+
+  <form v-else class="space-y-5 rounded-3xl border border-primary-100 bg-white/60 p-8 shadow-soft" @submit.prevent="handleSubmit">
     <div class="grid gap-5 sm:grid-cols-2">
       <div>
         <label for="name" class="text-sm font-medium text-ink/70">Nama</label>
@@ -382,19 +437,38 @@ const checkboxClass = 'size-4 rounded border-primary-100 accent-primary'
       />
     </div>
 
+    <p
+      v-if="status === 'error'"
+      role="alert"
+      class="flex items-start gap-2.5 rounded-xl border border-secondary-600/30 bg-secondary-100/40 px-4 py-3 text-sm text-primary-700"
+    >
+      <Icon name="lucide:triangle-alert" class="mt-0.5 size-4 shrink-0 text-secondary-700" />
+      <span>{{ errorMessage }}</span>
+    </p>
+
     <AppButton
-      :href="whatsappHref"
-      :disabled="!isFormValid"
+      type="submit"
+      :disabled="!isFormValid || status === 'sending'"
       variant="primary"
       size="lg"
       class="w-full"
-      @click="handleSubmit"
     >
-      Kirim via WhatsApp
-      <Icon name="lucide:send" class="size-4" />
+      {{ status === 'sending' ? 'Mengirim…' : 'Kirim via WhatsApp' }}
+      <Icon
+        :name="status === 'sending' ? 'lucide:loader-circle' : 'lucide:send'"
+        class="size-4"
+        :class="{ 'animate-spin': status === 'sending' }"
+      />
     </AppButton>
+
+    <AppButton v-if="status === 'error'" variant="ghost" size="lg" class="w-full" @click="goToWhatsapp">
+      Lanjut ke WhatsApp tanpa menyimpan
+      <Icon name="lucide:message-circle" class="size-4" />
+    </AppButton>
+
     <p class="text-center text-xs text-ink/50">
-      <template v-if="isFormValid">Anda akan diarahkan ke WhatsApp dengan pesan yang sudah terisi otomatis.</template>
+      <template v-if="status === 'sending'">Menyimpan data Anda…</template>
+      <template v-else-if="isFormValid">Anda akan diarahkan ke WhatsApp dengan pesan yang sudah terisi otomatis.</template>
       <template v-else>Lengkapi semua field wajib (di luar yang bertanda "opsional") untuk mengirim.</template>
     </p>
   </form>
