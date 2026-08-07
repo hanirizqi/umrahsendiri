@@ -41,7 +41,7 @@ useSeoMeta({
 
         <section>
           <h2>6. Kerahasiaan Data</h2>
-          <p>Informasi yang Anda bagikan kepada kami akan diperlakukan sesuai dengan <NuxtLink to="/privacy-policy" class="text-secondary-700 underline">Privacy Policy</NuxtLink> kami.</p>
+          <p>Informasi yang Anda bagikan kepada kami akan diperlakukan sesuai dengan <NuxtLink to="/privacy-policy" class="text-secondary-700 underline transition-colors duration-200 hover:text-primary">Privacy Policy</NuxtLink> kami.</p>
         </section>
 
         <section>

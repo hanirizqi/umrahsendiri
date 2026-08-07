@@ -9,7 +9,7 @@ const open = ref(false)
   <div class="rounded-2xl border border-primary-100 bg-white/50">
     <button
       type="button"
-      class="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
+      class="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition-colors duration-200 hover:bg-primary-50/50"
       :aria-expanded="open"
       @click="open = !open"
     >

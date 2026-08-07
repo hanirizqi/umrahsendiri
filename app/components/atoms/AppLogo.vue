@@ -7,7 +7,7 @@ defineProps<Props>()
 </script>
 
 <template>
-  <NuxtLink to="/" class="flex items-center gap-2 font-display text-lg font-bold" :class="dark ? 'text-background' : 'text-primary'">
+  <NuxtLink to="/" class="flex items-center gap-2 font-display text-lg font-bold transition-opacity duration-200 hover:opacity-75" :class="dark ? 'text-background' : 'text-primary'">
     <NuxtImg
       :src="dark ? '/brand/icon-on-dark.png' : '/brand/icon-512.png'"
       alt=""
