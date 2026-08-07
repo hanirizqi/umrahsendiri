@@ -29,6 +29,11 @@ function formatDate(value: string | Date) {
   })
 }
 
+/** 0812… -> 62812… supaya wa.me menerimanya. */
+function waLink(phone: string) {
+  return `https://wa.me/${phone.replace(/\D/g, '').replace(/^0/, '62')}`
+}
+
 function isFromAds(lead: { gclid?: string | null, utmSource?: string | null }) {
   return Boolean(lead.gclid || lead.utmSource)
 }
@@ -109,7 +114,18 @@ function isFromAds(lead: { gclid?: string | null, utmSource?: string | null }) {
               </NuxtLink>
               <p class="font-mono text-xs text-ink/40">{{ lead.leadNumber }}</p>
             </td>
-            <td class="px-5 py-4 text-ink/70">{{ lead.phone }}</td>
+            <td class="px-5 py-4">
+              <a
+                :href="waLink(lead.phone)"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1.5 text-ink/70 transition-colors hover:text-primary hover:underline"
+                :aria-label="`Chat ${lead.name} on WhatsApp`"
+              >
+                <Icon name="lucide:message-circle" class="size-3.5 text-secondary-700" />
+                {{ lead.phone }}
+              </a>
+            </td>
             <td class="px-5 py-4 text-ink/70">
               {{ lead.pax }} pax
               <span v-if="lead.departureTarget" class="block text-xs text-ink/40">{{ lead.departureTarget }}</span>

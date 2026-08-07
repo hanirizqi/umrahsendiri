@@ -40,6 +40,24 @@ async function save() {
   }
 }
 
+const creating = ref(false)
+const createError = ref('')
+
+async function createQuote() {
+  creating.value = true
+  createError.value = ''
+  try {
+    const res = await $fetch<{ id: string }>(`/api/admin/leads/${id}/quote`, { method: 'POST' })
+    await navigateTo(`/admin/quotes/${res.id}`)
+  }
+  catch (e) {
+    createError.value = (e as { statusMessage?: string })?.statusMessage ?? 'Could not create the quote.'
+  }
+  finally {
+    creating.value = false
+  }
+}
+
 function formatDate(value: string | Date | null) {
   if (!value) return '—'
   return new Date(value).toLocaleString('id-ID', {
@@ -94,11 +112,21 @@ const STATUS_LABEL: Record<string, string> = {
           <h1 class="mt-1 font-display text-3xl font-bold text-primary">{{ data.lead.name }}</h1>
           <p class="mt-1 text-sm text-ink/60">Received {{ formatDate(data.lead.createdAt) }}</p>
         </div>
-        <AppButton :href="waHref" variant="primary">
-          Message on WhatsApp
-          <Icon name="lucide:message-circle" class="size-4" />
-        </AppButton>
+        <div class="flex flex-wrap gap-2">
+          <AppButton :href="waHref" variant="ghost">
+            Message on WhatsApp
+            <Icon name="lucide:message-circle" class="size-4" />
+          </AppButton>
+          <AppButton variant="primary" :disabled="creating" @click="createQuote">
+            {{ creating ? 'Creating…' : 'Create Quote' }}
+            <Icon :name="creating ? 'lucide:loader-circle' : 'lucide:file-text'" class="size-4" :class="{ 'animate-spin': creating }" />
+          </AppButton>
+        </div>
       </div>
+
+      <p v-if="createError" role="alert" class="mt-4 rounded-xl bg-secondary-100/50 px-4 py-3 text-sm text-primary-700">
+        {{ createError }}
+      </p>
 
       <div class="mt-10 grid gap-8 lg:grid-cols-3">
         <div class="space-y-6 lg:col-span-2">

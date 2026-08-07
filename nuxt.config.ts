@@ -67,7 +67,7 @@ export default defineNuxtConfig({
     sources: ['/api/sitemap-urls'],
     // /admin sengaja tidak didaftarkan di robots.txt — file itu publik,
     // dan menuliskan path-nya di sana justru mengumumkan keberadaannya.
-    exclude: ['/start', '/admin/**'],
+    exclude: ['/start', '/admin/**', '/q/**'],
   },
 
   /**

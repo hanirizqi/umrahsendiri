@@ -8,6 +8,13 @@
       "when": 1786044826209,
       "tag": "0000_lethal_wallop",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1786097456705,
+      "tag": "0001_polite_hellfire_club",
+      "breakpoints": true
     }
   ]
 }

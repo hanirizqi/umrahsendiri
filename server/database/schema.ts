@@ -1,4 +1,4 @@
-import { boolean, index, integer, pgTable, smallint, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core'
+import { bigint, boolean, index, integer, pgTable, smallint, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core'
 
 /**
  * Katalog layanan. Menggantikan daftar yang sebelumnya di-hardcode di form kontak,
@@ -92,7 +92,85 @@ export const leadServiceSelections = pgTable('lead_service_selections', {
   index('lead_service_lead_idx').on(table.leadId),
 ])
 
+/** Satu baris per terbitan LPP. */
+export const ratePeriods = pgTable('rate_periods', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  code: text('code').notNull().unique(),
+  label: text('label').notNull(),
+  effectiveFrom: timestamp('effective_from', { withTimezone: true }).notNull(),
+  effectiveTo: timestamp('effective_to', { withTimezone: true }),
+  isPublished: boolean('is_published').notNull().default(false),
+  note: text('note'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+})
+
+/** Tarif per jemaah, dalam rupiah penuh. Menggantikan constants/pricingRates.ts. */
+export const rates = pgTable('rates', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  ratePeriodId: uuid('rate_period_id').notNull().references(() => ratePeriods.id, { onDelete: 'cascade' }),
+  serviceId: uuid('service_id').notNull().references(() => services.id),
+  /** 1–4, sesuai tabel LPP. Rombongan lebih besar memakai tarif okupansi 4. */
+  occupancy: smallint('occupancy').notNull(),
+  hotelTier: smallint('hotel_tier'),
+  /** makkah | madinah — hanya untuk hotel, yang tarifnya beda per kota. */
+  city: text('city'),
+  amount: bigint('amount', { mode: 'number' }).notNull(),
+}, table => [
+  uniqueIndex('rate_unique').on(table.ratePeriodId, table.serviceId, table.occupancy, table.hotelTier, table.city),
+])
+
+export const quotes = pgTable('quotes', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  quoteNumber: text('quote_number').notNull().unique(),
+  leadId: uuid('lead_id').notNull().references(() => leads.id, { onDelete: 'cascade' }),
+  ratePeriodId: uuid('rate_period_id').notNull().references(() => ratePeriods.id),
+  pax: integer('pax').notNull(),
+  occupancy: smallint('occupancy').notNull(),
+  perPaxTotal: bigint('per_pax_total', { mode: 'number' }).notNull(),
+  grandTotal: bigint('grand_total', { mode: 'number' }).notNull(),
+  /** draf | terkirim | disetujui | kedaluwarsa */
+  status: text('status').notNull().default('draf'),
+  validUntil: timestamp('valid_until', { withTimezone: true }),
+  /** Token acak untuk tautan publik yang dikirim ke jemaah lewat WhatsApp. */
+  publicToken: text('public_token').notNull().unique(),
+  sharedAt: timestamp('shared_at', { withTimezone: true }),
+  firstViewedAt: timestamp('first_viewed_at', { withTimezone: true }),
+  lastViewedAt: timestamp('last_viewed_at', { withTimezone: true }),
+  viewCount: integer('view_count').notNull().default(0),
+  revokedAt: timestamp('revoked_at', { withTimezone: true }),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  deletedAt: timestamp('deleted_at', { withTimezone: true }),
+}, table => [
+  index('quotes_lead_idx').on(table.leadId),
+  index('quotes_created_at_idx').on(table.createdAt),
+])
+
+/**
+ * Rincian penawaran. Setiap kolom harga di sini adalah SALINAN saat penawaran
+ * dibuat, bukan referensi ke tabel rates — supaya terbitnya LPP baru tidak
+ * mengubah angka pada penawaran yang sudah terkirim ke jemaah.
+ */
+export const quoteItems = pgTable('quote_items', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  quoteId: uuid('quote_id').notNull().references(() => quotes.id, { onDelete: 'cascade' }),
+  serviceId: uuid('service_id').references(() => services.id),
+  label: text('label').notNull(),
+  hotelTier: smallint('hotel_tier'),
+  quantity: integer('quantity').notNull().default(1),
+  unitAmount: bigint('unit_amount', { mode: 'number' }).notNull(),
+  perPaxAmount: bigint('per_pax_amount', { mode: 'number' }).notNull(),
+  lineTotal: bigint('line_total', { mode: 'number' }).notNull(),
+  sortOrder: integer('sort_order').notNull().default(0),
+}, table => [
+  index('quote_items_quote_idx').on(table.quoteId),
+])
+
 export type Lead = typeof leads.$inferSelect
 export type NewLead = typeof leads.$inferInsert
 export type Service = typeof services.$inferSelect
+export type Quote = typeof quotes.$inferSelect
+export type QuoteItem = typeof quoteItems.$inferSelect
+export type RatePeriod = typeof ratePeriods.$inferSelect
 export type LeadServiceSelection = typeof leadServiceSelections.$inferSelect
