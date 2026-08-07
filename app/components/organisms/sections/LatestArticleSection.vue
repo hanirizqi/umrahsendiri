@@ -28,7 +28,7 @@ const { data: articles } = useAsyncData('latest-articles', () =>
     </div>
 
     <div class="mt-12 text-center">
-      <AppButton to="/artikel" variant="ghost">
+      <AppButton to="/articles" variant="ghost">
         Lihat Semua Artikel
         <Icon name="lucide:arrow-right" class="size-4" />
       </AppButton>

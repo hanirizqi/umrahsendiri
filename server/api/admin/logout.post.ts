@@ -1,5 +1,5 @@
 export default defineEventHandler(async (event) => {
-  const session = await useInternalSession(event)
+  const session = await useAdminSession(event)
   await session.clear()
   return { ok: true }
 })

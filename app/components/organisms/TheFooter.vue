@@ -40,7 +40,7 @@ import { SITE } from '~/constants/site'
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/kontak" class="text-sm text-background/60 hover:text-secondary-400">
+              <NuxtLink to="/contact" class="text-sm text-background/60 hover:text-secondary-400">
                 Kontak
               </NuxtLink>
             </li>

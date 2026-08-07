@@ -26,11 +26,11 @@ import { HOME_STATS } from '~/constants/faqs'
         </p>
 
         <div class="mt-10 flex flex-col gap-4 sm:flex-row">
-          <AppButton to="/kontak" variant="primary" size="lg">
+          <AppButton to="/contact" variant="primary" size="lg">
             Mulai Konsultasi Gratis
             <Icon name="lucide:arrow-right" class="size-4" />
           </AppButton>
-          <AppButton to="/cara-kerja" variant="ghost" size="lg">
+          <AppButton to="/how-it-works" variant="ghost" size="lg">
             Lihat Cara Kerja
           </AppButton>
         </div>

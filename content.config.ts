@@ -4,7 +4,7 @@ export default defineContentConfig({
   collections: {
     articles: defineCollection({
       type: 'page',
-      source: 'artikel/*.md',
+      source: 'articles/*.md',
       schema: z.object({
         title: z.string(),
         description: z.string(),

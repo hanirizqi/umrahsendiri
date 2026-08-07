@@ -1,4 +1,9 @@
 <script setup lang="ts">
+// Tanpa ini halaman menjawab 200 meski isinya "tidak ditemukan" — mesin pencari
+// akan menganggapnya halaman sungguhan dan bisa mengindeksnya.
+const event = useRequestEvent()
+if (event) setResponseStatus(event, 404)
+
 useSeoMeta({
   title: 'Halaman Tidak Ditemukan — UmrahSendiri',
   robots: 'noindex, nofollow',

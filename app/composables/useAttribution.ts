@@ -14,7 +14,7 @@ const STORAGE_KEY = 'us_attr'
 
 /**
  * Asal-usul pengunjung hanya ada di URL kunjungan pertama. Begitu ia berpindah
- * dari /mulai ke /kontak, parameternya hilang — jadi ditangkap sekali lalu
+ * dari /start ke /contact, parameternya hilang — jadi ditangkap sekali lalu
  * disimpan selama sesi peramban.
  *
  * Kunjungan pertama menang: kalau seseorang datang dari iklan lalu kembali lagi

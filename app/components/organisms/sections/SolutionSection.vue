@@ -14,7 +14,7 @@
         <p class="mt-6 text-base text-background/70 md:text-lg">
           Anda tetap memegang kendali atas setiap keputusan — dari layanan yang dipilih hingga hari keberangkatan. Kami hadir membantu memperjelas setiap pilihannya dengan data, opsi, dan informasi yang jelas.
         </p>
-        <AppButton to="/kontak" variant="secondary" size="lg" class="mt-8">
+        <AppButton to="/contact" variant="secondary" size="lg" class="mt-8">
           Mulai Konsultasi
         </AppButton>
       </div>

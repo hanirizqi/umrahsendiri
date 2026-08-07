@@ -8,7 +8,7 @@ function safeEqual(a: string, b: string): boolean {
 }
 
 export default defineEventHandler(async (event) => {
-  assertInternalAuthConfigured()
+  assertAdminAuthConfigured()
 
   enforceRateLimit(event, {
     key: 'login',
@@ -31,7 +31,7 @@ export default defineEventHandler(async (event) => {
 
   clearRateLimit(event, 'login')
 
-  const session = await useInternalSession(event)
+  const session = await useAdminSession(event)
   await session.update({ user, loggedInAt: Date.now() })
 
   return { ok: true }

@@ -24,7 +24,7 @@ import { STEPS } from '~/constants/steps'
     </div>
 
     <div class="mt-12 text-center">
-      <AppButton to="/kontak" variant="ghost">
+      <AppButton to="/contact" variant="ghost">
         Mulai Konsultasi Gratis
         <Icon name="lucide:arrow-right" class="size-4" />
       </AppButton>

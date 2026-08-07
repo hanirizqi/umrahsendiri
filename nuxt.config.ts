@@ -65,9 +65,28 @@ export default defineNuxtConfig({
 
   sitemap: {
     sources: ['/api/sitemap-urls'],
-    // /internal sengaja tidak didaftarkan di robots.txt — file itu publik,
+    // /admin sengaja tidak didaftarkan di robots.txt — file itu publik,
     // dan menuliskan path-nya di sana justru mengumumkan keberadaannya.
-    exclude: ['/mulai', '/internal/**'],
+    exclude: ['/start', '/admin/**'],
+  },
+
+  /**
+   * URL lama berbahasa Indonesia tetap hidup lewat pengalihan permanen.
+   * Situs sudah terindeks dan tautan iklan mungkin masih menunjuk ke /mulai,
+   * jadi menghapusnya begitu saja akan membuang peringkat pencarian sekaligus
+   * mematahkan iklan yang sedang berjalan. 301 memindahkan nilai SEO ke alamat baru.
+   */
+  routeRules: {
+    '/tentang': { redirect: { to: '/about', statusCode: 301 } },
+    '/layanan': { redirect: { to: '/services', statusCode: 301 } },
+    '/cara-kerja': { redirect: { to: '/how-it-works', statusCode: 301 } },
+    '/kontak': { redirect: { to: '/contact', statusCode: 301 } },
+    '/mulai': { redirect: { to: '/start', statusCode: 301 } },
+    '/artikel': { redirect: { to: '/articles', statusCode: 301 } },
+    '/artikel/**': { redirect: { to: '/articles/**', statusCode: 301 } },
+    '/internal/masuk': { redirect: { to: '/admin/login', statusCode: 301 } },
+    '/internal/kalkulator-harga': { redirect: { to: '/admin/price-calculator', statusCode: 301 } },
+    '/internal/**': { redirect: { to: '/admin/**', statusCode: 301 } },
   },
 
   fonts: {

@@ -1,32 +1,32 @@
 /**
- * Penjaga seluruh route /internal/**.
+ * Penjaga seluruh route /admin/**.
  *
  * Halaman tanpa sesi dialihkan ke halaman masuk; permintaan API dijawab 401
  * agar sisi klien bisa menanganinya sendiri. Sengaja gagal-tertutup: tanpa
- * kredensial di environment, panel internal tidak bisa dibuka sama sekali.
+ * kredensial di environment, panel admin tidak bisa dibuka sama sekali.
  */
 export default defineEventHandler(async (event) => {
   const path = getRequestURL(event).pathname
 
-  const isInternalPage = path.startsWith('/internal')
-  const isInternalApi = path.startsWith('/api/internal')
-  if (!isInternalPage && !isInternalApi) return
+  const isAdminPage = path.startsWith('/admin')
+  const isAdminApi = path.startsWith('/api/admin')
+  if (!isAdminPage && !isAdminApi) return
 
   // Halaman masuk dan endpoint login/logout harus tetap terbuka,
   // kalau tidak tidak ada cara untuk mulai masuk.
-  if (path === INTERNAL_LOGIN_PATH || path === '/api/internal/login' || path === '/api/internal/logout') {
+  if (path === ADMIN_LOGIN_PATH || path === '/api/admin/login' || path === '/api/admin/logout') {
     return
   }
 
-  assertInternalAuthConfigured()
+  assertAdminAuthConfigured()
 
-  const session = await useInternalSession(event)
+  const session = await useAdminSession(event)
   if (session.data?.user) return
 
-  if (isInternalApi) {
+  if (isAdminApi) {
     throw createError({ statusCode: 401, statusMessage: 'Sesi berakhir. Silakan masuk kembali.' })
   }
 
   const next = encodeURIComponent(path)
-  return sendRedirect(event, `${INTERNAL_LOGIN_PATH}?lanjut=${next}`, 302)
+  return sendRedirect(event, `${ADMIN_LOGIN_PATH}?lanjut=${next}`, 302)
 })

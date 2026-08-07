@@ -2,10 +2,10 @@ import type { NavLink } from '~/types'
 
 export const MAIN_NAV: NavLink[] = [
   { label: 'Beranda', to: '/' },
-  { label: 'Tentang', to: '/tentang' },
-  { label: 'Layanan', to: '/layanan' },
-  { label: 'Cara Kerja', to: '/cara-kerja' },
-  { label: 'Artikel', to: '/artikel' },
+  { label: 'Tentang', to: '/about' },
+  { label: 'Layanan', to: '/services' },
+  { label: 'Cara Kerja', to: '/how-it-works' },
+  { label: 'Artikel', to: '/articles' },
   { label: 'FAQ', to: '/faq' },
 ]
 

@@ -45,7 +45,7 @@ useJsonLd({
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Beranda', item: SITE.url },
-        { '@type': 'ListItem', position: 2, name: 'Artikel', item: `${SITE.url}/artikel` },
+        { '@type': 'ListItem', position: 2, name: 'Artikel', item: `${SITE.url}/articles` },
         { '@type': 'ListItem', position: 3, name: article.value?.title ?? '', item: pageUrl.value },
       ],
     },
@@ -56,7 +56,7 @@ useJsonLd({
 <template>
   <div v-if="article">
     <article class="mx-auto max-w-3xl px-6 pt-16 pb-24 md:px-10">
-      <NuxtLink to="/artikel" class="inline-flex items-center gap-2 text-sm text-ink/60 hover:text-primary">
+      <NuxtLink to="/articles" class="inline-flex items-center gap-2 text-sm text-ink/60 hover:text-primary">
         <Icon name="lucide:arrow-left" class="size-4" />
         Kembali ke Artikel
       </NuxtLink>

@@ -23,7 +23,7 @@ withDefaults(defineProps<Props>(), {
     </div>
 
     <div class="mt-12 text-center">
-      <AppButton to="/artikel/mengapa-memilih-umrah-mandiri" variant="ghost">
+      <AppButton to="/articles/mengapa-memilih-umrah-mandiri" variant="ghost">
         Baca Selengkapnya
         <Icon name="lucide:arrow-right" class="size-4" />
       </AppButton>

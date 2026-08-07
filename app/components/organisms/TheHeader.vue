@@ -27,14 +27,14 @@ watch(() => route.path, () => {
       </nav>
 
       <div class="hidden lg:block">
-        <AppButton to="/kontak" variant="primary">
+        <AppButton to="/contact" variant="primary">
           Konsultasi Gratis
         </AppButton>
       </div>
 
       <button
         type="button"
-        class="flex size-10 items-center justify-center rounded-full border border-primary-100 lg:hidden"
+        class="flex size-10 items-center justify-center rounded-full border border-primary-100 transition-colors duration-200 hover:border-primary/30 hover:bg-primary-50 lg:hidden"
         aria-label="Buka menu navigasi"
         :aria-expanded="mobileOpen"
         @click="mobileOpen = !mobileOpen"
@@ -49,11 +49,11 @@ watch(() => route.path, () => {
           v-for="item in MAIN_NAV"
           :key="item.to"
           :to="item.to"
-          class="text-base font-medium text-ink/80"
+          class="text-base font-medium text-ink/80 transition-colors duration-200 hover:text-primary"
         >
           {{ item.label }}
         </NuxtLink>
-        <AppButton to="/kontak" variant="primary" class="mt-2 w-full">
+        <AppButton to="/contact" variant="primary" class="mt-2 w-full">
           Konsultasi Gratis
         </AppButton>
       </nav>

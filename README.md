@@ -27,7 +27,7 @@ npm run typecheck   # cek tipe TypeScript
 
 ## Environment
 
-Salin `.env.example` menjadi `.env`, lalu isi kedua variabelnya:
+Salin `.env.example` menjadi `.env`, lalu isi variabelnya:
 
 ```bash
 cp .env.example .env
@@ -35,8 +35,8 @@ cp .env.example .env
 
 | Variabel | Keterangan |
 |---|---|
-| `NUXT_INTERNAL_AUTH_USER` | Username untuk masuk panel internal |
-| `NUXT_INTERNAL_AUTH_PASSWORD` | Kata sandi untuk masuk panel internal |
+| `NUXT_INTERNAL_AUTH_USER` | Username untuk masuk panel admin |
+| `NUXT_INTERNAL_AUTH_PASSWORD` | Kata sandi untuk masuk panel admin |
 | `NUXT_SESSION_PASSWORD` | Kunci penyegel cookie sesi, minimal 32 karakter acak |
 | `DATABASE_URL` | Koneksi PostgreSQL |
 
@@ -70,9 +70,9 @@ Migrasi belum berjalan otomatis saat deploy, jadi setelah menambah migrasi baru 
 
 Di produksi ketiganya diset lewat **Coolify → Environment Variables**, bukan lewat file. Nilai lokal dan produksi berdiri sendiri — mengubah salah satunya tidak memengaruhi yang lain.
 
-Perlindungan ini **gagal-tertutup**: kalau salah satu variabel kosong, seluruh route `/internal/**` menjawab `503` dan tidak bisa dibuka siapa pun. Ini disengaja — panel internal memuat daftar tarif yang tidak ditampilkan ke publik.
+Perlindungan ini **gagal-tertutup**: kalau salah satu variabel kosong, seluruh route `/admin/**` menjawab `503` dan tidak bisa dibuka siapa pun. Ini disengaja — panel admin memuat daftar tarif yang tidak ditampilkan ke publik.
 
-Panel memakai sesi berbasis cookie dengan halaman masuk di `/internal/masuk`, berlaku 12 jam. Pemeriksaan kredensial masih dari environment variable; nanti pindah ke tabel `staff_users` saat autentikasi berbasis database tersedia, sedangkan lapisan sesinya tetap dipakai.
+Panel memakai sesi berbasis cookie dengan halaman masuk di `/admin/login`, berlaku 12 jam. Pemeriksaan kredensial masih dari environment variable; nanti pindah ke tabel `staff_users` saat autentikasi berbasis database tersedia, sedangkan lapisan sesinya tetap dipakai.
 
 ## Struktur Proyek
 
@@ -83,23 +83,23 @@ app/
     molecules/         Kombinasi atom (card, form, accordion, dsb.)
     layout/            Wrapper layout (container, heading, legal content)
     organisms/          Blok halaman penuh (header, footer, hero)
-      landing/          Blok khusus landing ads (/mulai)
+      landing/          Blok khusus landing ads (/start)
       sections/          Blok section untuk home & halaman lain
   composables/        useJsonLd, useReadingTime, useWhatsapp, useAttribution
   plugins/            attribution.client (menangkap asal-usul di kunjungan pertama)
   constants/          Data statis (nav, faqs, services, dst.)
-  layouts/            default (halaman umum), landing (/mulai), internal (panel staf)
+  layouts/            default (halaman umum), landing (/start), admin (panel staf)
   pages/              Routing berbasis file (lihat Sitemap di bawah)
   types/               Tipe TypeScript bersama
   utils/               Helper (content, date)
 content/
-  artikel/            Artikel blog (Markdown, dibaca lewat @nuxt/content)
+  articles/           Artikel blog (Markdown, dibaca lewat @nuxt/content)
 content.config.ts     Skema koleksi content (articles)
 server/
-  api/                 Route API (leads publik, internal terlindungi, sitemap-urls)
+  api/                 Route API (leads publik, admin terlindungi, sitemap-urls)
   database/            Skema Drizzle, migrasi, dan seed katalog layanan
-  middleware/          Penjaga sesi untuk /internal/**
-  utils/               Koneksi database, sesi internal, pembatas laju
+  middleware/          Penjaga sesi untuk /admin/**
+  utils/               Koneksi database, sesi admin, pembatas laju
 drizzle.config.ts      Konfigurasi Drizzle Kit
 public/                Aset statis (favicon, gambar, brand assets)
 docs/strategy.md       Riset UX, positioning, sitemap, design system
@@ -110,21 +110,23 @@ docs/strategy.md       Riset UX, positioning, sitemap, design system
 | Route | Deskripsi |
 |---|---|
 | `/` | Home |
-| `/tentang` | Tentang (cerita, misi, tim) |
-| `/layanan` | Layanan (visa & dokumen, biaya, hotel, transport, pembimbing, konsultasi) |
-| `/cara-kerja` | Cara Kerja (proses 4 langkah) |
-| `/artikel` | Blog listing (search, kategori, tag) |
-| `/artikel/[slug]` | Artikel detail |
+| `/about` | Tentang (cerita, misi, tim) |
+| `/services` | Layanan (visa & dokumen, biaya, hotel, transport, pembimbing, konsultasi) |
+| `/how-it-works` | Cara Kerja (proses 4 langkah) |
+| `/articles` | Blog listing (search, kategori, tag) |
+| `/articles/[slug]` | Artikel detail |
 | `/faq` | FAQ lengkap |
-| `/kontak` | Kontak + form + WhatsApp |
-| `/mulai` | Landing Ads (distraction-free, conversion-only, tidak diindeks sitemap) |
+| `/contact` | Kontak + form + WhatsApp |
+| `/start` | Landing Ads (distraction-free, conversion-only, tidak diindeks sitemap) |
 | `/privacy-policy` | Privacy Policy |
 | `/terms` | Terms of Service |
-| `/internal/masuk` | Halaman masuk panel internal (noindex) |
-| `/internal/leads` | Daftar lead masuk beserta asal-usulnya (noindex, perlu sesi) |
-| `/internal/leads/[id]` | Detail lead, status, dan catatan tindak lanjut (noindex, perlu sesi) |
-| `/internal/kalkulator-harga` | Kalkulator harga internal untuk CS (noindex, perlu sesi — lihat [Environment](#environment)) |
+| `/admin/login` | Halaman masuk panel admin (noindex) |
+| `/admin/leads` | Daftar lead masuk beserta asal-usulnya (noindex, perlu sesi) |
+| `/admin/leads/[id]` | Detail lead, status, dan catatan tindak lanjut (noindex, perlu sesi) |
+| `/admin/price-calculator` | Kalkulator harga untuk CS (noindex, perlu sesi — lihat [Environment](#environment)) |
 | `/[...slug]` | 404 |
+
+URL lama berbahasa Indonesia (`/tentang`, `/layanan`, `/cara-kerja`, `/kontak`, `/mulai`, `/artikel`, `/internal/*`) tetap hidup lewat **redirect 301** yang didefinisikan di `routeRules` pada `nuxt.config.ts`. Jangan dihapus — situs sudah terindeks dan tautan iklan lama masih bisa menunjuk ke sana.
 
 ## Deployment
 
@@ -135,7 +137,7 @@ docker build -t umrahsendiri .
 docker run -p 3000:3000 umrahsendiri
 ```
 
-Di [Coolify](https://coolify.io), buat resource baru dari repo GitHub ini dengan build pack **Dockerfile**, port **3000**, tanpa env var wajib (semua konfigurasi situs ada di `app/constants/site.ts`).
+Di [Coolify](https://coolify.io), buat resource baru dari repo GitHub ini dengan build pack **Dockerfile**, port **3000**, dan set environment variable sesuai tabel di atas. Tambahkan juga layanan **PostgreSQL** dan arahkan `DATABASE_URL` ke sana.
 
 ## Design System (ringkas)
 

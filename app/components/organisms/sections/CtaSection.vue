@@ -23,10 +23,10 @@ const MICRO_TRUST = [
         Mulailah dengan konsultasi awal tanpa kewajiban. Kami mendengarkan kebutuhan Anda terlebih dahulu, kemudian menyediakan layanan yang paling sesuai.
       </p>
       <div class="relative mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-        <AppButton to="/kontak" variant="secondary" size="lg">
+        <AppButton to="/contact" variant="secondary" size="lg">
           Mulai Konsultasi Gratis
         </AppButton>
-        <AppButton to="/layanan" variant="ghost" size="lg" class="!border-background/30 !text-background">
+        <AppButton to="/services" variant="ghost" size="lg" class="!border-background/30 !text-background">
           Lihat Layanan
         </AppButton>
       </div>
