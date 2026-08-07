@@ -53,24 +53,25 @@ Pengembangan lokal memakai PostgreSQL yang berdiri sendiri, terpisah dari produk
 ```bash
 brew install postgresql@17 && brew services start postgresql@17
 createdb umrahsendiri_dev
-npm run db:migrate
-npm run db:seed
 ```
+
+Migrasi dan pengisian katalog berjalan sendiri saat aplikasi start lewat `server/plugins/migrate.ts`, jadi `npm run dev` sudah cukup — baik di lokal maupun saat deploy, tanpa akses terminal ke server. Perintah di bawah hanya untuk pekerjaan skema:
 
 | Perintah | Kegunaan |
 |---|---|
 | `npm run db:generate` | Membuat berkas migrasi dari perubahan `server/database/schema.ts` |
-| `npm run db:migrate` | Menerapkan migrasi ke database |
-| `npm run db:seed` | Mengisi katalog layanan (aman diulang) |
+| `npm run db:migrate` | Menerapkan migrasi secara manual (biasanya tidak perlu) |
 | `npm run db:studio` | Menjelajah isi database lewat peramban |
 
 Di produksi, database dibuat sebagai layanan PostgreSQL terpisah di Coolify. **Aktifkan Scheduled Backup di layanan tersebut** — inilah alasan memilih Postgres ketimbang SQLite.
 
-Migrasi belum berjalan otomatis saat deploy, jadi setelah menambah migrasi baru jalankan `npm run db:migrate` dengan `DATABASE_URL` produksi.
+Di produksi keempat variabel diset lewat **Coolify → Environment Variables**, bukan lewat file, dan masing-masing harus ditandai **Available at Runtime** — nilai yang hanya tersedia saat build tidak terbaca oleh proses yang melayani permintaan. Nilai lokal dan produksi berdiri sendiri; mengubah salah satunya tidak memengaruhi yang lain.
 
-Di produksi ketiganya diset lewat **Coolify → Environment Variables**, bukan lewat file. Nilai lokal dan produksi berdiri sendiri — mengubah salah satunya tidak memengaruhi yang lain.
+Perlindungan ini **gagal-tertutup**: kalau salah satu variabel kosong — atau `NUXT_SESSION_PASSWORD` lebih pendek dari 32 karakter — seluruh route `/admin/**` menjawab `503` dan tidak bisa dibuka siapa pun. Ini disengaja: panel admin memuat daftar tarif yang tidak ditampilkan ke publik.
 
-Perlindungan ini **gagal-tertutup**: kalau salah satu variabel kosong, seluruh route `/admin/**` menjawab `503` dan tidak bisa dibuka siapa pun. Ini disengaja — panel admin memuat daftar tarif yang tidak ditampilkan ke publik.
+Jawaban `503` itu sengaja tidak menyebut variabel mana yang bermasalah, karena route-nya bisa dipanggil siapa saja. Rinciannya ada di **log server**: setiap kali aplikasi start, `server/plugins/config-check.ts` menuliskan daftar variabel yang belum beres, jadi salah konfigurasi terlihat di log Coolify segera setelah deploy tanpa perlu menebak.
+
+Langkah penanganan 503, cara memutar kata sandi, dan checklist sebelum deploy ada di [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 Panel memakai sesi berbasis cookie dengan halaman masuk di `/admin/login`, berlaku 12 jam. Pemeriksaan kredensial masih dari environment variable; nanti pindah ke tabel `staff_users` saat autentikasi berbasis database tersedia, sedangkan lapisan sesinya tetap dipakai.
 
@@ -99,10 +100,12 @@ server/
   api/                 Route API (leads publik, admin terlindungi, sitemap-urls)
   database/            Skema Drizzle, migrasi, dan seed katalog layanan
   middleware/          Penjaga sesi untuk /admin/**
+  plugins/             Migrasi saat start, pemeriksa kelengkapan environment
   utils/               Koneksi database, sesi admin, pembatas laju
 drizzle.config.ts      Konfigurasi Drizzle Kit
 public/                Aset statis (favicon, gambar, brand assets)
 docs/strategy.md       Riset UX, positioning, sitemap, design system
+docs/DEPLOYMENT.md     Runbook produksi: environment variable, 503, rotasi kata sandi
 ```
 
 ## Sitemap

@@ -37,7 +37,7 @@ async function submit() {
     error.value = status === 429
       ? 'Too many sign-in attempts. Try again in 15 minutes.'
       : status === 503
-        ? 'The admin panel is not configured yet. Contact the system administrator.'
+        ? 'The admin panel is not configured yet. The server log lists the missing environment variables.'
         : 'Incorrect username or password.'
     form.password = ''
   }

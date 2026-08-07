@@ -28,14 +28,52 @@ export function useAdminSession(event: H3Event) {
   })
 }
 
+/** h3 menolak menyegel cookie dengan kunci yang lebih pendek dari ini. */
+export const SESSION_PASSWORD_MIN_LENGTH = 32
+
+/**
+ * Konfigurasi panel admin yang belum beres, disebut dengan nama environment
+ * variable-nya supaya bisa langsung dicocokkan dengan isian di Coolify.
+ * Kunci yang terisi tapi terlalu pendek ikut dilaporkan: h3 baru menolaknya
+ * saat sesi dibuat, jadi tanpa pemeriksaan ini kekeliruannya baru muncul
+ * sebagai 500 di tengah proses masuk.
+ */
+export function adminAuthConfigProblems(): string[] {
+  const { internalAuthUser, internalAuthPassword, sessionPassword } = useRuntimeConfig()
+  const problems: string[] = []
+
+  if (!internalAuthUser) problems.push('NUXT_INTERNAL_AUTH_USER (kosong)')
+  if (!internalAuthPassword) problems.push('NUXT_INTERNAL_AUTH_PASSWORD (kosong)')
+
+  if (!sessionPassword) {
+    problems.push('NUXT_SESSION_PASSWORD (kosong)')
+  }
+  else if (sessionPassword.length < SESSION_PASSWORD_MIN_LENGTH) {
+    problems.push(`NUXT_SESSION_PASSWORD (${sessionPassword.length} karakter, minimal ${SESSION_PASSWORD_MIN_LENGTH})`)
+  }
+
+  return problems
+}
+
+let reportedProblems = ''
+
 /** Kredensial belum diisi — panel admin harus terkunci, bukan terbuka. */
 export function assertAdminAuthConfigured() {
-  const { internalAuthUser, internalAuthPassword, sessionPassword } = useRuntimeConfig()
+  const problems = adminAuthConfigProblems()
+  if (!problems.length) return
 
-  if (!internalAuthUser || !internalAuthPassword || !sessionPassword) {
-    throw createError({
-      statusCode: 503,
-      statusMessage: 'Panel admin belum dikonfigurasi. Set NUXT_INTERNAL_AUTH_USER, NUXT_INTERNAL_AUTH_PASSWORD, dan NUXT_SESSION_PASSWORD.',
-    })
+  // Nama variabel yang bermasalah hanya masuk log server. Jawaban HTTP-nya
+  // sengaja tidak merinci: siapa pun bisa memanggil /admin/**, dan tidak ada
+  // gunanya memberi tahu publik bagian mana dari konfigurasi yang bolong.
+  // Dicatat sekali per kombinasi, agar pemindai port tidak membanjiri log.
+  const signature = problems.join(', ')
+  if (signature !== reportedProblems) {
+    reportedProblems = signature
+    console.error(`[config] Panel admin terkunci — ${signature}.`)
   }
+
+  throw createError({
+    statusCode: 503,
+    statusMessage: 'Panel admin belum dikonfigurasi. Rinciannya ada di log server.',
+  })
 }
