@@ -2,7 +2,7 @@
 definePageMeta({ layout: false })
 
 useSeoMeta({
-  title: 'Masuk — Admin UmrahSendiri',
+  title: 'Sign in — UmrahSendiri Admin',
   robots: 'noindex, nofollow',
 })
 
@@ -26,19 +26,19 @@ async function submit() {
       body: { user: form.user.trim(), password: form.password },
     })
 
-    const lanjut = typeof route.query.lanjut === 'string' ? route.query.lanjut : ''
-    // Hanya terima path admin, supaya parameter ini tidak bisa dipakai
-    // mengalihkan ke situs lain.
-    const tujuan = lanjut.startsWith('/admin/') ? lanjut : '/admin/leads'
-    await navigateTo(tujuan)
+    const next = typeof route.query.next === 'string' ? route.query.next : ''
+    // Only admin paths are accepted, so this parameter cannot be used
+    // to redirect anyone off-site.
+    const target = next.startsWith('/admin/') ? next : '/admin/leads'
+    await navigateTo(target)
   }
   catch (e) {
     const status = (e as { statusCode?: number })?.statusCode
     error.value = status === 429
-      ? 'Terlalu banyak percobaan masuk. Coba lagi dalam 15 menit.'
+      ? 'Too many sign-in attempts. Try again in 15 minutes.'
       : status === 503
-        ? 'Panel admin belum dikonfigurasi. Hubungi pengelola sistem.'
-        : 'Username atau kata sandi salah.'
+        ? 'The admin panel is not configured yet. Contact the system administrator.'
+        : 'Incorrect username or password.'
     form.password = ''
   }
   finally {
@@ -60,13 +60,13 @@ const inputClass = 'mt-2 w-full rounded-xl border border-primary-100 bg-backgrou
       <div class="flex flex-col items-center text-center">
         <AppLogo />
         <p class="mt-5 font-display text-[0.65rem] font-semibold tracking-[0.16em] text-secondary-700 uppercase">
-          Panel Admin
+          Admin Panel
         </p>
         <h1 class="mt-2 font-display text-2xl font-bold text-primary">
-          Masuk ke Panel
+          Sign in
         </h1>
         <p class="mt-2 text-sm text-ink/60">
-          Halaman ini hanya untuk tim UmrahSendiri.
+          For the UmrahSendiri team only.
         </p>
       </div>
 
@@ -84,7 +84,7 @@ const inputClass = 'mt-2 w-full rounded-xl border border-primary-100 bg-backgrou
         </div>
 
         <div>
-          <label for="password" class="text-sm font-medium text-ink/70">Kata Sandi</label>
+          <label for="password" class="text-sm font-medium text-ink/70">Password</label>
           <input
             id="password"
             v-model="form.password"
@@ -106,13 +106,13 @@ const inputClass = 'mt-2 w-full rounded-xl border border-primary-100 bg-backgrou
           class="w-full"
           :disabled="!isValid || loading"
         >
-          {{ loading ? 'Memeriksa…' : 'Masuk' }}
+          {{ loading ? 'Checking…' : 'Sign in' }}
           <Icon :name="loading ? 'lucide:loader-circle' : 'lucide:arrow-right'" class="size-4" :class="{ 'animate-spin': loading }" />
         </AppButton>
       </form>
 
       <p class="mt-6 text-center text-xs text-ink/40">
-        <NuxtLink to="/" class="underline underline-offset-2 hover:text-ink/70">Kembali ke situs utama</NuxtLink>
+        <NuxtLink to="/" class="underline underline-offset-2 hover:text-ink/70">Back to the main site</NuxtLink>
       </p>
     </div>
   </div>

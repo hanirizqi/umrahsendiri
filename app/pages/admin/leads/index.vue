@@ -1,15 +1,15 @@
 <script setup lang="ts">
 definePageMeta({ layout: 'admin' })
 
-useSeoMeta({ title: 'Lead — Admin', robots: 'noindex, nofollow' })
+useSeoMeta({ title: 'Leads — Admin', robots: 'noindex, nofollow' })
 
 const STATUS_FILTERS = [
-  { value: '', label: 'Semua' },
-  { value: 'baru', label: 'Baru' },
-  { value: 'dihubungi', label: 'Dihubungi' },
-  { value: 'ditawarkan', label: 'Ditawarkan' },
-  { value: 'menang', label: 'Menang' },
-  { value: 'kalah', label: 'Kalah' },
+  { value: '', label: 'All' },
+  { value: 'baru', label: 'New' },
+  { value: 'dihubungi', label: 'Contacted' },
+  { value: 'ditawarkan', label: 'Quoted' },
+  { value: 'menang', label: 'Won' },
+  { value: 'kalah', label: 'Lost' },
 ]
 
 const status = ref('')
@@ -38,25 +38,25 @@ function isFromAds(lead: { gclid?: string | null, utmSource?: string | null }) {
   <SectionContainer>
     <SectionHeading
       align="left"
-      title="Lead Masuk"
-      description="Setiap pengiriman form kontak tersimpan di sini, lengkap dengan asal-usulnya."
+      title="Leads"
+      description="Every contact form submission lands here, along with where it came from."
     />
 
     <div v-if="data" class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       <div class="rounded-2xl border border-primary-100 bg-white/60 p-5">
-        <p class="text-xs text-ink/50">Total lead</p>
+        <p class="text-xs text-ink/50">Total leads</p>
         <p class="mt-1 font-display text-2xl font-bold text-primary">{{ data.summary.total }}</p>
       </div>
       <div class="rounded-2xl border border-primary-100 bg-white/60 p-5">
-        <p class="text-xs text-ink/50">Belum dihubungi</p>
+        <p class="text-xs text-ink/50">Uncontacted</p>
         <p class="mt-1 font-display text-2xl font-bold text-primary">{{ data.summary.byStatus.baru ?? 0 }}</p>
       </div>
       <div class="rounded-2xl border border-primary-100 bg-white/60 p-5">
-        <p class="text-xs text-ink/50">Dari iklan</p>
+        <p class="text-xs text-ink/50">From ads</p>
         <p class="mt-1 font-display text-2xl font-bold text-secondary-700">{{ data.summary.fromAds }}</p>
       </div>
       <div class="rounded-2xl border border-primary-100 bg-white/60 p-5">
-        <p class="text-xs text-ink/50">Menang</p>
+        <p class="text-xs text-ink/50">Won</p>
         <p class="mt-1 font-display text-2xl font-bold text-primary">{{ data.summary.byStatus.menang ?? 0 }}</p>
       </div>
     </div>
@@ -81,20 +81,20 @@ function isFromAds(lead: { gclid?: string | null, utmSource?: string | null }) {
         <thead>
           <tr class="border-b border-primary-100 text-left text-xs tracking-wider text-ink/50 uppercase">
             <th class="px-5 py-3 font-semibold">Lead</th>
-            <th class="px-5 py-3 font-semibold">Kontak</th>
-            <th class="px-5 py-3 font-semibold">Jemaah</th>
-            <th class="px-5 py-3 font-semibold">Sumber</th>
+            <th class="px-5 py-3 font-semibold">Contact</th>
+            <th class="px-5 py-3 font-semibold">Pilgrims</th>
+            <th class="px-5 py-3 font-semibold">Source</th>
             <th class="px-5 py-3 font-semibold">Status</th>
-            <th class="px-5 py-3 font-semibold">Masuk</th>
+            <th class="px-5 py-3 font-semibold">Received</th>
           </tr>
         </thead>
         <tbody>
           <tr v-if="pending">
-            <td colspan="6" class="px-5 py-10 text-center text-ink/50">Memuat…</td>
+            <td colspan="6" class="px-5 py-10 text-center text-ink/50">Loading…</td>
           </tr>
           <tr v-else-if="!data?.leads.length">
             <td colspan="6" class="px-5 py-10 text-center text-ink/50">
-              Belum ada lead pada filter ini.
+              No leads match this filter yet.
             </td>
           </tr>
           <tr
@@ -111,7 +111,7 @@ function isFromAds(lead: { gclid?: string | null, utmSource?: string | null }) {
             </td>
             <td class="px-5 py-4 text-ink/70">{{ lead.phone }}</td>
             <td class="px-5 py-4 text-ink/70">
-              {{ lead.pax }} orang
+              {{ lead.pax }} pax
               <span v-if="lead.departureTarget" class="block text-xs text-ink/40">{{ lead.departureTarget }}</span>
             </td>
             <td class="px-5 py-4">
@@ -120,9 +120,9 @@ function isFromAds(lead: { gclid?: string | null, utmSource?: string | null }) {
                 class="inline-flex items-center gap-1 rounded-full bg-secondary-100/60 px-2.5 py-1 text-xs font-medium text-secondary-700"
               >
                 <Icon name="lucide:megaphone" class="size-3" />
-                {{ lead.utmCampaign || lead.utmSource || 'Iklan' }}
+                {{ lead.utmCampaign || lead.utmSource || 'Ads' }}
               </span>
-              <span v-else class="text-xs text-ink/40">Organik</span>
+              <span v-else class="text-xs text-ink/40">Organic</span>
             </td>
             <td class="px-5 py-4">
               <LeadStatusBadge :status="lead.status" />

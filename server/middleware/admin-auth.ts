@@ -28,5 +28,5 @@ export default defineEventHandler(async (event) => {
   }
 
   const next = encodeURIComponent(path)
-  return sendRedirect(event, `${ADMIN_LOGIN_PATH}?lanjut=${next}`, 302)
+  return sendRedirect(event, `${ADMIN_LOGIN_PATH}?next=${next}`, 302)
 })

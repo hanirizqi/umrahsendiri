@@ -4,7 +4,7 @@ import { formatRupiah } from '~/utils/currency'
 definePageMeta({ layout: 'admin' })
 
 useSeoMeta({
-  title: 'Kalkulator Harga — Admin',
+  title: 'Price Calculator — Admin',
   robots: 'noindex, nofollow',
 })
 
@@ -18,14 +18,14 @@ const inputClass = 'mt-2 w-full rounded-xl border border-primary-100 bg-backgrou
     <SectionContainer>
       <SectionHeading
         align="left"
-        title="Kalkulator Harga"
-        description="Tempel pesan WhatsApp dari form kontak — semua rincian (jumlah jemaah, hotel, malam, hari pemandu, layanan tambahan) sudah ada di pesannya, tinggal klik Baca Pesan."
+        title="Price Calculator"
+        description="Paste the WhatsApp message from the contact form — pilgrim count, hotel, nights, guide days and extras are all in there. Just click Read Message."
       />
 
       <div class="mt-12 grid gap-8 lg:grid-cols-2">
         <div class="space-y-6">
           <div>
-            <label for="rawMessage" class="text-sm font-medium text-ink/70">Tempel Pesan WhatsApp</label>
+            <label for="rawMessage" class="text-sm font-medium text-ink/70">Paste WhatsApp Message</label>
             <textarea
               id="rawMessage"
               v-model="rawMessage"
@@ -34,45 +34,45 @@ const inputClass = 'mt-2 w-full rounded-xl border border-primary-100 bg-backgrou
               :class="[inputClass, 'resize-none']"
             />
             <AppButton variant="primary" class="mt-3" @click="parseMessage">
-              Baca Pesan
+              Read Message
               <Icon name="lucide:wand-sparkles" class="size-4" />
             </AppButton>
           </div>
 
           <div v-if="parsed.pax" class="rounded-2xl border border-primary-100 bg-white/60 p-6">
-            <p class="text-sm font-semibold text-primary">Terbaca dari Pesan</p>
+            <p class="text-sm font-semibold text-primary">Read from Message</p>
             <ul class="mt-3 space-y-1.5 text-sm text-ink/70">
-              <li>Jumlah jemaah: <strong class="text-ink">{{ parsed.pax }} orang</strong> ({{ occupancy ? `okupansi ${occupancy}` : '-' }})</li>
-              <li>Paket Dasar: {{ parsed.paketDasar ? 'Ya' : 'Tidak disebut' }}</li>
+              <li>Pilgrims: <strong class="text-ink">{{ parsed.pax }} pax</strong> ({{ occupancy ? `occupancy ${occupancy}` : '-' }})</li>
+              <li>Base Package: {{ parsed.paketDasar ? 'Yes' : 'not mentioned' }}</li>
               <li>
                 Hotel:
                 <template v-if="parsed.hotel">
-                  Ya, Bintang {{ parsed.hotelStar ?? '(tidak terbaca)' }} — {{ parsed.nightsMakkah ?? '?' }} malam Makkah, {{ parsed.nightsMadinah ?? '?' }} malam Madinah
+                  Yes, {{ parsed.hotelStar ?? '(unreadable)' }}-star — {{ parsed.nightsMakkah ?? '?' }} nights Makkah, {{ parsed.nightsMadinah ?? '?' }} nights Madinah
                 </template>
                 <template v-else>
-                  Tidak
+                  No
                 </template>
               </li>
               <li v-if="parsed.hotelReservationStatus">
-                Status reservasi hotel jemaah: {{ parsed.hotelReservationStatus === 'sudah' ? 'Sudah punya reservasi sendiri' : 'Belum punya reservasi' }}
+                Pilgrim's hotel booking: {{ parsed.hotelReservationStatus === 'sudah' ? 'already booked' : 'not booked yet' }}
               </li>
-              <li>Handling Bandara PP: {{ parsed.handlingBandara ? 'Ya' : 'Tidak' }}</li>
-              <li>Pemandu / Pembimbing: {{ parsed.pembimbing ? `Ya, ${parsed.pembimbingDays ?? 1} hari` : 'Tidak' }}</li>
-              <li>Transport Jabal Khandamah PP: {{ parsed.jabalKhandamah ? 'Ya' : 'Tidak' }}</li>
-              <li>City Tour Makkah: {{ parsed.cityTour ? 'Ya' : 'Tidak' }}</li>
+              <li>Airport Handling (return): {{ parsed.handlingBandara ? 'Yes' : 'No' }}</li>
+              <li>Guide: {{ parsed.pembimbing ? `Yes, ${parsed.pembimbingDays ?? 1} days` : 'No' }}</li>
+              <li>Jabal Khandamah Transport (return): {{ parsed.jabalKhandamah ? 'Yes' : 'No' }}</li>
+              <li>Makkah City Tour: {{ parsed.cityTour ? 'Yes' : 'No' }}</li>
             </ul>
 
             <p v-if="isOverCapacity" class="mt-4 rounded-xl bg-secondary-100/60 p-3 text-xs text-primary-700">
-              Rombongan lebih dari 4 orang — tabel LPP hanya sampai Berempat. Hubungi tim untuk penyesuaian harga, kalkulator ini memakai rate Berempat sebagai perkiraan kasar.
+              Group larger than 4 — the LPP table only goes up to four. Check with the team for adjusted pricing; this calculator uses the four-person rate as a rough estimate.
             </p>
           </div>
         </div>
 
         <div class="rounded-3xl border border-primary-100 bg-white/60 p-8 shadow-soft">
-          <p class="font-display text-lg font-semibold text-primary">Rincian Harga</p>
+          <p class="font-display text-lg font-semibold text-primary">Price Breakdown</p>
 
           <div v-if="!quote" class="mt-4 text-sm text-ink/50">
-            Tempel pesan WhatsApp lalu klik "Baca Pesan" untuk mulai menghitung.
+            Paste a WhatsApp message and click "Read Message" to start calculating.
           </div>
 
           <div v-else class="mt-4 space-y-3">
@@ -86,17 +86,17 @@ const inputClass = 'mt-2 w-full rounded-xl border border-primary-100 bg-backgrou
 
             <div class="pt-2">
               <div class="flex items-baseline justify-between">
-                <span class="text-sm text-ink/70">Harga per Jemaah</span>
+                <span class="text-sm text-ink/70">Price per Pilgrim</span>
                 <span class="font-display text-xl font-bold text-primary">{{ formatRupiah(quote.perJemaahTotal) }}</span>
               </div>
               <div class="mt-2 flex items-baseline justify-between">
-                <span class="text-sm text-ink/70">Total Rombongan ({{ quote.pax }} orang)</span>
+                <span class="text-sm text-ink/70">Group Total ({{ quote.pax }} pax)</span>
                 <span class="font-display text-2xl font-bold text-primary">{{ formatRupiah(quote.grandTotal) }}</span>
               </div>
             </div>
 
             <p class="pt-2 text-xs text-ink/40">
-              Belum termasuk penerbangan PP. Sumber rate: LPP September 2026 — cek kembali kalau sudah lewat bulan berjalan.
+              Excludes return flights. Rates from LPP September 2026 — re-check once the month has passed.
             </p>
           </div>
         </div>
