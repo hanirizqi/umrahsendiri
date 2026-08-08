@@ -1,7 +1,7 @@
 import {
   GA4_MEASUREMENT_ID,
-  WHATSAPP_CLICK_CONVERSION_LABEL,
-  WHATSAPP_FORM_CONVERSION_LABEL,
+  WHATSAPP_CLICK_CONVERSION,
+  WHATSAPP_FORM_CONVERSION,
 } from '~/constants/analytics'
 
 declare global {
@@ -29,7 +29,7 @@ function send(...args: unknown[]) {
  * selesai sendiri tanpa siapa pun menunggu. Batas waktu 1 detik menjaga jemaah
  * dari menunggu tanpa ujung saat gtag ditahan pemblokir iklan.
  */
-function sendAndWait(label: string): Promise<void> {
+function sendAndWait(sendTo: string): Promise<void> {
   return new Promise((resolve) => {
     let settled = false
     const finish = () => {
@@ -39,7 +39,7 @@ function sendAndWait(label: string): Promise<void> {
     }
 
     const dispatched = send('event', 'conversion', {
-      send_to: label,
+      send_to: sendTo,
       event_callback: finish,
     })
 
@@ -55,16 +55,22 @@ function sendAndWait(label: string): Promise<void> {
 /**
  * Klik tombol WhatsApp mana pun di situs publik. `source` menandai tombol yang
  * diklik, supaya di GA4 terlihat tombol mana yang menghasilkan percakapan.
+ *
+ * Google Ads baru ikut dilapori setelah conversion action-nya sendiri dibuat —
+ * alasannya ada di `~/constants/analytics`.
  */
 export function reportWhatsappClick(source: string) {
-  send('event', 'conversion', { send_to: WHATSAPP_CLICK_CONVERSION_LABEL })
   send('event', 'whatsapp_click', { send_to: GA4_MEASUREMENT_ID, source })
+  if (WHATSAPP_CLICK_CONVERSION) {
+    send('event', 'conversion', { send_to: WHATSAPP_CLICK_CONVERSION })
+  }
 }
 
 /** Sama dengan di atas, untuk tautan yang berpindah di tab yang sama. */
 export function reportWhatsappClickBeforeLeaving(source: string): Promise<void> {
   send('event', 'whatsapp_click', { send_to: GA4_MEASUREMENT_ID, source })
-  return sendAndWait(WHATSAPP_CLICK_CONVERSION_LABEL)
+  if (!WHATSAPP_CLICK_CONVERSION) return Promise.resolve()
+  return sendAndWait(WHATSAPP_CLICK_CONVERSION)
 }
 
 /**
@@ -73,5 +79,5 @@ export function reportWhatsappClickBeforeLeaving(source: string): Promise<void> 
  */
 export function reportWhatsappFormConversion(): Promise<void> {
   send('event', 'generate_lead', { send_to: GA4_MEASUREMENT_ID })
-  return sendAndWait(WHATSAPP_FORM_CONVERSION_LABEL)
+  return sendAndWait(WHATSAPP_FORM_CONVERSION)
 }

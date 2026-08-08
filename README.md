@@ -140,7 +140,7 @@ Dua peristiwa yang dicatat, keduanya lewat `app/composables/useAnalytics.ts`:
 | Peristiwa | Google Ads | GA4 |
 |---|---|---|
 | Form kontak tersimpan sebagai lead | conversion | `generate_lead` |
-| Klik tombol WhatsApp mana pun | conversion | `whatsapp_click` (+ `source`) |
+| Klik tombol WhatsApp mana pun | belum — lihat di bawah | `whatsapp_click` (+ `source`) |
 
 Tombol WhatsApp tidak pernah memanggil gtag sendiri. Semuanya dipasang lewat `cta()` dari `useWhatsapp`, yang mengembalikan `href` sekaligus pencatatnya:
 
@@ -152,7 +152,9 @@ Menambah tombol WhatsApp baru berarti memakai helper yang sama, jadi tidak ada t
 
 Tombol berbagi ke WhatsApp (`ShareButtons`) dan tautan WhatsApp di panel admin sengaja tidak dicatat: yang pertama berbagi artikel, yang kedua dipakai staf menghubungi lead.
 
-Di Google Ads, klik tombol dan pengiriman form saat ini memakai **conversion action yang sama**. Keduanya bukan sinyal setara — lihat catatan di `app/constants/analytics.ts` sebelum menafsirkan angkanya.
+Klik tombol WhatsApp **belum dilaporkan ke Google Ads sama sekali**, dan sengaja tidak dititipkan ke conversion action milik form. Keduanya bukan sinyal setara: yang satu baru niat, yang lain lead lengkap tersimpan di database. Mencampurnya mengajari Google mengejar konversi yang paling murah didapat — dan di akun yang belum punya riwayat konversi, sinyal paling awal itulah yang membentuk fase belajarnya.
+
+Untuk mengaktifkannya: buat conversion action terpisah di Google Ads, isi `WHATSAPP_CLICK_CONVERSION` di `app/constants/analytics.ts` dengan `AW-…/<label baru>`, lalu jadikan pengiriman form sebagai konversi utama yang dioptimalkan dan klik tombol sebagai penanda sekunder. Selama konstanta itu kosong, GA4 tetap mencatat setiap klik lewat `whatsapp_click`, jadi tidak ada data yang hilang.
 
 ## Deployment
 
