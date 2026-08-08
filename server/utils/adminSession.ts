@@ -32,6 +32,22 @@ export function useAdminSession(event: H3Event) {
 export const SESSION_PASSWORD_MIN_LENGTH = 32
 
 /**
+ * Membedakan variabel yang memang belum pernah diisi dari variabel yang ada
+ * tapi tiba kosong.
+ *
+ * Keduanya sama-sama terlihat "kosong" dari sisi aplikasi, tapi tindakan
+ * perbaikannya berbeda jauh. Yang kedua hampir selalu berarti nilainya sampai
+ * ke Docker lalu ditelan: `$` di dalam nilai ditafsirkan sebagai rujukan
+ * variabel lain dan diganti string kosong, sementara di layar Coolify nilainya
+ * tetap terlihat utuh. Tanpa dibedakan begini, satu-satunya jalan keluar dari
+ * kekeliruan itu adalah menebak.
+ */
+function describeEmpty(name: string): string {
+  if (!(name in process.env)) return `${name} (belum diisi di Coolify)`
+  return `${name} (terisi di Coolify tapi tiba kosong — periksa centang "Available at Runtime", dan ganti nilainya kalau mengandung tanda $)`
+}
+
+/**
  * Konfigurasi panel admin yang belum beres, disebut dengan nama environment
  * variable-nya supaya bisa langsung dicocokkan dengan isian di Coolify.
  * Kunci yang terisi tapi terlalu pendek ikut dilaporkan: h3 baru menolaknya
@@ -42,11 +58,11 @@ export function adminAuthConfigProblems(): string[] {
   const { internalAuthUser, internalAuthPassword, sessionPassword } = useRuntimeConfig()
   const problems: string[] = []
 
-  if (!internalAuthUser) problems.push('NUXT_INTERNAL_AUTH_USER (kosong)')
-  if (!internalAuthPassword) problems.push('NUXT_INTERNAL_AUTH_PASSWORD (kosong)')
+  if (!internalAuthUser) problems.push(describeEmpty('NUXT_INTERNAL_AUTH_USER'))
+  if (!internalAuthPassword) problems.push(describeEmpty('NUXT_INTERNAL_AUTH_PASSWORD'))
 
   if (!sessionPassword) {
-    problems.push('NUXT_SESSION_PASSWORD (kosong)')
+    problems.push(describeEmpty('NUXT_SESSION_PASSWORD'))
   }
   else if (sessionPassword.length < SESSION_PASSWORD_MIN_LENGTH) {
     problems.push(`NUXT_SESSION_PASSWORD (${sessionPassword.length} karakter, minimal ${SESSION_PASSWORD_MIN_LENGTH})`)

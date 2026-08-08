@@ -13,7 +13,13 @@ export default defineNitroPlugin(() => {
   if (import.meta.prerender) return
 
   const problems = adminAuthConfigProblems()
-  if (!process.env.DATABASE_URL) problems.push('DATABASE_URL (kosong)')
+  if (!process.env.DATABASE_URL) {
+    problems.push(
+      'DATABASE_URL' in process.env
+        ? 'DATABASE_URL (terisi di Coolify tapi tiba kosong — periksa centang "Available at Runtime", dan ganti nilainya kalau mengandung tanda $)'
+        : 'DATABASE_URL (belum diisi di Coolify)',
+    )
+  }
 
   if (!problems.length) {
     console.log('[config] Environment variable wajib sudah lengkap.')
