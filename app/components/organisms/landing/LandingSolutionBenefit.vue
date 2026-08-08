@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { link } = useWhatsapp()
+const { cta } = useWhatsapp()
 
 const POINTS = [
   { icon: 'lucide:compass', text: 'Kontrol penuh atas setiap keputusan perjalanan Anda' },
@@ -25,7 +25,7 @@ const POINTS = [
         </div>
       </div>
 
-      <AppButton :href="link()" variant="secondary" size="lg" class="mt-8 w-full sm:w-auto">
+      <AppButton v-bind="cta('landing_solution')" variant="secondary" size="lg" class="mt-8 w-full sm:w-auto">
         Mulai Konsultasi Gratis
       </AppButton>
     </div>

@@ -86,7 +86,7 @@ app/
     organisms/          Blok halaman penuh (header, footer, hero)
       landing/          Blok khusus landing ads (/start)
       sections/          Blok section untuk home & halaman lain
-  composables/        useJsonLd, useReadingTime, useWhatsapp, useAttribution
+  composables/        useJsonLd, useReadingTime, useWhatsapp, useAttribution, useAnalytics
   plugins/            attribution.client (menangkap asal-usul di kunjungan pertama)
   constants/          Data statis (nav, faqs, services, dst.)
   layouts/            default (halaman umum), landing (/start), admin (panel staf)
@@ -130,6 +130,29 @@ docs/DEPLOYMENT.md     Runbook produksi: environment variable, 503, rotasi kata 
 | `/[...slug]` | 404 |
 
 URL lama berbahasa Indonesia (`/tentang`, `/layanan`, `/cara-kerja`, `/kontak`, `/mulai`, `/artikel`, `/internal/*`) tetap hidup lewat **redirect 301** yang didefinisikan di `routeRules` pada `nuxt.config.ts`. Jangan dihapus — situs sudah terindeks dan tautan iklan lama masih bisa menunjuk ke sana.
+
+## Pelacakan Konversi
+
+Satu `gtag.js` melayani dua tujuan sekaligus, keduanya di-config di `nuxt.config.ts` dan ID-nya tersimpan di `app/constants/analytics.ts`: **Google Ads** untuk konversi iklan dan **GA4** untuk perilaku pengunjung. Setiap event diarahkan lewat `send_to`, jadi tidak ada yang bocor ke tujuan yang salah.
+
+Dua peristiwa yang dicatat, keduanya lewat `app/composables/useAnalytics.ts`:
+
+| Peristiwa | Google Ads | GA4 |
+|---|---|---|
+| Form kontak tersimpan sebagai lead | conversion | `generate_lead` |
+| Klik tombol WhatsApp mana pun | conversion | `whatsapp_click` (+ `source`) |
+
+Tombol WhatsApp tidak pernah memanggil gtag sendiri. Semuanya dipasang lewat `cta()` dari `useWhatsapp`, yang mengembalikan `href` sekaligus pencatatnya:
+
+```vue
+<AppButton v-bind="cta('sticky_bottom')">Konsultasi Gratis via WhatsApp</AppButton>
+```
+
+Menambah tombol WhatsApp baru berarti memakai helper yang sama, jadi tidak ada tombol yang tertinggal tanpa pencatatan. Isi `source` dengan nama yang menjelaskan letak tombolnya — itulah yang membedakan tombol satu dengan lainnya di GA4.
+
+Tombol berbagi ke WhatsApp (`ShareButtons`) dan tautan WhatsApp di panel admin sengaja tidak dicatat: yang pertama berbagi artikel, yang kedua dipakai staf menghubungi lead.
+
+Di Google Ads, klik tombol dan pengiriman form saat ini memakai **conversion action yang sama**. Keduanya bukan sinyal setara — lihat catatan di `app/constants/analytics.ts` sebelum menafsirkan angkanya.
 
 ## Deployment
 

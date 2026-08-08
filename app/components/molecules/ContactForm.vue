@@ -221,6 +221,16 @@ function goToWhatsapp() {
   if (pendingWhatsappUrl.value) window.location.href = pendingWhatsappUrl.value
 }
 
+/**
+ * Jalur gagal-simpan: lead tidak masuk database, jadi konversi form tidak
+ * pernah dilaporkan — padahal jemaahnya tetap sampai ke WhatsApp. Dicatat
+ * sebagai klik biasa, dan ditunggu dulu karena halaman ini ikut ditinggalkan.
+ */
+async function goToWhatsappUnsaved() {
+  await reportWhatsappClickBeforeLeaving('contact_form_fallback')
+  goToWhatsapp()
+}
+
 async function handleSubmit() {
   if (!isFormValid.value || status.value === 'sending') return
 
@@ -461,7 +471,7 @@ const checkboxClass = 'size-4 rounded border-primary-100 accent-primary'
       />
     </AppButton>
 
-    <AppButton v-if="status === 'error'" variant="ghost" size="lg" class="w-full" @click="goToWhatsapp">
+    <AppButton v-if="status === 'error'" variant="ghost" size="lg" class="w-full" @click="goToWhatsappUnsaved">
       Lanjut ke WhatsApp tanpa menyimpan
       <Icon name="lucide:message-circle" class="size-4" />
     </AppButton>

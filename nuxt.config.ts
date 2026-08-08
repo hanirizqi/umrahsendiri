@@ -1,4 +1,5 @@
 import tailwindcss from '@tailwindcss/vite'
+import { GA4_MEASUREMENT_ID, GOOGLE_ADS_ID } from './app/constants/analytics'
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
@@ -32,12 +33,16 @@ export default defineNuxtConfig({
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
       ],
       script: [
-        { src: 'https://www.googletagmanager.com/gtag/js?id=AW-18371371265', async: true },
+        // Satu gtag.js melayani dua tujuan: Google Ads untuk konversi iklan dan
+        // GA4 untuk perilaku pengunjung. Keduanya di-config terpisah agar setiap
+        // event bisa diarahkan ke salah satunya lewat send_to.
+        { src: `https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_ID}`, async: true },
         {
           innerHTML: 'window.dataLayer = window.dataLayer || [];'
             + 'function gtag(){dataLayer.push(arguments);}'
             + 'gtag(\'js\', new Date());'
-            + 'gtag(\'config\', \'AW-18371371265\');',
+            + `gtag('config', '${GOOGLE_ADS_ID}');`
+            + `gtag('config', '${GA4_MEASUREMENT_ID}');`,
         },
       ],
     },

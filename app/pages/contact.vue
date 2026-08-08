@@ -1,15 +1,24 @@
 <script setup lang="ts">
 import { SITE } from '~/constants/site'
 
-const { link } = useWhatsapp()
+const { cta } = useWhatsapp()
 
 useSeoMeta({
   title: 'Kontak UmrahSendiri',
   description: 'Hubungi UmrahSendiri untuk konsultasi awal perencanaan umrah mandiri Anda, via WhatsApp atau email.',
 })
 
-const CONTACT_CHANNELS = [
-  { icon: 'lucide:message-circle', label: 'WhatsApp', value: '+62 811-9000-0283', href: link() },
+interface ContactChannel {
+  icon: string
+  label: string
+  value: string
+  href: string
+  /** Hanya saluran WhatsApp yang mencatat konversi; dua sisanya tautan biasa. */
+  onClick?: () => void
+}
+
+const CONTACT_CHANNELS: ContactChannel[] = [
+  { icon: 'lucide:message-circle', label: 'WhatsApp', value: '+62 811-9000-0283', ...cta('contact_channel') },
   { icon: 'lucide:mail', label: 'Email', value: SITE.email, href: `mailto:${SITE.email}` },
   { icon: 'lucide:instagram', label: 'Instagram', value: '@umrah_sendiri', href: SITE.instagram },
 ]
@@ -41,6 +50,7 @@ const CONTACT_CHANNELS = [
               :key="channel.label"
               :href="channel.href"
               target="_blank"
+              @click="channel.onClick?.()"
               rel="noopener noreferrer"
               class="flex items-center gap-4 rounded-2xl border border-primary-100 bg-white/60 p-6 transition-colors hover:border-secondary-600/40"
             >

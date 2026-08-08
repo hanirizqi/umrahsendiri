@@ -11,12 +11,13 @@ useSeoMeta({
   robots: 'noindex, nofollow',
 })
 
-const { link } = useWhatsapp()
+const { cta } = useWhatsapp()
 function printPage() {
   window.print()
 }
 
-const waHref = computed(() => link(
+const waCta = computed(() => cta(
+  'quote_view',
   data.value
     ? `Assalamualaikum, saya ${data.value.name}. Saya sudah melihat penawaran ${data.value.quoteNumber} dan ingin bertanya lebih lanjut.`
     : undefined,
@@ -32,7 +33,7 @@ const waHref = computed(() => link(
         <p class="mt-2 text-sm text-ink/60">
           Tautannya mungkin sudah tidak berlaku. Silakan hubungi kami untuk penawaran terbaru.
         </p>
-        <AppButton :href="link()" variant="primary" class="mt-6">
+        <AppButton v-bind="cta('quote_expired')" variant="primary" class="mt-6">
           Hubungi via WhatsApp
           <Icon name="lucide:message-circle" class="size-4" />
         </AppButton>
@@ -52,7 +53,7 @@ const waHref = computed(() => link(
         />
 
         <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center print:hidden">
-          <AppButton :href="waHref" variant="primary" size="lg">
+          <AppButton v-bind="waCta" variant="primary" size="lg">
             Tanya via WhatsApp
             <Icon name="lucide:message-circle" class="size-4" />
           </AppButton>

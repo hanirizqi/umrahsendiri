@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { HOME_STATS } from '~/constants/faqs'
 
-const { link } = useWhatsapp()
+const { cta } = useWhatsapp()
 </script>
 
 <template>
@@ -17,7 +17,7 @@ const { link } = useWhatsapp()
         Hotel, visa, transportasi, dan pembimbing — pilih sesuai kebutuhan Anda. Konsultasi awal tanpa kewajiban apa pun.
       </p>
 
-      <AppButton :href="link()" variant="primary" size="lg" class="mt-8 w-full sm:w-auto">
+      <AppButton v-bind="cta('landing_hero')" variant="primary" size="lg" class="mt-8 w-full sm:w-auto">
         Konsultasi Gratis via WhatsApp
         <Icon name="lucide:arrow-right" class="size-4" />
       </AppButton>
