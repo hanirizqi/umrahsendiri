@@ -1,0 +1,1 @@
+ALTER TABLE "services" ADD COLUMN "category" text DEFAULT 'tambahan' NOT NULL;

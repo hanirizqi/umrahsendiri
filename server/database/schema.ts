@@ -11,6 +11,15 @@ export const services = pgTable('services', {
   description: text('description'),
   /** per_pax | per_pax_malam | per_pax_hari — menentukan arti kolom quantity */
   pricingUnit: text('pricing_unit').notNull().default('per_pax'),
+  /**
+   * inti | akomodasi | tambahan — pengelompokan untuk pembacaan manusia.
+   *
+   * Disimpan sebagai data, bukan disimpulkan dari kode layanan di sisi tampilan:
+   * layanan baru akan ditambahkan seiring waktu, dan aturan tebakan apa pun
+   * akan salah menempatkannya tanpa ada yang menyadari. Nilai bawaannya
+   * "tambahan" — kelompok yang paling tidak mengejutkan untuk layanan baru.
+   */
+  category: text('category').notNull().default('tambahan'),
   needsHotelTier: boolean('needs_hotel_tier').notNull().default(false),
   isActive: boolean('is_active').notNull().default(true),
   sortOrder: integer('sort_order').notNull().default(0),

@@ -37,7 +37,11 @@ export default defineNitroPlugin(async () => {
 
   try {
     const result = await seedCatalog(db)
-    console.log(`[db] Katalog siap — ${result.services} layanan, ${result.rates} tarif.`)
+    console.log(
+      result.seededRates
+        ? `[db] Katalog siap — ${result.services} layanan, ${result.rates} tarif dibekalkan ke periode kosong.`
+        : `[db] Katalog siap — ${result.services} layanan. Tarif dibiarkan apa adanya (${result.rates} baris), dikelola lewat panel admin.`,
+    )
   }
   catch (error) {
     console.error('[db] Pengisian katalog gagal. Pembuatan penawaran tidak akan berfungsi.', error)

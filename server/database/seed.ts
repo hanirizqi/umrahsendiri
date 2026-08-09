@@ -2,12 +2,17 @@ import { eq, sql } from 'drizzle-orm'
 import { ratePeriods, rates, services } from './schema'
 
 /**
- * Katalog layanan dan tarif LPP.
+ * Katalog layanan dan tarif LPP awal.
  *
- * Ini sumber kebenaran tarif untuk saat ini: perbarui angkanya di sini, deploy,
- * dan tarif produksi ikut diperbarui. Begitu ada layar pengelola tarif di panel
- * admin, penyemaian otomatis di server/plugins/migrate.ts harus dimatikan supaya
- * tidak menimpa perubahan yang dilakukan lewat panel.
+ * Sejak ada layar pengelola tarif di panel admin, berkas ini **bukan lagi sumber
+ * kebenaran tarif** — panel yang memegangnya. Yang tersisa di sini adalah bekal
+ * awal: katalog layanan, dan satu periode tarif untuk database yang masih kosong.
+ *
+ * Tarif hanya ditulis kalau periodenya belum punya tarif sama sekali. Tanpa
+ * syarat itu, setiap deploy akan menghapus dan menulis ulang seluruh tarif
+ * periode tersebut, dan pekerjaan yang dilakukan lewat panel lenyap tanpa
+ * seorang pun tahu. Katalog layanan tetap di-upsert karena tidak disunting
+ * lewat panel dan namanya ikut dipakai di halaman publik.
  */
 
 const SERVICES = [
@@ -17,14 +22,16 @@ const SERVICES = [
     description: 'Transportasi 3 rute (Bandara Jeddah–Makkah Hotel, Makkah Hotel–Madinah Hotel, Madinah Hotel–Bandara Jeddah), paket dokumen wajib (Visa Umrah, Siskopatuh, Asuransi Kesehatan Arab Saudi), dan pembimbing umrah + manasik online (untuk 1x pelaksanaan umrah).',
     pricingUnit: 'per_pax',
     needsHotelTier: false,
+    category: 'inti',
     sortOrder: 1,
   },
   {
     code: 'hotel',
-    name: 'Hotel (termasuk makan 3x sehari)',
-    description: null,
+    name: 'Hotel',
+    description: 'Termasuk makan 3x sehari.',
     pricingUnit: 'per_pax_malam',
     needsHotelTier: true,
+    category: 'akomodasi',
     sortOrder: 2,
   },
   {
@@ -33,6 +40,7 @@ const SERVICES = [
     description: 'Tarif per hari, maksimal 9 jam. Pembimbing WNI (orang Indonesia).',
     pricingUnit: 'per_pax_hari',
     needsHotelTier: false,
+    category: 'tambahan',
     sortOrder: 3,
   },
   {
@@ -41,6 +49,7 @@ const SERVICES = [
     description: 'Termasuk makan saat kedatangan dan kepulangan, serta air zamzam saat kepulangan.',
     pricingUnit: 'per_pax',
     needsHotelTier: false,
+    category: 'tambahan',
     sortOrder: 4,
   },
   {
@@ -49,6 +58,7 @@ const SERVICES = [
     description: 'Driver berbahasa Inggris.',
     pricingUnit: 'per_pax',
     needsHotelTier: false,
+    category: 'tambahan',
     sortOrder: 5,
   },
   {
@@ -57,6 +67,7 @@ const SERVICES = [
     description: 'Driver berbahasa Inggris.',
     pricingUnit: 'per_pax',
     needsHotelTier: false,
+    category: 'tambahan',
     sortOrder: 6,
   },
 ]
@@ -95,6 +106,7 @@ export async function seedCatalog(db: ReturnType<typeof useDb>) {
         description: s.description,
         pricingUnit: s.pricingUnit,
         needsHotelTier: s.needsHotelTier,
+        category: s.category,
         sortOrder: s.sortOrder,
         updatedAt: new Date(),
       },
@@ -139,12 +151,25 @@ export async function seedCatalog(db: ReturnType<typeof useDb>) {
     }
   }
 
-  // Diganti utuh, bukan di-upsert: hotel_tier dan city bernilai NULL untuk
-  // layanan non-hotel, dan ON CONFLICT tidak pernah cocok pada kolom NULL —
-  // sehingga tiap penyemaian justru akan menumpuk baris duplikat.
-  await db.delete(rates).where(eq(rates.ratePeriodId, period.id))
+  /**
+   * Hanya membekali periode yang masih kosong.
+   *
+   * Sekali periode ini punya tarif — entah dari penyemaian pertama atau dari
+   * panel admin — berkas ini tidak pernah menyentuhnya lagi. Itulah yang
+   * membuat tarif yang disunting lewat panel selamat dari deploy berikutnya,
+   * sekaligus membuat database yang benar-benar baru tetap langsung bisa
+   * membuat penawaran tanpa siapa pun mengisi apa pun lebih dulu.
+   */
+  const [existing] = await db
+    .select({ count: sql<number>`count(*)::int` })
+    .from(rates)
+    .where(eq(rates.ratePeriodId, period.id))
+
+  if (existing?.count) {
+    return { services: SERVICES.length, rates: existing.count, seededRates: false }
+  }
+
   await db.insert(rates).values(rows)
 
-  const [counted] = await db.select({ count: sql<number>`count(*)::int` }).from(rates)
-  return { services: SERVICES.length, rates: counted?.count ?? 0 }
+  return { services: SERVICES.length, rates: rows.length, seededRates: true }
 }

@@ -2,6 +2,7 @@
 const ADMIN_NAV = [
   { label: 'Leads', to: '/admin/leads', icon: 'lucide:inbox' },
   { label: 'Contacts', to: '/admin/contacts', icon: 'lucide:users' },
+  { label: 'LPP Rates', to: '/admin/rates', icon: 'lucide:receipt-text' },
   { label: 'Price Calculator', to: '/admin/price-calculator', icon: 'lucide:calculator' },
 ]
 
