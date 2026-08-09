@@ -77,3 +77,30 @@ yang tidak semestinya. Keduanya cukup diganti di satu tempat:
 
 Scheduled Backup aktif di layanan Postgres Coolify. Backup masih tersimpan di server
 yang sama — belum offsite, dan proses restore-nya belum pernah diuji sekali pun.
+
+### Memulihkan backup: satu hal yang harus diperiksa dulu
+
+Drizzle mencatat migrasi yang sudah diterapkan di tabel `drizzle.__drizzle_migrations`,
+dan hanya menjalankan yang belum tercatat di sana. Catatan itu ikut tersimpan di dalam
+backup.
+
+Akibatnya: **backup yang diambil sebelum sebuah migrasi berjalan tidak memuat catatan
+bahwa migrasi itu sudah diterapkan.** Memulihkannya lalu menghidupkan aplikasi akan
+menjalankan migrasi tersebut sekali lagi. Untuk migrasi skema itu tidak masalah, tapi
+`0003` dan `0005` menghapus data — dan kali kedua yang terhapus bukan lagi data uji
+coba.
+
+Sebelum memulihkan backup apa pun, periksa isinya:
+
+```sql
+SELECT hash, to_timestamp(created_at/1000) FROM drizzle.__drizzle_migrations ORDER BY id;
+```
+
+Kalau jumlah barisnya lebih sedikit daripada jumlah berkas di
+`server/database/migrations/`, ada migrasi yang akan berjalan setelah pemulihan.
+Periksa berkasnya lebih dulu — kalau ada `DELETE`, jangan hidupkan aplikasi sebelum
+barisnya ditambahkan manual ke tabel itu.
+
+Cara paling sederhana menghindari seluruh persoalan ini: lakukan uji restore **setelah**
+migrasi penghapus data ikut ter-deploy, sehingga backup tertua yang Anda pegang sudah
+memuat catatannya.

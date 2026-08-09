@@ -4,6 +4,8 @@ Situs Nuxt Content untuk **UmrahSendiri** — *umrah mandiri planner*: layanan u
 
 Detail riset, positioning, sitemap, dan design system ada di [docs/strategy.md](docs/strategy.md).
 
+**Baru di proyek ini?** Mulai dari [docs/HANDOVER.md](docs/HANDOVER.md) — keadaan sekarang, pekerjaan yang terbuka, dan jebakan yang sudah pernah menggigit.
+
 ## Tech Stack
 
 - [Nuxt 4](https://nuxt.com) + Vue 3 (compatibility version 4)
@@ -63,8 +65,6 @@ Migrasi dan pengisian katalog berjalan sendiri saat aplikasi start lewat `server
 | `npm run db:migrate` | Menerapkan migrasi secara manual (biasanya tidak perlu) |
 | `npm run db:studio` | Menjelajah isi database lewat peramban |
 
-Di produksi, database dibuat sebagai layanan PostgreSQL terpisah di Coolify. **Aktifkan Scheduled Backup di layanan tersebut** — inilah alasan memilih Postgres ketimbang SQLite.
-
 Di produksi keempat variabel diset lewat **Coolify → Environment Variables**, bukan lewat file, dan masing-masing harus ditandai **Available at Runtime** — nilai yang hanya tersedia saat build tidak terbaca oleh proses yang melayani permintaan. Nilai lokal dan produksi berdiri sendiri; mengubah salah satunya tidak memengaruhi yang lain.
 
 Perlindungan ini **gagal-tertutup**: kalau salah satu variabel kosong — atau `NUXT_SESSION_PASSWORD` lebih pendek dari 32 karakter — seluruh route `/admin/**` menjawab `503` dan tidak bisa dibuka siapa pun. Ini disengaja: panel admin memuat daftar tarif yang tidak ditampilkan ke publik.
@@ -74,6 +74,16 @@ Jawaban `503` itu sengaja tidak menyebut variabel mana yang bermasalah, karena r
 Langkah penanganan 503, cara memutar kata sandi, dan checklist sebelum deploy ada di [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 Panel memakai sesi berbasis cookie dengan halaman masuk di `/admin/login`, berlaku 12 jam. Pemeriksaan kredensial masih dari environment variable; nanti pindah ke tabel `staff_users` saat autentikasi berbasis database tersedia, sedangkan lapisan sesinya tetap dipakai.
+
+### Tarif LPP
+
+Tarif dikelola lewat **panel admin** di `/admin/rates`, bukan lewat kode. Tiap terbitan LPP jadi satu periode; cara tercepat membuat yang baru adalah menyalin periode sebelumnya lalu mengubah angka yang berganti. Struktur tiap periode berdiri sendiri — layanan bisa ditambah atau dihentikan, dan bintang hotel tidak dikunci pada 3–5.
+
+`server/database/seed.ts` hanya membekali periode yang **belum punya tarif sama sekali**. Database baru langsung bisa membuat penawaran tanpa siapa pun mengisi apa pun, sementara tarif yang sudah disunting lewat panel tidak pernah ditimpa deploy berikutnya. Katalog layanan tetap di-upsert tiap start karena tidak disunting lewat panel.
+
+Periode baru selalu lahir belum terbit, dan periode tanpa tarif tidak bisa diterbitkan. Penawaran memakai periode terbit dengan `effectiveFrom` terbaru, dan menyalin harganya saat dibuat — jadi menyunting periode tidak pernah mengubah penawaran yang sudah dikirim ke jemaah.
+
+Di produksi, database dibuat sebagai layanan PostgreSQL terpisah di Coolify. **Aktifkan Scheduled Backup di layanan tersebut** — inilah alasan memilih Postgres ketimbang SQLite. Sebelum memulihkan backup, baca dulu [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) bagian restore: migrasi penghapus data bisa berjalan ulang pada database hasil pemulihan.
 
 ## Struktur Proyek
 
@@ -86,7 +96,7 @@ app/
     organisms/          Blok halaman penuh (header, footer, hero)
       landing/          Blok khusus landing ads (/start)
       sections/          Blok section untuk home & halaman lain
-  composables/        useJsonLd, useReadingTime, useWhatsapp, useAttribution, useAnalytics
+  composables/        useJsonLd, useReadingTime, useWhatsapp, useAttribution, useAnalytics, usePriceCalculator
   plugins/            attribution.client (menangkap asal-usul di kunjungan pertama)
   constants/          Data statis (nav, faqs, services, dst.)
   layouts/            default (halaman umum), landing (/start), admin (panel staf)
@@ -101,7 +111,7 @@ server/
   database/            Skema Drizzle, migrasi, dan seed katalog layanan
   middleware/          Penjaga sesi untuk /admin/**
   plugins/             Migrasi saat start, pemeriksa kelengkapan environment
-  utils/               Koneksi database, sesi admin, pembatas laju
+  utils/               Koneksi database, sesi admin, pembatas laju, penomoran dokumen, normalisasi nomor HP
 drizzle.config.ts      Konfigurasi Drizzle Kit
 public/                Aset statis (favicon, gambar, brand assets)
 docs/strategy.md       Riset UX, positioning, sitemap, design system
@@ -125,7 +135,11 @@ docs/DEPLOYMENT.md     Runbook produksi: environment variable, 503, rotasi kata 
 | `/terms` | Terms of Service |
 | `/admin/login` | Halaman masuk panel admin (noindex) |
 | `/admin/leads` | Daftar lead masuk beserta asal-usulnya (noindex, perlu sesi) |
-| `/admin/leads/[id]` | Detail lead, status, dan catatan tindak lanjut (noindex, perlu sesi) |
+| `/admin/leads/[id]` | Detail lead, status, penawaran, dan catatan tindak lanjut (noindex, perlu sesi) |
+| `/admin/contacts` | Satu baris per orang, dikenali nomor HP (noindex, perlu sesi) |
+| `/admin/contacts/[id]` | Seluruh pengiriman form dari orang tersebut (noindex, perlu sesi) |
+| `/admin/rates` | Daftar periode tarif LPP (noindex, perlu sesi) |
+| `/admin/rates/[id]` | Sunting tarif satu periode dan terbitkan (noindex, perlu sesi) |
 | `/admin/price-calculator` | Kalkulator harga untuk CS (noindex, perlu sesi — lihat [Environment](#environment)) |
 | `/[...slug]` | 404 |
 
