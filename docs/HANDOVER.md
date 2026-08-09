@@ -16,8 +16,11 @@ Terakhir diperbarui: 9 Agustus 2026.
 6. `README.md` — cara menjalankan, struktur, sitemap
 7. `docs/DEPLOYMENT.md` — environment variable, 503, rotasi kata sandi, restore
 
-`docs/ROADMAP.md` dan `docs/BACKLOG.md` **sudah usang** — lihat peringatan di
-dalamnya sebelum memakainya.
+Tidak ada berkas roadmap atau backlog. Keduanya pernah ada tapi isinya rencana
+dari positioning lama — Itinerary Builder, Packing Checklist, Budget Planner —
+dan dihapus 9 Agustus 2026 karena lebih menyesatkan daripada berguna. Kalau
+butuh melihatnya: `git show 8d5caa2:docs/ROADMAP.md`. Pekerjaan yang berlaku ada
+di bagian "Pekerjaan terbuka" di bawah.
 
 ## Keadaan sekarang
 
