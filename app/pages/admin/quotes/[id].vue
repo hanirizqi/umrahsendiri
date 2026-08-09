@@ -4,7 +4,40 @@ definePageMeta({ layout: 'admin' })
 const route = useRoute()
 const id = route.params.id as string
 
-const { data, error } = await useFetch(`/api/admin/quotes/${id}`)
+const { data, error, refresh } = await useFetch(`/api/admin/quotes/${id}`)
+
+const STATUS_OPTIONS = [
+  { value: 'draf', label: 'Draft' },
+  { value: 'terkirim', label: 'Sent' },
+  { value: 'disetujui', label: 'Approved' },
+  { value: 'kedaluwarsa', label: 'Expired' },
+]
+
+const status = ref(data.value?.quote.status ?? 'draf')
+const savingStatus = ref(false)
+
+async function setStatus(next: string) {
+  if (savingStatus.value || next === data.value?.quote.status) return
+  savingStatus.value = true
+  try {
+    await $fetch(`/api/admin/quotes/${id}`, { method: 'PATCH', body: { status: next } })
+    await refresh()
+    status.value = data.value?.quote.status ?? next
+  }
+  finally {
+    savingStatus.value = false
+  }
+}
+
+/**
+ * Mengirim tautan ke jemaah adalah saat penawaran ini berhenti jadi draf, jadi
+ * statusnya ditandai di sini juga — kalau menunggu diingat sebagai langkah
+ * terpisah, ia tidak akan pernah dilakukan dan setiap penawaran selamanya draf.
+ */
+async function markSentAndOpenWhatsapp() {
+  if (data.value?.quote.status === 'draf') await setStatus('terkirim')
+  if (waHref.value) window.open(waHref.value, '_blank', 'noopener')
+}
 
 useSeoMeta({
   title: data.value ? `${data.value.quote.quoteNumber} — Admin` : 'Quote — Admin',
@@ -82,16 +115,30 @@ function formatDateTime(value?: string | Date | null) {
             <Icon name="lucide:printer" class="size-4" />
             Print / PDF
           </AppButton>
-          <AppButton :href="waHref" variant="primary">
+          <AppButton variant="primary" :disabled="savingStatus" @click="markSentAndOpenWhatsapp">
             Send on WhatsApp
             <Icon name="lucide:send" class="size-4" />
           </AppButton>
         </div>
       </div>
 
-      <div class="mt-4 rounded-xl border border-primary-100 bg-primary-50/40 px-4 py-3 print:hidden">
-        <p class="text-xs text-ink/50">Link for the pilgrim</p>
-        <p class="mt-0.5 font-mono text-xs break-all text-ink/70">{{ shareUrl }}</p>
+      <div class="mt-4 flex flex-wrap items-center gap-3 rounded-xl border border-primary-100 bg-primary-50/40 px-4 py-3 print:hidden">
+        <div class="min-w-0 flex-1">
+          <p class="text-xs text-ink/50">Link for the pilgrim</p>
+          <p class="mt-0.5 font-mono text-xs break-all text-ink/70">{{ shareUrl }}</p>
+        </div>
+        <div class="shrink-0">
+          <label for="quoteStatus" class="block text-xs text-ink/50">Status</label>
+          <select
+            id="quoteStatus"
+            v-model="status"
+            :disabled="savingStatus"
+            class="mt-0.5 rounded-lg border border-primary-100 bg-background px-3 py-1.5 text-sm text-ink outline-none focus:border-secondary-600 disabled:opacity-50"
+            @change="setStatus(status)"
+          >
+            <option v-for="opt in STATUS_OPTIONS" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
+          </select>
+        </div>
       </div>
 
       <div class="mt-8">

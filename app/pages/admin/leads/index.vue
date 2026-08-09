@@ -91,14 +91,15 @@ function isFromAds(lead: { gclid?: string | null, utmSource?: string | null }) {
             <th class="px-5 py-3 font-semibold">Source</th>
             <th class="px-5 py-3 font-semibold">Status</th>
             <th class="px-5 py-3 font-semibold">Received</th>
+            <th class="px-5 py-3 text-right font-semibold">Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr v-if="pending">
-            <td colspan="6" class="px-5 py-10 text-center text-ink/50">Loading…</td>
+            <td colspan="7" class="px-5 py-10 text-center text-ink/50">Loading…</td>
           </tr>
           <tr v-else-if="!data?.leads.length">
-            <td colspan="6" class="px-5 py-10 text-center text-ink/50">
+            <td colspan="7" class="px-5 py-10 text-center text-ink/50">
               No leads match this filter yet.
             </td>
           </tr>
@@ -144,6 +145,16 @@ function isFromAds(lead: { gclid?: string | null, utmSource?: string | null }) {
               <LeadStatusBadge :status="lead.status" />
             </td>
             <td class="px-5 py-4 text-xs text-ink/50">{{ formatDate(lead.createdAt) }}</td>
+            <td class="px-5 py-4 text-right">
+              <NuxtLink
+                :to="`/admin/leads/${lead.id}`"
+                class="inline-flex size-9 items-center justify-center rounded-lg border border-primary-100 text-ink/50 transition-colors hover:border-primary/30 hover:bg-primary-50 hover:text-primary focus-visible:ring-2 focus-visible:ring-secondary-600 focus-visible:outline-none"
+                :aria-label="`View ${lead.name}`"
+                :title="`View ${lead.name}`"
+              >
+                <Icon name="lucide:eye" class="size-4" />
+              </NuxtLink>
+            </td>
           </tr>
         </tbody>
       </table>

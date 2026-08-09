@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const ADMIN_NAV = [
   { label: 'Leads', to: '/admin/leads', icon: 'lucide:inbox' },
+  { label: 'Contacts', to: '/admin/contacts', icon: 'lucide:users' },
   { label: 'Price Calculator', to: '/admin/price-calculator', icon: 'lucide:calculator' },
 ]
 
