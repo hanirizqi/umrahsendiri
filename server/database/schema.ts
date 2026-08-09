@@ -1,4 +1,4 @@
-import { bigint, boolean, index, integer, pgTable, smallint, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core'
+import { bigint, boolean, index, integer, pgTable, primaryKey, smallint, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core'
 
 /**
  * Katalog layanan. Menggantikan daftar yang sebelumnya di-hardcode di form kontak,
@@ -30,7 +30,16 @@ export const leads = pgTable('leads', {
   id: uuid('id').primaryKey().defaultRandom(),
   leadNumber: text('lead_number').notNull().unique(),
 
-  // Identitas
+  /**
+   * Orang yang mengirim. Sengaja boleh kosong: kalau penyatuan kontak gagal,
+   * lead-nya tetap harus tersimpan. Kehilangan satu lead jauh lebih mahal
+   * daripada kehilangan satu penghubung yang bisa dirapikan belakangan.
+   */
+  contactId: uuid('contact_id').references(() => contacts.id),
+
+  // Identitas. Disalin ke sini, bukan sekadar merujuk ke contacts, karena nama
+  // dan nomor yang ditulis saat itulah yang berlaku untuk lead ini — kalau
+  // orangnya menulis nama berbeda bulan depan, lead lama tidak ikut berubah.
   name: text('name').notNull(),
   phone: text('phone').notNull(),
   email: text('email'),
@@ -169,6 +178,55 @@ export const quoteItems = pgTable('quote_items', {
   sortOrder: integer('sort_order').notNull().default(0),
 }, table => [
   index('quote_items_quote_idx').on(table.quoteId),
+])
+
+/**
+ * Orang di balik lead, dikenali dari nomor HP-nya.
+ *
+ * Satu orang bisa mengisi form beberapa kali — September untuk rencana berdua,
+ * Oktober untuk rencana berlima. Tiap pengisian tetap jadi lead tersendiri
+ * karena masing-masing membawa atribusi iklan dan kebutuhan yang berbeda, dan
+ * menggabungkannya jadi satu baris akan menghapus jejak kampanye yang kedua.
+ * Yang disatukan adalah orangnya, lewat baris di sini.
+ *
+ * `phone` selalu bentuk ternormalisasi dari `normalizePhone()`, bukan apa yang
+ * diketik pengunjung — kalau tidak, `0812…` dan `+62812…` akan tersimpan sebagai
+ * dua orang berbeda.
+ */
+export const contacts = pgTable('contacts', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  phone: text('phone').notNull().unique(),
+  name: text('name').notNull(),
+  /**
+   * Nama ini pernah dibetulkan admin, jadi pengiriman form berikutnya tidak
+   * boleh menimpanya. Tanpa penanda ini, satu salah ketik dari jemaah akan
+   * menghapus pembetulan yang sudah dilakukan — dan orang yang membetulkannya
+   * tidak akan pernah tahu namanya berubah lagi.
+   */
+  nameSetManually: boolean('name_set_manually').notNull().default(false),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+})
+
+/**
+ * Pencacah nomor dokumen per jenis dan per tahun — `LD-2026-0042`, `PW-2026-0007`.
+ *
+ * Nomornya sengaja tidak lagi diturunkan dari `count(*)` baris yang ada. Kolom
+ * nomor bersifat UNIQUE, sedangkan jumlah baris bisa berkurang: satu baris yang
+ * terhapus permanen membuat nomor berikutnya bertabrakan dengan nomor yang sudah
+ * terpakai, dan penyimpanan gagal total sampai dibetulkan manual. Dua permintaan
+ * bersamaan juga membaca hitungan yang sama lalu menabrak satu sama lain.
+ *
+ * Nilai di sini hanya bertambah, tidak pernah melihat ke tabel lain, dan
+ * dinaikkan dalam satu pernyataan SQL sehingga aman dari perlombaan.
+ */
+export const documentCounters = pgTable('document_counters', {
+  /** lead | quote */
+  scope: text('scope').notNull(),
+  year: integer('year').notNull(),
+  value: integer('value').notNull().default(0),
+}, table => [
+  primaryKey({ columns: [table.scope, table.year] }),
 ])
 
 export type Lead = typeof leads.$inferSelect

@@ -1,0 +1,1 @@
+ALTER TABLE "contacts" ADD COLUMN "name_set_manually" boolean DEFAULT false NOT NULL;

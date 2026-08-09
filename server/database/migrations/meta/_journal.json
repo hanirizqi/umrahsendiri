@@ -15,6 +15,41 @@
       "when": 1786097456705,
       "tag": "0001_polite_hellfire_club",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1786205273326,
+      "tag": "0002_moaning_gravity",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1786205400000,
+      "tag": "0003_clear_trial_quotes",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1786205972688,
+      "tag": "0004_elite_mastermind",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1786206100000,
+      "tag": "0005_reset_dummy_data",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1786207105112,
+      "tag": "0006_bouncy_taskmaster",
+      "breakpoints": true
     }
   ]
 }

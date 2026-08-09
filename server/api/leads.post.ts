@@ -1,5 +1,5 @@
 import { inArray, sql } from 'drizzle-orm'
-import { leadServiceSelections, leads, services } from '../database/schema'
+import { contacts, leadServiceSelections, leads, services } from '../database/schema'
 
 interface Selection { code: string, hotelTier?: number, quantity?: number }
 
@@ -18,17 +18,6 @@ function int(value: unknown, min: number, max: number): number | undefined {
 
 function oneOf<T extends string>(value: unknown, allowed: readonly T[]): T | undefined {
   return typeof value === 'string' && allowed.includes(value as T) ? value as T : undefined
-}
-
-/** LD-2026-0042 — nomor urut per tahun, dibaca manusia. */
-async function nextLeadNumber(db: ReturnType<typeof useDb>): Promise<string> {
-  const year = new Date().getFullYear()
-  const [row] = await db
-    .select({ count: sql<number>`count(*)::int` })
-    .from(leads)
-    .where(sql`extract(year from ${leads.createdAt}) = ${year}`)
-
-  return `LD-${year}-${String((row?.count ?? 0) + 1).padStart(4, '0')}`
 }
 
 export default defineEventHandler(async (event) => {
@@ -69,10 +58,45 @@ export default defineEventHandler(async (event) => {
     : []
   const idByCode = new Map(known.map(s => [s.code, s.id]))
 
-  const leadNumber = await nextLeadNumber(db)
+  /**
+   * Menyatukan pengiriman ini dengan pengiriman sebelumnya dari nomor yang sama.
+   * Nama diperbarui ke yang terakhir ditulis — kalau yang pertama salah ketik,
+   * yang berlaku adalah pembetulannya.
+   *
+   * Kegagalan di sini tidak boleh menggagalkan penyimpanan lead: lead adalah
+   * satu-satunya hasil dari anggaran iklan yang sudah terlanjur keluar,
+   * sedangkan penghubung kontak bisa dirapikan kapan saja.
+   */
+  const phoneKey = normalizePhone(phone)
+  let contactId: string | undefined
+  if (phoneKey) {
+    try {
+      const [contact] = await db.insert(contacts)
+        .values({ phone: phoneKey, name })
+        .onConflictDoUpdate({
+          target: contacts.phone,
+          set: {
+            // Nama yang sudah dibetulkan admin dipertahankan; selebihnya
+            // mengikuti yang terakhir ditulis jemaah. Ditulis sebagai CASE,
+            // bukan syarat pada UPDATE-nya, supaya barisnya tetap dikembalikan
+            // dan lead ini tetap mendapat contactId.
+            name: sql`case when ${contacts.nameSetManually} then ${contacts.name} else ${name} end`,
+            updatedAt: new Date(),
+          },
+        })
+        .returning({ id: contacts.id })
+      contactId = contact?.id
+    }
+    catch (e) {
+      console.error('[leads] Gagal menyatukan kontak, lead tetap disimpan.', e)
+    }
+  }
+
+  const leadNumber = await nextDocumentNumber(db, 'lead')
 
   const [lead] = await db.insert(leads).values({
     leadNumber,
+    contactId,
     name,
     phone,
     email: str(body?.email, 200),

@@ -1,5 +1,5 @@
 import { randomBytes } from 'node:crypto'
-import { and, desc, eq, isNull, sql } from 'drizzle-orm'
+import { and, desc, eq, isNull } from 'drizzle-orm'
 import { leadServiceSelections, leads, quoteItems, quotes, ratePeriods, rates, services } from '../database/schema'
 
 interface DraftItem {
@@ -15,14 +15,54 @@ export function publicQuoteToken() {
 }
 
 /**
+ * Draf yang masih boleh dipakai ulang: belum pernah dikirim ke jemaah, jadi
+ * belum ada yang melihat angkanya dan menggantinya tidak membingungkan siapa pun.
+ *
+ * Penawaran yang sudah terkirim sengaja tidak ikut — begitu tautannya sampai ke
+ * jemaah, penawaran itu jadi catatan tentang apa yang pernah dijanjikan dan
+ * tidak boleh berubah diam-diam.
+ */
+async function findReusableDraft(db: ReturnType<typeof useDb>, leadId: string) {
+  const [draft] = await db
+    .select()
+    .from(quotes)
+    .where(and(
+      eq(quotes.leadId, leadId),
+      eq(quotes.status, 'draf'),
+      isNull(quotes.sharedAt),
+      isNull(quotes.deletedAt),
+    ))
+    .orderBy(desc(quotes.createdAt))
+    .limit(1)
+
+  return draft
+}
+
+/**
  * Menyusun penawaran dari data lead yang sudah tersimpan — tanpa menempel pesan.
  *
  * Harga disalin ke setiap baris, bukan direferensikan, supaya terbitnya LPP
  * berikutnya tidak mengubah penawaran yang sudah dikirim ke jemaah.
+ *
+ * Kalau lead ini masih punya draf yang belum terkirim, draf itulah yang
+ * dikembalikan — bukan penawaran baru. Tanpa penjagaan ini setiap penekanan
+ * tombol menambah satu baris beserta rinciannya, dan menekan dua kali karena
+ * ragu adalah hal yang wajar dilakukan orang. `force` menyediakan jalan keluar
+ * untuk kebutuhan yang sah: jemaah berubah pikiran, atau LPP baru terbit dan
+ * angkanya perlu disusun ulang.
  */
-export async function buildQuoteFromLead(db: ReturnType<typeof useDb>, leadId: string) {
+export async function buildQuoteFromLead(
+  db: ReturnType<typeof useDb>,
+  leadId: string,
+  { force = false }: { force?: boolean } = {},
+) {
   const [lead] = await db.select().from(leads).where(eq(leads.id, leadId)).limit(1)
   if (!lead) throw createError({ statusCode: 404, statusMessage: 'Lead tidak ditemukan.' })
+
+  if (!force) {
+    const draft = await findReusableDraft(db, leadId)
+    if (draft) return { quote: draft, missing: [] as string[], reused: true }
+  }
 
   const [period] = await db
     .select()
@@ -140,12 +180,7 @@ export async function buildQuoteFromLead(db: ReturnType<typeof useDb>, leadId: s
   const perPaxTotal = items.reduce((sum, i) => sum + i.perPaxAmount, 0)
   const grandTotal = items.reduce((sum, i) => sum + i.lineTotal, 0)
 
-  const year = new Date().getFullYear()
-  const [counted] = await db
-    .select({ count: sql<number>`count(*)::int` })
-    .from(quotes)
-    .where(sql`extract(year from ${quotes.createdAt}) = ${year}`)
-  const quoteNumber = `PW-${year}-${String((counted?.count ?? 0) + 1).padStart(4, '0')}`
+  const quoteNumber = await nextDocumentNumber(db, 'quote')
 
   const validUntil = new Date()
   validUntil.setDate(validUntil.getDate() + 14)
@@ -182,5 +217,5 @@ export async function buildQuoteFromLead(db: ReturnType<typeof useDb>, leadId: s
     .set({ status: 'ditawarkan', updatedAt: new Date() })
     .where(and(eq(leads.id, leadId), isNull(leads.deletedAt)))
 
-  return { quote, missing }
+  return { quote, missing, reused: false }
 }
