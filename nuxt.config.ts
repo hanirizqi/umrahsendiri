@@ -108,8 +108,28 @@ export default defineNuxtConfig({
     mode: 'svg',
   },
 
+  /**
+   * Optimasi gambar dimatikan; NuxtImg merender `<img>` biasa ke berkas aslinya.
+   *
+   * Penyedia bawaan `@nuxt/image` adalah IPX, dan IPX butuh `sharp` — modul
+   * native yang mengunduh binernya sendiri saat install. Di server build kami
+   * unduhan itu gagal, dan karena `ipx` hanya optionalDependency, npm
+   * melewatinya tanpa bersuara sampai build tumbang di tahap prerender dengan
+   * "Cannot find package 'ipx'". Deploy 12 Agustus 2026 gagal karenanya.
+   *
+   * Yang hilang kecil: kelima pemakaian NuxtImg menunjuk berkas statis lokal
+   * berukuran 27–89 KB dengan width/height tetap, tidak ada gambar remote dan
+   * tidak ada `sizes` responsif — jadi IPX praktis hanya menambah konversi
+   * webp. Menukarnya dengan build yang tidak bergantung pada modul native dan
+   * unduhan jaringan saat install adalah pertukaran yang layak.
+   *
+   * Kalau optimasi ini diinginkan lagi: pasang `ipx` sebagai dependency biasa
+   * (bukan optional) supaya kegagalannya berisik, dan pastikan server build
+   * bisa mengunduh biner sharp — di build yang sama, `fonts.googleapis.com`
+   * juga tidak terjangkau, jadi periksa dulu jaringan keluar server itu.
+   */
   image: {
-    format: ['webp'],
+    provider: 'none',
   },
 
   content: {
