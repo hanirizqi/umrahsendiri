@@ -49,9 +49,12 @@ Yang sudah berjalan di produksi:
 
 ## Pekerjaan terbuka, urut prioritas
 
-1. **Uji jalur konversi ujung ke ujung di produksi — sebelum iklan dinyalakan.**
-   Kedua label sudah terpasang. Kirim satu form sungguhan di produksi, pastikan
-   lead masuk database **dan** konversinya muncul di Google Ads.
+1. **Menunggu tim ads mengonfirmasi kedua konversi terlihat di akun mereka.**
+   Sisi situs sudah terbukti 12 Agustus 2026: satu form dan satu klik dikirim
+   dari produksi, leadnya masuk sebagai `LD-2026-0001`. Yang belum terbukti
+   adalah Google Ads benar-benar menerimanya — jalur browser → Google terpisah
+   dari jalur form → database, dan yang satu bisa diam sementara yang lain
+   berhasil. **Iklan jangan dinyalakan sebelum keduanya terkonfirmasi.**
 2. **Backup Postgres offsite ke S3, lalu sekali uji restore.** Baca dulu bagian
    restore di `docs/DEPLOYMENT.md`; urutannya penting.
 3. **Form kontak publik belum membaca katalog layanan dari database.** Daftar
@@ -89,6 +92,14 @@ bersama). Jangan menyebut kolom itu "kamar" secara umum.
 **Nomor dokumen tidak boleh diturunkan dari `count(*)`.** Kolomnya UNIQUE dan
 jumlah baris bisa berkurang; satu baris terhapus permanen membuat nomor
 berikutnya bertabrakan dan penyimpanan gagal total. Pakai `document_counters`.
+
+**Dependensi opsional yang gagal dipasang dilewati npm tanpa bersuara.** Deploy
+12 Agustus 2026 gagal karena `ipx` — optionalDependency milik `@nuxt/image` —
+tidak terpasang, padahal `npm install` melaporkan sukses; build baru tumbang
+tiga menit kemudian di tahap prerender. Kalau build server gagal dengan cara
+yang tidak masuk akal, periksa dulu apakah ada paket yang diam-diam absen.
+Jaringan keluar server build itu memang tidak bisa diandalkan: di build yang
+sama, `fonts.googleapis.com` juga tidak terjangkau.
 
 ## Keputusan yang jangan diputar balik tanpa alasan baru
 

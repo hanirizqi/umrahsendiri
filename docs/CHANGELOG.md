@@ -2,6 +2,12 @@
 
 Record notable project changes.
 
+## 2026-08-12 — the Google Ads account was never ours, and the build stopped being reproducible
+
+- **Google tag switched to `GT-KFH6S89B` / `AW-18372297695`.** The ads team confirmed `AW-18371371265` was never their account. Both conversion labels had to be reissued, not just the WhatsApp one the team asked about: a label belongs to an account, so the change silently killed the contact-form conversion that had been running since the start. Form is Primary and optimised against; WhatsApp click is Secondary, counted once per person.
+- **Image optimisation switched off (`image: { provider: 'none' }`).** Deployment failed with `Cannot find package 'ipx'` at the prerender step while `npm install` reported success — `ipx` is only an *optionalDependency* of `@nuxt/image`, and npm skips an optional dependency that fails to install without a word. It needs `sharp`, which downloads its own binary during install, and the same build could not reach `fonts.googleapis.com` either. All five `NuxtImg` uses point at local files of 27–89 KB with fixed dimensions, so IPX was contributing little beyond webp conversion — a small price for a build that no longer depends on a native module fetching binaries at install time. Reverting means declaring `ipx` a real dependency (so failure is loud) and fixing the build server's outbound network.
+- **Verified in production:** old account absent, both labels present, all images resolve without `/_ipx/`, 20 font files downloaded locally. First real lead came through as `LD-2026-0001`, confirming the dummy-data reset and the document counter both worked on the server.
+
 ## 2026-08-09 — LPP rates move into the admin panel
 
 - **`docs/PRICING.md` is no longer the operational source for rates, and neither is `server/database/seed.ts`.** Rates are now managed at `/admin/rates`: one period per LPP release, created by copying the previous period and adjusting what changed. Seeding only supplies a period that has no rates at all, so a brand-new database still comes up able to quote while panel edits survive every deploy. `docs/PRICING.md` remains the public-facing price document.
