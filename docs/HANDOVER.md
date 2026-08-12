@@ -42,14 +42,16 @@ Yang sudah berjalan di produksi:
 - **Hani** — pemilik dan satu-satunya pengembang. Programmer, jadi urusan kode
   bisa dibahas langsung; urusan infrastruktur perlu dijelaskan konkret (di mana
   perintah dijalankan, apa yang akan terlihat sesudahnya).
-- **Tim lain** — memegang akun Google Ads `AW-18371371265`. Permintaan ke sana
-  harus lewat brief tertulis yang berdiri sendiri, lalu ditunggu.
+- **Tim lain** — memegang akun Google Ads `AW-18372297695` (Google tag
+  `GT-KFH6S89B`). Permintaan ke sana harus lewat brief tertulis yang berdiri
+  sendiri, lalu ditunggu. Akun sebelumnya `AW-18371371265` ternyata bukan milik
+  mereka dan sudah tidak dipakai.
 
 ## Pekerjaan terbuka, urut prioritas
 
-1. **Menunggu label conversion action kedua dari tim ads** untuk klik WhatsApp.
-   Sesudah terpasang di `app/constants/analytics.ts`, uji jalur konversi ujung ke
-   ujung di produksi — **sebelum** iklan dinyalakan.
+1. **Uji jalur konversi ujung ke ujung di produksi — sebelum iklan dinyalakan.**
+   Kedua label sudah terpasang. Kirim satu form sungguhan di produksi, pastikan
+   lead masuk database **dan** konversinya muncul di Google Ads.
 2. **Backup Postgres offsite ke S3, lalu sekali uji restore.** Baca dulu bagian
    restore di `docs/DEPLOYMENT.md`; urutannya penting.
 3. **Form kontak publik belum membaca katalog layanan dari database.** Daftar
@@ -96,11 +98,18 @@ biro travel, **tidak** menjual paket rombongan. Positioning ini sempat berubah
 tiga kali dan baru stabil belakangan. Jangan menghidupkan lagi klaim lama seperti
 "menyusun itinerary", "pendampingan", atau "checklist" — layanan itu tidak ada.
 
-**Klik WhatsApp tidak dilaporkan ke Google Ads.** Sengaja, sampai conversion
-action-nya sendiri dibuat. Akun ini belum punya riwayat konversi, dan fase
-belajar Google terbentuk dari sinyal paling awal: satu action yang mencampur
-"klik tombol" dengan "lead lengkap tersimpan" mengajari Google mengejar yang
-termurah didapat. GA4 tetap mencatat setiap klik lewat `whatsapp_click`.
+**Label conversion action melekat pada akun Ads, bukan pada situs.** Pergantian
+akun 9 Agustus 2026 membatalkan label lama seluruhnya — termasuk label form yang
+sudah berjalan sejak awal, yang mudah terlewat. Kalau akun berganti lagi,
+kosongkan kedua konstanta di `app/constants/analytics.ts` sampai penggantinya
+tiba: melapor ke label yang tujuannya tidak ada berarti data hilang tanpa jejak
+sementara semuanya tampak berjalan normal.
+
+**Form dan klik WhatsApp adalah dua conversion action terpisah, bukan satu.**
+Klik tombol baru menandakan niat; pengiriman form berarti lead lengkap tersimpan
+di database. Digabung, Google mengoptimalkan ke arah yang paling murah didapat,
+dan di akun tanpa riwayat konversi sinyal paling awal itulah yang membentuk fase
+belajarnya.
 
 **Lead dari orang yang sama tidak digabung jadi satu baris.** Tiap pengiriman
 form membawa atribusi iklannya sendiri; menggabungkannya akan menghapus jejak

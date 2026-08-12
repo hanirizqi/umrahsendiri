@@ -74,10 +74,15 @@ export function reportWhatsappClickBeforeLeaving(source: string): Promise<void> 
 }
 
 /**
- * Pengiriman form kontak yang berhasil tersimpan sebagai lead. Selalu ditunggu:
- * setelahnya jemaah langsung berpindah ke WhatsApp di tab yang sama.
+ * Pengiriman form kontak yang berhasil tersimpan sebagai lead.
+ *
+ * Ditunggu hanya kalau memang ada yang dilaporkan ke Google Ads — setelahnya
+ * jemaah langsung berpindah ke WhatsApp di tab yang sama. Selama labelnya
+ * belum ada, jangan menahan perpindahan itu barang sedetik pun demi permintaan
+ * yang tidak dikirim.
  */
 export function reportWhatsappFormConversion(): Promise<void> {
   send('event', 'generate_lead', { send_to: GA4_MEASUREMENT_ID })
+  if (!WHATSAPP_FORM_CONVERSION) return Promise.resolve()
   return sendAndWait(WHATSAPP_FORM_CONVERSION)
 }
