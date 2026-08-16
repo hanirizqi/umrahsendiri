@@ -9,12 +9,12 @@ export const STEPS: Step[] = [
   {
     number: '02',
     title: 'Pilih Layanan',
-    description: 'Pilih layanan yang Anda butuhkan — hotel, visa, transportasi, atau pembimbing — satu per satu sesuai kebutuhan, bukan paket rombongan.',
+    description: 'Pilih layanan yang Anda butuhkan — hotel, transportasi, pembimbing, atau pendampingan dokumen — satu per satu sesuai kebutuhan, bukan paket rombongan.',
   },
   {
     number: '03',
     title: 'Konfirmasi & Pemesanan',
-    description: 'Layanan yang dipilih diproses dan dikonfirmasi, termasuk dokumen seperti visa dan asuransi yang menjadi bagian dari layanan Anda.',
+    description: 'Layanan yang dipilih dikonfirmasi bersama Anda, termasuk pendampingan penyiapan dokumen yang menjadi bagian dari layanan Anda.',
   },
   {
     number: '04',

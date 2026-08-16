@@ -66,7 +66,7 @@ Karena setiap perjalanan menuju Allah adalah perjalanan yang unik.
 Banyak orang mengira umrah mandiri berarti harus mengurus semuanya sendiri. Padahal, ada layanan yang bisa Anda pesan sesuai kebutuhan, seperti:
 
 - Hotel
-- Visa dan dokumen perjalanan (Siskopatuh, asuransi kesehatan)
+- Dokumen perjalanan dan asuransi kesehatan
 - Transportasi
 - Pembimbing / pemandu umrah
 

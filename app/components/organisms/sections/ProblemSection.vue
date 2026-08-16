@@ -13,7 +13,7 @@ const PROBLEMS = [
   {
     icon: 'lucide:file-warning',
     title: 'Dokumen yang Perlu Dipersiapkan Sejak Awal',
-    description: 'Visa, vaksin, dan dokumen pendukung sering membingungkan bagi yang mengurusnya sendiri pertama kali.',
+    description: 'Dokumen perjalanan dan vaksin sering membingungkan bagi yang menyiapkannya sendiri pertama kali.',
   },
 ]
 </script>

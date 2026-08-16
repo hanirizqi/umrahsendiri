@@ -28,7 +28,7 @@ export const WHY_UMRAH_MANDIRI: Benefit[] = [
   },
   {
     icon: 'lucide:file-check',
-    title: 'Visa & Dokumen Tanpa Ribet',
-    description: 'Visa umrah, Siskopatuh, dan asuransi kesehatan diproses sebagai bagian dari layanan — Anda tetap mandiri tanpa harus mengurus semuanya sendiri.',
+    title: 'Dokumen Perjalanan Tanpa Ribet',
+    description: 'Penyiapan dokumen perjalanan kami dampingi sebagai bagian dari layanan — Anda tetap mandiri tanpa harus memikirkan semuanya sendiri.',
   },
 ]

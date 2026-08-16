@@ -10,12 +10,12 @@ export const HOME_FAQS: FaqItem[] = [
     answer: 'Bisa. Umrah mandiri sangat cocok untuk Anda yang jadwalnya sulit disesuaikan dengan keberangkatan rombongan mana pun — sendiri maupun berdua, Anda tetap bisa berangkat. Bukan Anda yang mengikuti jadwal rombongan, tapi Anda yang menentukan kapan berangkat.',
   },
   {
-    question: 'Apakah saya tetap perlu mengurus visa dan dokumen sendiri?',
-    answer: 'Jika Anda memilih Paket Dasar, pengurusan visa, Siskopatuh, dan asuransi kesehatan sudah termasuk dalam layanan yang kami proses. Rincian dokumen dan prosesnya disampaikan transparan sejak awal.',
+    question: 'Bagaimana dengan dokumen perjalanan saya?',
+    answer: 'Kami dampingi penyiapan dokumen perjalanan Anda sebagai bagian dari Paket Dasar. Rincian dokumen yang dibutuhkan dan alurnya kami jelaskan transparan sejak awal, sebelum Anda memutuskan apa pun.',
   },
   {
-    question: 'Apa syarat pengajuan Visa?',
-    answer: 'Anda perlu memiliki tiket pesawat dan bukti reservasi hotel di Arab Saudi sebagai syarat utama pengajuan visa.',
+    question: 'Apa saja yang perlu saya siapkan sebelum berangkat?',
+    answer: 'Dua hal utama yang perlu Anda pastikan lebih dulu: tiket pesawat dan reservasi hotel di Arab Saudi. Sisanya kami bahas bersama saat konsultasi.',
   },
   {
     question: 'Cocok untuk yang belum pernah umrah sama sekali?',

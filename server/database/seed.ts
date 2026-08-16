@@ -19,7 +19,15 @@ const SERVICES = [
   {
     code: 'paket_dasar',
     name: 'Paket Dasar',
-    description: 'Transportasi 3 rute (Bandara Jeddah–Makkah Hotel, Makkah Hotel–Madinah Hotel, Madinah Hotel–Bandara Jeddah), paket dokumen wajib (Visa Umrah, Siskopatuh, Asuransi Kesehatan Arab Saudi), dan pembimbing umrah + manasik online (untuk 1x pelaksanaan umrah).',
+    /**
+     * Bagian dokumen memakai kata yang sama dengan situs publik
+     * ("pendampingan penyiapan dokumen"), tapi rinciannya tetap ditulis dalam
+     * kurung. Deskripsi ini hanya tampil di panel admin, dan justru staf yang
+     * paling butuh tahu persis apa yang jemaah terima — merekalah yang
+     * menjawab di WhatsApp. Menyamakan katanya tanpa membuang rinciannya
+     * membuat panel konsisten dengan situs tanpa membuat staf menebak-nebak.
+     */
+    description: 'Transportasi 3 rute (Bandara Jeddah–Makkah Hotel, Makkah Hotel–Madinah Hotel, Madinah Hotel–Bandara Jeddah), pendampingan penyiapan dokumen wajib (Visa Umrah, Siskopatuh, Asuransi Kesehatan Arab Saudi), dan pembimbing umrah + manasik online (untuk 1x pelaksanaan umrah).',
     pricingUnit: 'per_pax',
     needsHotelTier: false,
     category: 'inti',

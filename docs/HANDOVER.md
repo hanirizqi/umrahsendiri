@@ -122,6 +122,24 @@ di database. Digabung, Google mengoptimalkan ke arah yang paling murah didapat,
 dan di akun tanpa riwayat konversi sinyal paling awal itulah yang membentuk fase
 belajarnya.
 
+**Kata "visa" tidak boleh muncul di permukaan publik mana pun.** Iklan Google
+ditolak karena copy lama berbunyi seolah UmrahSendiri sendiri yang memproses
+dokumen resmi pemerintah. Sejak 12 Agustus 2026 seluruh halaman, komponen,
+konstanta, dan artikel memakai **"pendampingan penyiapan dokumen"** — 21 berkas.
+Jangan mengembalikannya, dan periksa ulang kalau menulis copy baru.
+
+Yang **tidak** ikut diubah, dan itu disengaja: `server/database/seed.ts`,
+`docs/PRICING.md`, dan `docs/product.md` tetap menyebut Visa Umrah dan
+Siskopatuh apa adanya. **Layanannya tidak berubah** — dokumen wajib tetap
+diurus dan tetap termasuk Paket Dasar Rp11.500.000. Yang berubah hanya kata
+yang boleh dipakai di publik. Dokumen internal harus tetap akurat karena
+stafnya yang menjawab jemaah di WhatsApp.
+
+Akibatnya ada **jarak antara yang tertulis di situs dan yang jemaah terima**,
+dan jarak itu dijembatani saat percakapan WhatsApp. Kalau suatu saat copy publik
+terasa tidak cocok dengan `docs/PRICING.md`, itu bukan kekeliruan yang perlu
+dirapikan — itu keputusan yang disengaja.
+
 **Lead dari orang yang sama tidak digabung jadi satu baris.** Tiap pengiriman
 form membawa atribusi iklannya sendiri; menggabungkannya akan menghapus jejak
 kampanye yang kedua. Yang disatukan adalah orangnya, lewat tabel `contacts`.

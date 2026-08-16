@@ -14,7 +14,7 @@ Salah satu keluhan paling umum jamaah mandiri adalah biaya yang membengkak dari 
 - **Penerbangan** — harga sangat bervariasi tergantung musim dan maskapai.
 - **Akomodasi** — biaya hotel berbeda jauh tergantung jarak ke Masjidil Haram dan Masjid Nabawi.
 - **Transportasi darat** — antar kota dan antar-jemput bandara.
-- **Visa dan asuransi perjalanan.**
+- **Dokumen perjalanan dan asuransi.**
 - **Pengeluaran harian** — makan, kebutuhan pribadi, dan oleh-oleh.
 
 ## Pendekatan yang Realistis

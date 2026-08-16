@@ -2,6 +2,13 @@
 
 Record notable project changes.
 
+## 2026-08-12 (later) — "visa" removed from every public surface
+
+- **The ad was rejected because the copy read as though UmrahSendiri processes official government documents.** Every public page, component, constant and article now says **"pendampingan penyiapan dokumen"** instead — 21 files, including the ads landing page `/start`, the homepage hero, the footer, the contact form's service description, the terms page, and three published articles. The ads team's list covered nine of them and missed the page the ad actually points at.
+- **Their draft wording was not used as given.** It reintroduced "checklist dokumen" and "panduan langkah demi langkah" — services that do not exist and that we had explicitly ruled out — which would have traded one inaccurate claim for another. It also understated a paid deliverable, and understating what a Rp11.500.000 package contains costs conversions at the point of sale.
+- **The service itself did not change.** `server/database/seed.ts`, `docs/PRICING.md` and `docs/product.md` still name Visa Umrah and Siskopatuh: mandatory documents are still handled and still included in Paket Dasar. Only the public wording changed. The admin catalogue adopts the same phrasing but keeps the specifics in brackets — staff answering on WhatsApp are precisely the people who need to know what a jemaah actually receives.
+- Verified against rendered HTML on all twelve public pages rather than a grep of the source, including the structured FAQ data Google reads.
+
 ## 2026-08-12 — the Google Ads account was never ours, and the build stopped being reproducible
 
 - **Google tag switched to `GT-KFH6S89B` / `AW-18372297695`.** The ads team confirmed `AW-18371371265` was never their account. Both conversion labels had to be reissued, not just the WhatsApp one the team asked about: a label belongs to an account, so the change silently killed the contact-form conversion that had been running since the start. Form is Primary and optimised against; WhatsApp click is Secondary, counted once per person.

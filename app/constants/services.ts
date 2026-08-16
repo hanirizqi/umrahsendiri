@@ -3,8 +3,8 @@ import type { Service } from '~/types'
 export const SERVICES: Service[] = [
   {
     icon: 'lucide:file-check',
-    title: 'Visa & Dokumen',
-    description: 'Pengurusan visa umrah, Siskopatuh, dan asuransi kesehatan Arab Saudi, diproses melalui jaringan mitra resmi.',
+    title: 'Dokumen Perjalanan',
+    description: 'Pendampingan penyiapan dokumen perjalanan Anda, bersama jaringan mitra travel resmi yang berpengalaman.',
   },
   {
     icon: 'lucide:calculator',

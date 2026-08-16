@@ -13,7 +13,7 @@ const PAINS = [
   {
     icon: 'lucide:file-warning',
     title: 'Dokumen Terlambat Diurus',
-    description: 'Visa dan persyaratan lain baru disadari mepet keberangkatan, memicu kepanikan yang tidak perlu.',
+    description: 'Persyaratan dokumen baru disadari mepet keberangkatan, memicu kepanikan yang tidak perlu.',
   },
 ]
 </script>

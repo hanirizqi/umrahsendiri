@@ -14,7 +14,7 @@ export const BENEFITS: Benefit[] = [
   {
     icon: 'lucide:layout-grid',
     title: 'Layanan Satu Pintu',
-    description: 'Hotel, visa, transportasi, hingga pembimbing — pilih sesuai kebutuhan Anda dalam satu layanan, tanpa paket rombongan.',
+    description: 'Hotel, transportasi, pembimbing, hingga pendampingan dokumen — pilih sesuai kebutuhan Anda dalam satu layanan, tanpa paket rombongan.',
   },
   {
     icon: 'lucide:users',

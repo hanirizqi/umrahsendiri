@@ -16,7 +16,7 @@ useSeoMeta({
       <LegalContent>
         <section>
           <h2>1. Sifat Layanan</h2>
-          <p>UmrahSendiri adalah penyedia layanan umrah mandiri satu pintu, bukan biro perjalanan atau agen travel. Kami menyediakan layanan hotel, visa, transportasi, dan pembimbing sesuai kebutuhan Anda — namun tidak bertindak sebagai penyelenggara perjalanan.</p>
+          <p>UmrahSendiri adalah penyedia layanan umrah mandiri satu pintu, bukan biro perjalanan atau agen travel. Kami menyediakan layanan hotel, transportasi, pembimbing, dan pendampingan penyiapan dokumen sesuai kebutuhan Anda — namun tidak bertindak sebagai penyelenggara perjalanan.</p>
         </section>
 
         <section>
@@ -26,7 +26,7 @@ useSeoMeta({
 
         <section>
           <h2>3. Pembayaran</h2>
-          <p>Biaya yang dibayarkan kepada UmrahSendiri merupakan biaya atas layanan yang Anda pilih (hotel, visa, transportasi, dan lainnya), sesuai rincian yang disampaikan sebelum Anda memutuskan. Tidak ada biaya jasa perencanaan atau konsultasi terpisah.</p>
+          <p>Biaya yang dibayarkan kepada UmrahSendiri merupakan biaya atas layanan yang Anda pilih (hotel, transportasi, pendampingan dokumen, dan lainnya), sesuai rincian yang disampaikan sebelum Anda memutuskan. Tidak ada biaya jasa perencanaan atau konsultasi terpisah.</p>
         </section>
 
         <section>
@@ -36,7 +36,7 @@ useSeoMeta({
 
         <section>
           <h2>5. Batasan Tanggung Jawab</h2>
-          <p>UmrahSendiri tidak bertanggung jawab atas keputusan akhir yang diambil jamaah, termasuk namun tidak terbatas pada pemilihan hotel, maskapai, atau penyedia transportasi pihak ketiga, maupun kondisi di luar kendali kami seperti perubahan kebijakan visa atau force majeure.</p>
+          <p>UmrahSendiri tidak bertanggung jawab atas keputusan akhir yang diambil jamaah, termasuk namun tidak terbatas pada pemilihan hotel, maskapai, atau penyedia transportasi pihak ketiga, maupun kondisi di luar kendali kami seperti perubahan kebijakan keimigrasian atau force majeure.</p>
         </section>
 
         <section>

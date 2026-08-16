@@ -63,7 +63,7 @@ export default defineNuxtConfig({
   site: {
     url: 'https://umrahsendiri.com',
     name: 'UmrahSendiri',
-    description: 'Umrah Mandiri Planner — layanan umrah mandiri satu pintu: hotel, visa, transportasi, hingga pembimbing.',
+    description: 'Umrah Mandiri Planner — layanan umrah mandiri satu pintu: hotel, transportasi, pembimbing, dan pendampingan penyiapan dokumen perjalanan.',
     defaultLocale: 'id',
   },
 

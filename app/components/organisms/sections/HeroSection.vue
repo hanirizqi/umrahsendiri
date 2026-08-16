@@ -18,7 +18,7 @@ import { HOME_STATS } from '~/constants/faqs'
         </h1>
 
         <p class="mt-5 max-w-lg text-base text-ink/70 md:text-lg">
-          Pilih layanan yang Anda butuhkan — hotel, visa, transportasi, hingga pembimbing — transparan dan sesuai kebutuhan, tanpa kehilangan kendali atas setiap keputusan.
+          Pilih layanan yang Anda butuhkan — hotel, transportasi, pembimbing, hingga pendampingan dokumen — transparan dan sesuai kebutuhan, tanpa kehilangan kendali atas setiap keputusan.
         </p>
 
         <p class="mt-3 font-display text-base font-semibold text-secondary-700 md:text-lg">

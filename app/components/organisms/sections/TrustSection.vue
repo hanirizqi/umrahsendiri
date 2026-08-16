@@ -3,7 +3,7 @@ const TRUST_REASONS = [
   {
     icon: 'lucide:shield-check',
     title: 'Didukung Mitra Resmi',
-    description: 'Hotel, visa, dan dokumen perjalanan ditangani jaringan mitra travel resmi yang berpengalaman.',
+    description: 'Hotel, transportasi, dan penyiapan dokumen perjalanan didampingi jaringan mitra travel resmi yang berpengalaman.',
   },
   {
     icon: 'lucide:eye',
