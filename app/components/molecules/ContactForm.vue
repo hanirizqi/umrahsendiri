@@ -7,7 +7,7 @@ const NEEDS_OPTIONS = [
     key: 'paketDasar',
     code: 'paket_dasar',
     label: 'Paket Dasar',
-    desc: 'Transportasi 3 rute (Bandara Jeddah–Makkah Hotel, Makkah Hotel–Madinah Hotel, Madinah Hotel–Bandara Jeddah), pendampingan penyiapan dokumen wajib, dan pembimbing umrah + manasik online (untuk 1x pelaksanaan umrah).',
+    desc: 'Transportasi 3 rute (Bandara Jeddah–Makkah Hotel, Makkah Hotel–Madinah Hotel, Madinah Hotel–Bandara Jeddah), dan pembimbing umrah + manasik online (untuk 1x pelaksanaan umrah).',
   },
   { key: 'hotel', code: 'hotel', label: 'Hotel (termasuk makan 3x sehari)', desc: '' },
   {

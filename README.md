@@ -1,6 +1,6 @@
 # UmrahSendiri
 
-Situs Nuxt Content untuk **UmrahSendiri** — *umrah mandiri planner*: layanan umrah mandiri satu pintu (hotel, visa, transportasi, pembimbing) yang bisa dipesan sesuai kebutuhan jamaah, tanpa paket rombongan.
+Situs Nuxt Content untuk **UmrahSendiri** — *umrah mandiri planner*: layanan umrah mandiri satu pintu (hotel, transportasi, pembimbing, pendampingan dokumen) yang bisa dipesan sesuai kebutuhan jemaah, tanpa paket rombongan.
 
 Detail riset, positioning, sitemap, dan design system ada di [docs/strategy.md](docs/strategy.md).
 
@@ -94,12 +94,12 @@ app/
     molecules/         Kombinasi atom (card, form, accordion, dsb.)
     layout/            Wrapper layout (container, heading, legal content)
     organisms/          Blok halaman penuh (header, footer, hero)
-      landing/          Blok khusus landing ads (/start)
+      landing/          Blok khusus landing ads (/konsultasi)
       sections/          Blok section untuk home & halaman lain
   composables/        useJsonLd, useReadingTime, useWhatsapp, useAttribution, useAnalytics, usePriceCalculator
   plugins/            attribution.client (menangkap asal-usul di kunjungan pertama)
   constants/          Data statis (nav, faqs, services, dst.)
-  layouts/            default (halaman umum), landing (/start), admin (panel staf)
+  layouts/            default (halaman umum), lp (/konsultasi), admin (panel staf)
   pages/              Routing berbasis file (lihat Sitemap di bawah)
   types/               Tipe TypeScript bersama
   utils/               Helper (content, date)
@@ -124,13 +124,13 @@ docs/DEPLOYMENT.md     Runbook produksi: environment variable, 503, rotasi kata 
 |---|---|
 | `/` | Home |
 | `/about` | Tentang (cerita, misi, tim) |
-| `/services` | Layanan (visa & dokumen, biaya, hotel, transport, pembimbing, konsultasi) |
+| `/services` | Layanan (dokumen perjalanan, biaya, hotel, transport, pembimbing, konsultasi) |
 | `/how-it-works` | Cara Kerja (proses 4 langkah) |
 | `/articles` | Blog listing (search, kategori, tag) |
 | `/articles/[slug]` | Artikel detail |
 | `/faq` | FAQ lengkap |
 | `/contact` | Kontak + form + WhatsApp |
-| `/start` | Landing Ads (distraction-free, conversion-only, tidak diindeks sitemap) |
+| `/konsultasi` | Landing Ads — satu halaman utuh tanpa tautan keluar, noindex, tidak diindeks sitemap |
 | `/privacy-policy` | Privacy Policy |
 | `/terms` | Terms of Service |
 | `/admin/login` | Halaman masuk panel admin (noindex) |
@@ -143,7 +143,7 @@ docs/DEPLOYMENT.md     Runbook produksi: environment variable, 503, rotasi kata 
 | `/admin/price-calculator` | Kalkulator harga untuk CS (noindex, perlu sesi — lihat [Environment](#environment)) |
 | `/[...slug]` | 404 |
 
-URL lama berbahasa Indonesia (`/tentang`, `/layanan`, `/cara-kerja`, `/kontak`, `/mulai`, `/artikel`, `/internal/*`) tetap hidup lewat **redirect 301** yang didefinisikan di `routeRules` pada `nuxt.config.ts`. Jangan dihapus — situs sudah terindeks dan tautan iklan lama masih bisa menunjuk ke sana.
+URL lama berbahasa Indonesia (`/tentang`, `/layanan`, `/cara-kerja`, `/kontak`, `/mulai`, `/artikel`, `/internal/*`) beserta `/start` — halaman iklan lama yang digantikan `/konsultasi` — tetap hidup lewat **redirect 301** yang didefinisikan di `routeRules` pada `nuxt.config.ts`. Jangan dihapus — situs sudah terindeks dan tautan iklan lama masih bisa menunjuk ke sana.
 
 ## Pelacakan Konversi
 

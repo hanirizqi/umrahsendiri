@@ -63,7 +63,7 @@ export default defineNuxtConfig({
   site: {
     url: 'https://umrahsendiri.com',
     name: 'UmrahSendiri',
-    description: 'Umrah Mandiri Planner — layanan umrah mandiri satu pintu: hotel, transportasi, pembimbing, dan pendampingan penyiapan dokumen perjalanan.',
+    description: 'Umrah Mandiri Planner — layanan umrah mandiri satu pintu: hotel, transportasi, pembimbing, dan konsultasi perencanaan perjalanan.',
     defaultLocale: 'id',
   },
 
@@ -75,7 +75,7 @@ export default defineNuxtConfig({
     sources: ['/api/sitemap-urls'],
     // /admin sengaja tidak didaftarkan di robots.txt — file itu publik,
     // dan menuliskan path-nya di sana justru mengumumkan keberadaannya.
-    exclude: ['/start', '/admin/**', '/q/**'],
+    exclude: ['/konsultasi', '/admin/**', '/q/**'],
   },
 
   /**
@@ -89,7 +89,10 @@ export default defineNuxtConfig({
     '/layanan': { redirect: { to: '/services', statusCode: 301 } },
     '/cara-kerja': { redirect: { to: '/how-it-works', statusCode: 301 } },
     '/kontak': { redirect: { to: '/contact', statusCode: 301 } },
-    '/mulai': { redirect: { to: '/start', statusCode: 301 } },
+    '/mulai': { redirect: { to: '/konsultasi', statusCode: 301 } },
+    // /start dihapus dan digantikan /konsultasi. Pengalihannya dipertahankan
+    // karena tautan iklan lama dan bookmark masih menunjuk ke sana.
+    '/start': { redirect: { to: '/konsultasi', statusCode: 301 } },
     '/artikel': { redirect: { to: '/articles', statusCode: 301 } },
     '/artikel/**': { redirect: { to: '/articles/**', statusCode: 301 } },
     '/internal/masuk': { redirect: { to: '/admin/login', statusCode: 301 } },

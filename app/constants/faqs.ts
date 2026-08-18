@@ -35,7 +35,21 @@ export const HOME_FAQS: FaqItem[] = [
   },
 ]
 
-export const LANDING_FAQS: FaqItem[] = HOME_FAQS.slice(0, 4)
+/**
+ * FAQ untuk halaman iklan `/konsultasi`, dipilih satu per satu — bukan potongan
+ * pertama dari HOME_FAQS seperti sebelumnya.
+ *
+ * Halaman itu sengaja tidak menyinggung dokumen perjalanan sama sekali, dan
+ * `slice(0, 4)` menarik masuk pertanyaan dokumen begitu urutan HOME_FAQS
+ * berubah — tanpa ada yang menyadarinya sampai iklan ditolak lagi. Daftar yang
+ * ditulis eksplisit tidak bisa berubah diam-diam.
+ */
+export const LANDING_FAQS: FaqItem[] = [
+  HOME_FAQS[0]!, // Bedanya dengan travel umrah biasa
+  HOME_FAQS[1]!, // Bisa berangkat sendirian
+  HOME_FAQS[4]!, // Cocok untuk pemula
+  HOME_FAQS[5]!, // Bagaimana estimasi biaya dihitung
+]
 
 export const ALL_FAQS: FaqItem[] = [
   ...HOME_FAQS,

@@ -11,9 +11,9 @@ const PAINS = [
     description: 'Tanpa panduan yang tepat, sulit menilai jarak sebenarnya sebelum Anda tiba di sana.',
   },
   {
-    icon: 'lucide:file-warning',
-    title: 'Dokumen Terlambat Diurus',
-    description: 'Persyaratan dokumen baru disadari mepet keberangkatan, memicu kepanikan yang tidak perlu.',
+    icon: 'lucide:calendar-x',
+    title: 'Jadwal Tidak Cocok dengan Rombongan',
+    description: 'Keberangkatan rombongan jarang pas dengan tanggal Anda, dan rencana ikut tertunda.',
   },
 ]
 </script>
