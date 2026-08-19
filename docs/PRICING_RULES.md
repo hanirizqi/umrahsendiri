@@ -67,6 +67,8 @@ sedang berjalan di database, lalu memperbarui `rates/` dan `docs/PRICING.md`
 sekaligus dalam satu jalur. Sesi chat tidak bisa memeriksa dirinya sendiri terhadap
 sistem — kekeliruan 19 Agustus 2026 lolos justru karena itu.
 
+Brief siap tempel untuk sesi chat ada di [CHAT_BRIEF.md](CHAT_BRIEF.md).
+
 Sesudah `docs/PRICING.md` diperbarui dan ter-push, **sesi chat memakainya sebagai
 sumber** untuk menyusun dokumen LPP pelanggan dan spreadsheet backoffice. Arahnya
 satu: dokumen resmi → sesi code → repo → sesi chat. Bukan sebaliknya.

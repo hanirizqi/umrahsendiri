@@ -121,6 +121,7 @@ public/                Aset statis (favicon, gambar, brand assets)
 docs/strategy.md       Riset UX, positioning, sitemap, design system
 docs/DEPLOYMENT.md     Runbook produksi: environment variable, 503, rotasi kata sandi
 docs/PRICING_RULES.md  Aturan menulis harga: satuan, uji wajib, cara memasukkan LPP baru
+docs/CHAT_BRIEF.md     Brief siap tempel untuk sesi chat di claude.ai
 ```
 
 ## Sitemap

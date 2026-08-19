@@ -17,6 +17,11 @@ Terakhir diperbarui: 19 Agustus 2026.
 7. `README.md` — cara menjalankan, struktur, sitemap
 8. `docs/DEPLOYMENT.md` — environment variable, 503, rotasi kata sandi, restore
 
+Sesi chat di claude.ai punya briefnya sendiri: `docs/CHAT_BRIEF.md`. Ia menyusun
+dokumen LPP pelanggan dan spreadsheet backoffice, dan **memakai `docs/PRICING.md`
+sebagai sumber, bukan menulisnya** — arahnya dokumen resmi → sesi code → repo →
+sesi chat.
+
 Tidak ada berkas roadmap atau backlog. Keduanya pernah ada tapi isinya rencana
 dari positioning lama — Itinerary Builder, Packing Checklist, Budget Planner —
 dan dihapus 9 Agustus 2026 karena lebih menyesatkan daripada berguna. Kalau
