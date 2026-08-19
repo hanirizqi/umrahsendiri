@@ -39,14 +39,18 @@ bundel per rombongan, jadi mencocokkannya memang perlu total kamar. Simpan sebag
 tabel terpisah dengan judul yang jelas — jangan pernah menaruhnya di bawah judul
 "per jemaah".
 
-Jalankan sebelum push:
+Pemeriksaan ini **berjalan sendiri sebagai bagian dari `npm run build`**, jadi juga
+saat deploy. Tarif yang satuannya tertukar membuat build gagal dan produksi tetap
+memakai tarif lama yang benar — tidak ada jalan bagi angka keliru untuk sampai ke
+jemaah lewat deploy.
+
+Bisa dijalankan sendiri kapan saja:
 
 ```bash
 npm run rates:verify
 ```
 
-Ia memeriksa ketiga hal di atas untuk setiap terbitan LPP, dan mencetak total kamar
-supaya bisa dicocokkan dengan dokumen pemasok.
+Ia juga mencetak total kamar supaya bisa dicocokkan dengan dokumen pemasok.
 
 ## Data biaya tidak boleh masuk repo
 
@@ -54,6 +58,18 @@ Harga modal dari pemasok, markup, dan margin **tidak pernah** ditulis di repo in
 tidak di `docs/`, tidak di `server/database/rates/`, tidak di komentar kode.
 Tempatnya di spreadsheet backoffice, di luar repo. Yang boleh di sini hanya harga
 jual publik.
+
+## Ke mana mengirim LPP baru
+
+**Kirim dokumen LA-nya ke sesi code (`</>`), bukan sesi chat.** Sesi code bisa
+membaca PDF-nya, mengubah ke harga per jemaah, memverifikasinya terhadap tarif yang
+sedang berjalan di database, lalu memperbarui `rates/` dan `docs/PRICING.md`
+sekaligus dalam satu jalur. Sesi chat tidak bisa memeriksa dirinya sendiri terhadap
+sistem — kekeliruan 19 Agustus 2026 lolos justru karena itu.
+
+Sesudah `docs/PRICING.md` diperbarui dan ter-push, **sesi chat memakainya sebagai
+sumber** untuk menyusun dokumen LPP pelanggan dan spreadsheet backoffice. Arahnya
+satu: dokumen resmi → sesi code → repo → sesi chat. Bukan sebaliknya.
 
 ## Cara memasukkan LPP baru
 

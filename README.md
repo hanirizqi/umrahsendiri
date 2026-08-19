@@ -64,7 +64,7 @@ Migrasi dan pengisian katalog berjalan sendiri saat aplikasi start lewat `server
 | `npm run db:generate` | Membuat berkas migrasi dari perubahan `server/database/schema.ts` |
 | `npm run db:migrate` | Menerapkan migrasi secara manual (biasanya tidak perlu) |
 | `npm run db:studio` | Menjelajah isi database lewat peramban |
-| `npm run rates:verify` | Memeriksa kewarasan tarif LPP — wajib lolos sebelum push |
+| `npm run rates:verify` | Memeriksa kewarasan tarif LPP — ikut berjalan otomatis di `npm run build` |
 
 Di produksi keempat variabel diset lewat **Coolify → Environment Variables**, bukan lewat file, dan masing-masing harus ditandai **Available at Runtime** — nilai yang hanya tersedia saat build tidak terbaca oleh proses yang melayani permintaan. Nilai lokal dan produksi berdiri sendiri; mengubah salah satunya tidak memengaruhi yang lain.
 
@@ -80,7 +80,7 @@ Panel memakai sesi berbasis cookie dengan halaman masuk di `/admin/login`, berla
 
 Terbitan LPP baru masuk lewat `server/database/rates/` — satu berkas per periode, didaftarkan di `index.ts`, lalu dimasukkan sendiri saat deploy. Tidak perlu menyentuh panel. Menyunting tarif yang sudah ada tetap lewat **panel admin** di `/admin/rates`; periode yang sudah terisi tidak pernah ditimpa oleh deploy.
 
-Sebelum push, jalankan `npm run rates:verify` — aturannya di [docs/PRICING_RULES.md](docs/PRICING_RULES.md). Struktur tiap periode berdiri sendiri — layanan bisa ditambah atau dihentikan, dan bintang hotel tidak dikunci pada 3–5.
+Pemeriksaan tarif ikut berjalan di `npm run build`, jadi juga saat deploy — tarif yang satuannya tertukar membuat build gagal dan produksi tetap memakai tarif lama. Aturannya di [docs/PRICING_RULES.md](docs/PRICING_RULES.md). Struktur tiap periode berdiri sendiri — layanan bisa ditambah atau dihentikan, dan bintang hotel tidak dikunci pada 3–5.
 
 `server/database/seed.ts` hanya membekali periode yang **belum punya tarif sama sekali**. Database baru langsung bisa membuat penawaran tanpa siapa pun mengisi apa pun, sementara tarif yang sudah disunting lewat panel tidak pernah ditimpa deploy berikutnya. Katalog layanan tetap di-upsert tiap start karena tidak disunting lewat panel.
 
