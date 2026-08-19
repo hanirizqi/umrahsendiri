@@ -1,5 +1,7 @@
 # Pricing (Public / Customer-Facing)
 
+> **Sebelum mengubah angka apa pun di sini, baca [PRICING_RULES.md](PRICING_RULES.md).** Satuan wajib dinyatakan, dan `npm run rates:verify` harus lolos sebelum push.
+
 > **Data safety note:** this file contains only public sell prices and facilities. It intentionally excludes wholesale cost, markup %, and margin — those live in an internal backoffice spreadsheet outside this repo and must never be committed here.
 >
 > Prices change monthly. Current version: **Periode September 2026**. Confirm with the business owner before trusting this file if it looks stale — it is updated manually, not synced automatically. Source: LPP (Land Package Private) document, `Umrah_Sendiri_LPP_September2026_*.docx`.
@@ -27,29 +29,46 @@ Paket Dasar adalah satu kesatuan dan tidak dapat dipisah atau dibeli sebagian �
 
 ## 2. Hotel per Malam — Harga per Jemaah, per Malam (opsional)
 
-Hotel periode September 2026 (dipilih karena cakupan brosur aman sepanjang bulan dan jarak paling dekat ke Masjidil Haram/Masjid Nabawi di antara opsi yang aman):
+Hotel periode September 2026 — sumber: dokumen resmi LA Basic Private September 2026 dari Musafirin (diterima 2026-08-19), menggantikan estimasi hotel sebelumnya:
 
 | Tier | Kota | Hotel | Jarak dari Masjid |
 |---|---|---|---|
-| Bintang 3 | Makkah | ★★★☆☆ Makarem Ajyad | ±300-500 m dari Masjidil Haram |
-| Bintang 3 | Madinah | ★★★☆☆ Zowar International | ±180 m dari Masjid Nabawi |
-| Bintang 4 | Makkah | ★★★★☆ Jabal Omar Marriott | ±100-300 m dari Masjidil Haram |
-| Bintang 4 | Madinah | ★★★★☆ Ancyra Hotel by Continent | ±300-460 m dari Masjid Nabawi |
+| Bintang 3 | Makkah | ★★★☆☆ Grand Al Massa | ±450-550 m dari Masjidil Haram |
+| Bintang 3 | Madinah | ★★★☆☆ Kingsgate Durrat | ±300-500 m dari Masjid Nabawi |
+| Bintang 4 | Makkah | ★★★★☆ Maysan Al Mashaer | ±300 m dari Masjidil Haram |
+| Bintang 4 | Madinah | ★★★★☆ Kingsgate Deyar | ±700-900 m dari Masjid Nabawi |
 | Bintang 5 | Makkah | ★★★★★ Movenpick Hajar | ±100-300 m dari Masjidil Haram |
-| Bintang 5 | Madinah | ★★★★★ Maysan Al Harithia | ±200-350 m dari Masjid Nabawi |
+| Bintang 5 | Madinah | ★★★★★ Venue Al Harithia | ±350 m dari Masjid Nabawi |
 
-Harga per jemaah, per malam:
+Harga **per jemaah**, per malam — inilah angka yang dipakai sistem dan yang muncul di penawaran jemaah:
 
 | Tier | Kota | Sendiri | Berdua | Bertiga | Berempat |
 |---|---|---|---|---|---|
-| Bintang 3 | Makkah | Rp4.350.000 | Rp2.175.000 | Rp1.700.000 | Rp1.450.000 |
-| Bintang 3 | Madinah | Rp3.100.000 | Rp1.550.000 | Rp1.150.000 | Rp962.500 |
-| Bintang 4 | Makkah | Rp5.100.000 | Rp2.550.000 | Rp1.866.667 | Rp1.537.500 |
-| Bintang 4 | Madinah | Rp3.850.000 | Rp1.925.000 | Rp1.433.333 | Rp1.187.500 |
+| Bintang 3 | Makkah | Rp2.700.000 | Rp1.350.000 | Rp1.000.000 | Rp825.000 |
+| Bintang 3 | Madinah | Rp3.450.000 | Rp1.725.000 | Rp1.183.333 | Rp950.000 |
+| Bintang 4 | Makkah | Rp3.400.000 | Rp1.700.000 | Rp1.283.333 | Rp1.087.500 |
+| Bintang 4 | Madinah | Rp3.300.000 | Rp1.650.000 | Rp1.200.000 | Rp987.500 |
 | Bintang 5 | Makkah | Rp6.750.000 | Rp3.375.000 | Rp2.666.667 | Rp2.200.000 |
-| Bintang 5 | Madinah | Rp4.950.000 | Rp2.475.000 | Rp1.950.000 | Rp1.700.000 |
+| Bintang 5 | Madinah | Rp5.500.000 | Rp2.750.000 | Rp2.083.333 | Rp2.012.500 |
 
-Sudah termasuk makan 3x sehari. Sendiri = kamar yang sama dengan Berdua, ditanggung 1 orang (single supplement). Nilai per jemaah dibulatkan ke Rupiah terdekat saja (bukan ke kelipatan Rp5.000) supaya total bisa direkonsiliasi persis dengan harga kamar total per malam — lihat entri 2026-08-04 di `docs/CHANGELOG.md`.
+Sudah termasuk makan 3x sehari. Sendiri = kamar yang sama dengan Berdua, ditanggung 1 orang (single supplement) — karena itu **kolom Sendiri tepat dua kali lipat kolom Berdua**. Nilai per jemaah dibulatkan ke Rupiah terdekat saja (bukan ke kelipatan Rp5.000) — lihat entri 2026-08-04 di `docs/CHANGELOG.md`.
+
+### Total kamar per malam (untuk rekonsiliasi, bukan untuk dikutip ke jemaah)
+
+Angka di bawah ini = harga per jemaah × jumlah jemaah. Dipakai hanya untuk mencocokkan dengan total bundel 9 hari di dokumen resmi Musafirin, yang memang dihitung per rombongan.
+
+| Tier | Kota | Sendiri | Berdua | Bertiga | Berempat |
+|---|---|---|---|---|---|
+| Bintang 3 | Makkah | Rp2.700.000 | Rp2.700.000 | Rp3.000.000 | Rp3.300.000 |
+| Bintang 3 | Madinah | Rp3.450.000 | Rp3.450.000 | Rp3.550.000 | Rp3.800.000 |
+| Bintang 4 | Makkah | Rp3.400.000 | Rp3.400.000 | Rp3.850.000 | Rp4.350.000 |
+| Bintang 4 | Madinah | Rp3.300.000 | Rp3.300.000 | Rp3.600.000 | Rp3.950.000 |
+| Bintang 5 | Makkah | Rp6.750.000 | Rp6.750.000 | Rp8.000.000 | Rp8.800.000 |
+| Bintang 5 | Madinah | Rp5.500.000 | Rp5.500.000 | Rp6.250.000 | Rp8.050.000 |
+
+> **Jangan tertukar.** Yang masuk ke `/admin/rates` dan ke penawaran jemaah adalah tabel **per jemaah** di atas, bukan tabel total kamar ini. Sistem menghitung `tarif × jumlah malam × jumlah jemaah`, jadi memasukkan total kamar akan melipatgandakan harga sebanyak jumlah jemaah — untuk Berempat, empat kali lipat.
+
+**Catatan transparansi rate:** rate Makkah (Grand Al Massa, Maysan Al Mashaer, Movenpick Hajar) terkonfirmasi langsung dari brosur rekanan. Rate Madinah (Kingsgate Durrat, Kingsgate Deyar, Venue Al Harithia) belum ada brosur per-malam terpisah — diturunkan (derived) dari total paket resmi 9 hari (4 malam Makkah + 3 malam Madinah) dikurangi komponen Makkah dan Paket Dasar, lalu dibagi 3 malam. Perlu konfirmasi rate resmi per-malam dari rekanan saat brosur baru tersedia.
 
 ## 3. Layanan Tambahan / Add-On — Harga per Jemaah (opsional)
 

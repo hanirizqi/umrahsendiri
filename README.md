@@ -64,6 +64,7 @@ Migrasi dan pengisian katalog berjalan sendiri saat aplikasi start lewat `server
 | `npm run db:generate` | Membuat berkas migrasi dari perubahan `server/database/schema.ts` |
 | `npm run db:migrate` | Menerapkan migrasi secara manual (biasanya tidak perlu) |
 | `npm run db:studio` | Menjelajah isi database lewat peramban |
+| `npm run rates:verify` | Memeriksa kewarasan tarif LPP — wajib lolos sebelum push |
 
 Di produksi keempat variabel diset lewat **Coolify → Environment Variables**, bukan lewat file, dan masing-masing harus ditandai **Available at Runtime** — nilai yang hanya tersedia saat build tidak terbaca oleh proses yang melayani permintaan. Nilai lokal dan produksi berdiri sendiri; mengubah salah satunya tidak memengaruhi yang lain.
 
@@ -77,7 +78,9 @@ Panel memakai sesi berbasis cookie dengan halaman masuk di `/admin/login`, berla
 
 ### Tarif LPP
 
-Tarif dikelola lewat **panel admin** di `/admin/rates`, bukan lewat kode. Tiap terbitan LPP jadi satu periode; cara tercepat membuat yang baru adalah menyalin periode sebelumnya lalu mengubah angka yang berganti. Struktur tiap periode berdiri sendiri — layanan bisa ditambah atau dihentikan, dan bintang hotel tidak dikunci pada 3–5.
+Terbitan LPP baru masuk lewat `server/database/rates/` — satu berkas per periode, didaftarkan di `index.ts`, lalu dimasukkan sendiri saat deploy. Tidak perlu menyentuh panel. Menyunting tarif yang sudah ada tetap lewat **panel admin** di `/admin/rates`; periode yang sudah terisi tidak pernah ditimpa oleh deploy.
+
+Sebelum push, jalankan `npm run rates:verify` — aturannya di [docs/PRICING_RULES.md](docs/PRICING_RULES.md). Struktur tiap periode berdiri sendiri — layanan bisa ditambah atau dihentikan, dan bintang hotel tidak dikunci pada 3–5.
 
 `server/database/seed.ts` hanya membekali periode yang **belum punya tarif sama sekali**. Database baru langsung bisa membuat penawaran tanpa siapa pun mengisi apa pun, sementara tarif yang sudah disunting lewat panel tidak pernah ditimpa deploy berikutnya. Katalog layanan tetap di-upsert tiap start karena tidak disunting lewat panel.
 
@@ -108,7 +111,8 @@ content/
 content.config.ts     Skema koleksi content (articles)
 server/
   api/                 Route API (leads publik, admin terlindungi, sitemap-urls)
-  database/            Skema Drizzle, migrasi, dan seed katalog layanan
+  database/            Skema Drizzle, migrasi, seed katalog
+    rates/             Satu berkas per terbitan LPP, harga per jemaah
   middleware/          Penjaga sesi untuk /admin/**
   plugins/             Migrasi saat start, pemeriksa kelengkapan environment
   utils/               Koneksi database, sesi admin, pembatas laju, penomoran dokumen, normalisasi nomor HP
@@ -116,6 +120,7 @@ drizzle.config.ts      Konfigurasi Drizzle Kit
 public/                Aset statis (favicon, gambar, brand assets)
 docs/strategy.md       Riset UX, positioning, sitemap, design system
 docs/DEPLOYMENT.md     Runbook produksi: environment variable, 503, rotasi kata sandi
+docs/PRICING_RULES.md  Aturan menulis harga: satuan, uji wajib, cara memasukkan LPP baru
 ```
 
 ## Sitemap

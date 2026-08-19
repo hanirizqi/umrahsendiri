@@ -1,18 +1,22 @@
 import { eq, sql } from 'drizzle-orm'
+import { RATE_PERIODS } from './rates'
 import { ratePeriods, rates, services } from './schema'
 
 /**
- * Katalog layanan dan tarif LPP awal.
+ * Katalog layanan, dan jalur masuk terbitan LPP baru.
  *
- * Sejak ada layar pengelola tarif di panel admin, berkas ini **bukan lagi sumber
- * kebenaran tarif** — panel yang memegangnya. Yang tersisa di sini adalah bekal
- * awal: katalog layanan, dan satu periode tarif untuk database yang masih kosong.
+ * Terbitan LPP dideklarasikan di `server/database/rates/` lalu dimasukkan
+ * sendiri saat aplikasi start — tidak perlu menyentuh panel dan tidak perlu
+ * migrasi baru tiap bulan.
  *
- * Tarif hanya ditulis kalau periodenya belum punya tarif sama sekali. Tanpa
- * syarat itu, setiap deploy akan menghapus dan menulis ulang seluruh tarif
- * periode tersebut, dan pekerjaan yang dilakukan lewat panel lenyap tanpa
- * seorang pun tahu. Katalog layanan tetap di-upsert karena tidak disunting
- * lewat panel dan namanya ikut dipakai di halaman publik.
+ * Yang **tidak** dilakukan berkas ini: menyunting periode yang sudah ada
+ * tarifnya. Begitu sebuah periode terisi, ia tidak pernah disentuh lagi, jadi
+ * perubahan lewat `/admin/rates` selamat dari deploy berikutnya. Mengubah angka
+ * di `rates/` untuk periode yang sudah terlanjur ada karena itu tidak
+ * berpengaruh — perbaikannya lewat panel.
+ *
+ * Katalog layanan tetap di-upsert karena tidak disunting lewat panel dan
+ * namanya ikut dipakai di halaman publik.
  */
 
 const SERVICES = [
@@ -80,31 +84,14 @@ const SERVICES = [
   },
 ]
 
-const PERIOD = {
-  code: '2026-09',
-  label: 'LPP September 2026',
-  effectiveFrom: new Date('2026-09-01'),
-  isPublished: true,
-  note: 'Disalin dari docs/PRICING.md. Perbarui tiap LPP baru terbit.',
-}
-
-/** Tarif per jemaah, rupiah penuh. Indeks array = okupansi 1..4. */
-const FLAT: Record<string, number[]> = {
-  paket_dasar: [11_500_000, 7_350_000, 6_566_667, 5_750_000],
-  handling_bandara: [650_000, 650_000, 650_000, 650_000],
-  pembimbing: [1_400_000, 700_000, 475_000, 350_000],
-  jabal_khandamah: [1_000_000, 500_000, 350_000, 250_000],
-  city_tour: [3_550_000, 1_800_000, 1_300_000, 950_000],
-}
-
-/** Hotel per malam, per jemaah — dipisah bintang dan kota. */
-const HOTEL: Record<number, Record<string, number[]>> = {
-  3: { makkah: [4_350_000, 2_175_000, 1_700_000, 1_450_000], madinah: [3_100_000, 1_550_000, 1_150_000, 965_000] },
-  4: { makkah: [5_100_000, 2_550_000, 1_865_000, 1_540_000], madinah: [3_850_000, 1_925_000, 1_435_000, 1_190_000] },
-  5: { makkah: [6_750_000, 3_375_000, 2_665_000, 2_200_000], madinah: [4_950_000, 2_475_000, 1_950_000, 1_700_000] },
-}
-
-/** Aman dijalankan berulang: baris dicocokkan lewat kunci alaminya. */
+/**
+ * Mengisi katalog layanan, lalu memasukkan tiap terbitan LPP yang belum ada.
+ *
+ * Aman dijalankan berulang. Periode yang sudah punya tarif — entah dari
+ * penyemaian pertama atau dari panel admin — tidak pernah disentuh lagi, jadi
+ * suntingan lewat `/admin/rates` selamat dari deploy berikutnya sementara
+ * database baru tetap langsung bisa membuat penawaran.
+ */
 export async function seedCatalog(db: ReturnType<typeof useDb>) {
   for (const s of SERVICES) {
     await db.insert(services).values(s).onConflictDoUpdate({
@@ -121,63 +108,57 @@ export async function seedCatalog(db: ReturnType<typeof useDb>) {
     })
   }
 
-  await db.insert(ratePeriods).values(PERIOD).onConflictDoUpdate({
-    target: ratePeriods.code,
-    set: {
-      label: PERIOD.label,
-      effectiveFrom: PERIOD.effectiveFrom,
-      isPublished: PERIOD.isPublished,
-      note: PERIOD.note,
-      updatedAt: new Date(),
-    },
-  })
-
-  const [period] = await db.select().from(ratePeriods).where(eq(ratePeriods.code, PERIOD.code)).limit(1)
-  if (!period) throw new Error('Periode tarif gagal dibuat.')
-
   const serviceRows = await db.select({ id: services.id, code: services.code }).from(services)
   const idByCode = new Map(serviceRows.map(s => [s.code, s.id]))
 
-  const rows: typeof rates.$inferInsert[] = []
+  const seeded: string[] = []
 
-  for (const [code, amounts] of Object.entries(FLAT)) {
-    const serviceId = idByCode.get(code)
-    if (!serviceId) continue
-    amounts.forEach((amount, i) => {
-      rows.push({ ratePeriodId: period.id, serviceId, occupancy: i + 1, hotelTier: null, city: null, amount })
-    })
-  }
+  for (const def of RATE_PERIODS) {
+    await db.insert(ratePeriods).values({
+      code: def.code,
+      label: def.label,
+      effectiveFrom: new Date(def.effectiveFrom),
+      isPublished: def.isPublished,
+      note: def.note,
+    }).onConflictDoNothing({ target: ratePeriods.code })
 
-  const hotelId = idByCode.get('hotel')
-  if (hotelId) {
-    for (const [tier, cities] of Object.entries(HOTEL)) {
-      for (const [city, amounts] of Object.entries(cities)) {
-        amounts.forEach((amount, i) => {
-          rows.push({ ratePeriodId: period.id, serviceId: hotelId, occupancy: i + 1, hotelTier: Number(tier), city, amount })
-        })
+    const [period] = await db.select().from(ratePeriods)
+      .where(eq(ratePeriods.code, def.code)).limit(1)
+    if (!period) continue
+
+    const [existing] = await db
+      .select({ count: sql<number>`count(*)::int` })
+      .from(rates)
+      .where(eq(rates.ratePeriodId, period.id))
+    if (existing?.count) continue
+
+    const rows: typeof rates.$inferInsert[] = []
+
+    for (const [code, amounts] of Object.entries(def.flat)) {
+      const serviceId = idByCode.get(code)
+      if (!serviceId) continue
+      amounts.forEach((amount, i) => {
+        rows.push({ ratePeriodId: period.id, serviceId, occupancy: i + 1, hotelTier: null, city: null, amount })
+      })
+    }
+
+    const hotelId = idByCode.get('hotel')
+    if (hotelId) {
+      for (const [tier, cities] of Object.entries(def.hotel)) {
+        for (const [city, amounts] of Object.entries(cities)) {
+          amounts.forEach((amount, i) => {
+            rows.push({ ratePeriodId: period.id, serviceId: hotelId, occupancy: i + 1, hotelTier: Number(tier), city, amount })
+          })
+        }
       }
+    }
+
+    if (rows.length) {
+      await db.insert(rates).values(rows)
+      seeded.push(`${def.code} (${rows.length} tarif)`)
     }
   }
 
-  /**
-   * Hanya membekali periode yang masih kosong.
-   *
-   * Sekali periode ini punya tarif — entah dari penyemaian pertama atau dari
-   * panel admin — berkas ini tidak pernah menyentuhnya lagi. Itulah yang
-   * membuat tarif yang disunting lewat panel selamat dari deploy berikutnya,
-   * sekaligus membuat database yang benar-benar baru tetap langsung bisa
-   * membuat penawaran tanpa siapa pun mengisi apa pun lebih dulu.
-   */
-  const [existing] = await db
-    .select({ count: sql<number>`count(*)::int` })
-    .from(rates)
-    .where(eq(rates.ratePeriodId, period.id))
-
-  if (existing?.count) {
-    return { services: SERVICES.length, rates: existing.count, seededRates: false }
-  }
-
-  await db.insert(rates).values(rows)
-
-  return { services: SERVICES.length, rates: rows.length, seededRates: true }
+  const [counted] = await db.select({ count: sql<number>`count(*)::int` }).from(rates)
+  return { services: SERVICES.length, rates: counted?.count ?? 0, seeded }
 }

@@ -4,17 +4,18 @@ Berkas ini untuk sesi kerja baru — manusia maupun AI — yang belum punya kont
 percakapan sebelumnya. Isinya hanya hal yang **tidak bisa disimpulkan dari kode
 atau git log**: keputusan, alasannya, dan jebakan yang sudah pernah menggigit.
 
-Terakhir diperbarui: 9 Agustus 2026.
+Terakhir diperbarui: 19 Agustus 2026.
 
 ## Baca berurutan
 
 1. `CLAUDE.md` — identitas, prinsip, dan aturan menulis kode di proyek ini
 2. Berkas ini — keadaan sekarang dan jebakannya
 3. `docs/product.md` — lini produk dan positioning yang berlaku
-4. `docs/PRICING.md` — harga publik terkini
-5. `docs/GLOSSARY.md` — istilah wajib (Umrah bukan Umroh, Jemaah bukan Jamaah)
-6. `README.md` — cara menjalankan, struktur, sitemap
-7. `docs/DEPLOYMENT.md` — environment variable, 503, rotasi kata sandi, restore
+4. `docs/PRICING_RULES.md` — **wajib sebelum menulis angka harga**
+5. `docs/PRICING.md` — harga publik terkini
+6. `docs/GLOSSARY.md` — istilah wajib (Umrah bukan Umroh, Jemaah bukan Jamaah)
+7. `README.md` — cara menjalankan, struktur, sitemap
+8. `docs/DEPLOYMENT.md` — environment variable, 503, rotasi kata sandi, restore
 
 Tidak ada berkas roadmap atau backlog. Keduanya pernah ada tapi isinya rencana
 dari positioning lama — Itinerary Builder, Packing Checklist, Budget Planner —
@@ -77,9 +78,11 @@ Drizzle menyimpan catatan migrasi di dalam database, jadi ikut terbawa backup.
 Backup yang lebih tua dari migrasi `0003`/`0005` tidak memuat catatannya. Kueri
 pemeriksaannya ada di `docs/DEPLOYMENT.md`.
 
-**`server/database/seed.ts` bukan lagi sumber kebenaran tarif.** Mengubah angka di sana lalu
-deploy tidak akan mengubah apa pun — panel admin yang memegangnya. Penyemaian
-hanya membekali periode yang belum punya tarif sama sekali.
+**Terbitan LPP baru masuk lewat `server/database/rates/`, tapi menyunting yang
+sudah ada tidak bisa dari sana.** Periode yang sudah punya tarif tidak pernah
+ditimpa deploy — itu yang membuat suntingan lewat `/admin/rates` selamat. Jadi
+mengubah angka di `rates/` untuk periode yang terlanjur ada tidak berpengaruh
+sama sekali, dan itu membingungkan kalau tidak diketahui.
 
 **Okupansi 1–4 artinya jumlah jemaah, bukan penghuni kamar.** Untuk hotel
 kebetulan keduanya (`4.350.000 ÷ 2 = 2.175.000` tepat), tapi untuk Paket Dasar
@@ -93,6 +96,12 @@ bersama). Jangan menyebut kolom itu "kamar" secara umum.
 jumlah baris bisa berkurang; satu baris terhapus permanen membuat nomor
 berikutnya bertabrakan dan penyimpanan gagal total. Pakai `document_counters`.
 
+**Harga kamar mudah tertukar dengan harga per jemaah.** 19 Agustus 2026 tabel
+harga kamar hampir masuk sebagai harga per jemaah — angkanya benar, satuannya
+tertukar, dan penawaran untuk rombongan berempat akan jadi empat kali lipat tanpa
+satu pun error muncul. Sekarang dijaga `npm run rates:verify`; aturannya di
+`docs/PRICING_RULES.md`.
+
 **Dependensi opsional yang gagal dipasang dilewati npm tanpa bersuara.** Deploy
 12 Agustus 2026 gagal karena `ipx` — optionalDependency milik `@nuxt/image` —
 tidak terpasang, padahal `npm install` melaporkan sukses; build baru tumbang
@@ -104,7 +113,8 @@ sama, `fonts.googleapis.com` juga tidak terjangkau.
 ## Keputusan yang jangan diputar balik tanpa alasan baru
 
 **Positioning.** UmrahSendiri menjual layanan umrah mandiri satu pintu — hotel,
-visa & dokumen, transportasi, pembimbing — dipilih sendiri oleh jemaah. **Bukan**
+transportasi, pembimbing, dan pendampingan penyiapan dokumen — dipilih sendiri
+oleh jemaah. **Bukan**
 biro travel, **tidak** menjual paket rombongan. Positioning ini sempat berubah
 tiga kali dan baru stabil belakangan. Jangan menghidupkan lagi klaim lama seperti
 "menyusun itinerary", "pendampingan", atau "checklist" — layanan itu tidak ada.

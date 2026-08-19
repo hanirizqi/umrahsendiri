@@ -18,6 +18,7 @@ We help users plan, understand, and confidently organize their own Umrah journey
 
 ## Business Context (read before writing product/pricing copy)
 
+- `docs/PRICING_RULES.md` — **wajib dibaca sebelum menulis angka harga di mana pun.** Satuan (per jemaah vs per kamar), uji yang harus lolos, dan cara memasukkan LPP baru.
 - `docs/PRICING.md` — current public product lines, prices, hotel details, inclusions/exclusions. Prices change monthly and are updated manually — confirm freshness before trusting it, don't assume auto-sync.
 - `docs/GLOSSARY.md` — mandatory terminology (Umrah not Umroh, Jemaah not Jamaah, Pembimbing not Muthowif) and business term definitions.
 - `docs/BRAND.md` — hero copy, tagline, voice, color palette, contact info.
