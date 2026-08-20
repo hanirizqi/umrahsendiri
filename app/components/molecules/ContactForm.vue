@@ -9,7 +9,7 @@ const NEEDS_OPTIONS = [
     label: 'Paket Dasar',
     desc: 'Transportasi 3 rute (Bandara Jeddah–Makkah Hotel, Makkah Hotel–Madinah Hotel, Madinah Hotel–Bandara Jeddah), dan pembimbing umrah + manasik online (untuk 1x pelaksanaan umrah).',
   },
-  { key: 'hotel', code: 'hotel', label: 'Hotel (termasuk makan 3x sehari)', desc: '' },
+  { key: 'hotel', code: 'hotel', label: 'Hotel', desc: 'Termasuk makan 3x sehari.' },
   {
     key: 'pembimbing',
     code: 'pembimbing',
@@ -83,9 +83,27 @@ watch(() => form.needs.hotel, (checked) => {
   }
 })
 
+/**
+ * Sudah punya reservasi sendiri berarti tidak ada hotel yang perlu kami pesankan.
+ *
+ * Centangnya dimatikan, bukan sekadar dikosongkan: dibiarkan aktif, ia bisa
+ * dicentang lagi tanpa mengubah status di atas, dan penawarannya akan memuat
+ * kamar yang jemaahnya sudah bayar sendiri.
+ */
+const isHotelLocked = computed(() => form.hotelStatus === 'sudah')
+
 watch(() => form.hotelStatus, (status) => {
   if (status === 'belum') form.needs.hotel = true
+  if (status === 'sudah') form.needs.hotel = false
 })
+
+/** Keterangan di bawah tiap centang; alasan terkunci menggantikan deskripsinya. */
+function needDescription(key: string, desc: string): string {
+  if (key === 'hotel' && isHotelLocked.value) {
+    return 'Tidak perlu dipilih — Anda sudah punya reservasi hotel sendiri.'
+  }
+  return desc
+}
 
 watch(() => form.needs.pembimbing, (checked) => {
   if (!checked) form.pembimbingDays = '1'
@@ -127,7 +145,8 @@ function buildMessage(): string {
 
   const needsList = NEEDS_OPTIONS.filter(opt => form.needs[opt.key]).map((opt) => {
     if (opt.key === 'hotel') {
-      if (!form.hotelStar) return opt.label
+      // Keterangan makannya ikut ke WhatsApp meski di form ia hanya deskripsi.
+      if (!form.hotelStar) return 'Hotel (termasuk makan 3x sehari)'
       return `Hotel Bintang ${form.hotelStar} (${form.nightsMakkah || 0} malam Makkah, ${form.nightsMadinah || 0} malam Madinah, termasuk makan 3x sehari)`
     }
     if (opt.key === 'pembimbing') return `${opt.label} (${form.pembimbingDays || 1} hari)`
@@ -369,11 +388,26 @@ const checkboxClass = 'size-4 rounded border-primary-100 accent-primary'
       <p class="text-sm font-medium text-ink/70">Kebutuhan yang Diperlukan</p>
       <div class="mt-3 space-y-3">
         <div v-for="option in NEEDS_OPTIONS" :key="option.key">
-          <label class="flex items-center gap-2.5 text-sm text-ink/80">
-            <input v-model="form.needs[option.key]" type="checkbox" :class="checkboxClass">
+          <label
+            class="flex items-center gap-2.5 text-sm"
+            :class="option.key === 'hotel' && isHotelLocked ? 'text-ink/40' : 'text-ink/80'"
+          >
+            <input
+              v-model="form.needs[option.key]"
+              type="checkbox"
+              :disabled="option.key === 'hotel' && isHotelLocked"
+              :aria-describedby="needDescription(option.key, option.desc) ? `need-${option.key}-desc` : undefined"
+              :class="[checkboxClass, 'disabled:cursor-not-allowed disabled:opacity-50']"
+            >
             {{ option.label }}
           </label>
-          <p v-if="option.desc" class="mt-1 ml-6 text-xs text-ink/50">{{ option.desc }}</p>
+          <p
+            v-if="needDescription(option.key, option.desc)"
+            :id="`need-${option.key}-desc`"
+            class="mt-1 ml-6 text-xs text-ink/50"
+          >
+            {{ needDescription(option.key, option.desc) }}
+          </p>
 
           <div v-if="option.key === 'hotel' && form.needs.hotel" class="mt-3 ml-6 space-y-3">
             <div class="flex flex-wrap gap-x-5 gap-y-2">
