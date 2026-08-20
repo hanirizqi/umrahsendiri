@@ -20,6 +20,15 @@ const props = withDefaults(defineProps<Props>(), {
 const NuxtLink = resolveComponent('NuxtLink')
 const tag = computed(() => (props.to ? NuxtLink : props.href ? 'a' : 'button'))
 
+/**
+ * Hanya tautan ke luar situs yang dibuka di tab baru.
+ *
+ * Sebelumnya setiap `href` mendapat `target="_blank"`, termasuk tautan seperti
+ * `#form` yang menunjuk ke bagian lain pada halaman yang sama — dan itu membuka
+ * salinan halaman di tab baru alih-alih menggulir.
+ */
+const isExternal = computed(() => Boolean(props.href && /^(https?:|mailto:|tel:)/.test(props.href)))
+
 const variantClass = computed(() => ({
   primary: 'bg-primary text-background hover:bg-primary-700 shadow-soft',
   secondary: 'bg-secondary text-primary-700 hover:bg-secondary-700 shadow-soft',
@@ -37,8 +46,8 @@ const sizeClass = computed(() => ({
     :is="tag"
     :to="to"
     :href="href"
-    :target="href ? '_blank' : undefined"
-    :rel="href ? 'noopener noreferrer' : undefined"
+    :target="isExternal ? '_blank' : undefined"
+    :rel="isExternal ? 'noopener noreferrer' : undefined"
     :type="tag === 'button' ? type : undefined"
     class="inline-flex items-center justify-center gap-2 rounded-full font-display font-semibold transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary-600 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 disabled:hover:scale-100"
     :class="[variantClass, sizeClass]"

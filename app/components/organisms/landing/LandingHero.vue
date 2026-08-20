@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { HOME_STATS } from '~/constants/faqs'
 
-const { cta } = useWhatsapp()
 </script>
 
 <template>
@@ -17,10 +16,9 @@ const { cta } = useWhatsapp()
         Hotel, transportasi, dan pembimbing — pilih sesuai kebutuhan Anda. Konsultasi awal tanpa kewajiban apa pun.
       </p>
 
-      <AppButton v-bind="cta('landing_hero')" variant="primary" size="lg" class="mt-8 w-full sm:w-auto">
-        Konsultasi Gratis via WhatsApp
-        <Icon name="lucide:arrow-right" class="size-4" />
-      </AppButton>
+      <LandingFormCta source="hero" class="mt-8 block sm:inline-block" full-width>
+        Mulai Konsultasi Gratis
+      </LandingFormCta>
 
       <GlassCard class="mx-auto mt-10 max-w-md">
         <div class="grid grid-cols-3 gap-4">

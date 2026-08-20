@@ -1,5 +1,4 @@
 <script setup lang="ts">
-const { cta } = useWhatsapp()
 </script>
 
 <template>
@@ -11,10 +10,9 @@ const { cta } = useWhatsapp()
       <p class="mt-3 text-sm text-ink/70 md:text-base">
         Mulai dengan konsultasi awal tanpa kewajiban apa pun.
       </p>
-      <AppButton v-bind="cta('landing_cta')" variant="primary" size="lg" class="mt-6 w-full sm:w-auto">
-        Konsultasi Gratis via WhatsApp
-        <Icon name="lucide:arrow-right" class="size-4" />
-      </AppButton>
+      <LandingFormCta source="penutup" class="mt-6 block sm:inline-block" full-width>
+        Isi Form Konsultasi
+      </LandingFormCta>
     </div>
   </section>
 </template>

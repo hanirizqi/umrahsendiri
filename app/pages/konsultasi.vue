@@ -22,7 +22,6 @@ useSeoMeta({
   robots: 'noindex, nofollow',
 })
 
-const { cta } = useWhatsapp()
 
 const OFFERS = [
   { icon: 'lucide:bed-double', title: 'Hotel', text: 'Pilihan hotel di Makkah dan Madinah sesuai jarak, budget, dan kenyamanan Anda.' },
@@ -63,10 +62,9 @@ const OFFERS = [
         </div>
 
         <div class="mt-8 text-center">
-          <AppButton v-bind="cta('lp_offers')" variant="ghost" size="md">
-            Tanya Dulu via WhatsApp
-            <Icon name="lucide:message-circle" class="size-4" />
-          </AppButton>
+          <LandingFormCta source="penawaran" variant="ghost" size="md">
+            Cek Estimasi Biaya Anda
+          </LandingFormCta>
         </div>
       </div>
     </section>

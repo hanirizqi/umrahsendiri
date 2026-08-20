@@ -4,7 +4,7 @@ Berkas ini untuk sesi kerja baru — manusia maupun AI — yang belum punya kont
 percakapan sebelumnya. Isinya hanya hal yang **tidak bisa disimpulkan dari kode
 atau git log**: keputusan, alasannya, dan jebakan yang sudah pernah menggigit.
 
-Terakhir diperbarui: 19 Agustus 2026.
+Terakhir diperbarui: 20 Agustus 2026.
 
 ## Baca berurutan
 
@@ -119,8 +119,7 @@ sama, `fonts.googleapis.com` juga tidak terjangkau.
 
 **Positioning.** UmrahSendiri menjual layanan umrah mandiri satu pintu — hotel,
 transportasi, pembimbing, dan pendampingan penyiapan dokumen — dipilih sendiri
-oleh jemaah. **Bukan**
-biro travel, **tidak** menjual paket rombongan. Positioning ini sempat berubah
+oleh jemaah. **Bukan** biro travel, **tidak** menjual paket rombongan. Positioning ini sempat berubah
 tiga kali dan baru stabil belakangan. Jangan menghidupkan lagi klaim lama seperti
 "menyusun itinerary", "pendampingan", atau "checklist" — layanan itu tidak ada.
 
@@ -154,6 +153,19 @@ Akibatnya ada **jarak antara yang tertulis di situs dan yang jemaah terima**,
 dan jarak itu dijembatani saat percakapan WhatsApp. Kalau suatu saat copy publik
 terasa tidak cocok dengan `docs/PRICING.md`, itu bukan kekeliruan yang perlu
 dirapikan — itu keputusan yang disengaja.
+
+**Halaman iklan tidak punya jalan pintas ke WhatsApp.** Kelima tombol ajakan di
+`/konsultasi` menggulir ke form, bukan membuka WhatsApp; WhatsApp baru terbuka
+setelah form terkirim, dengan pesan yang sudah terisi dari jawaban jemaah.
+Percakapan yang dimulai tanpa form berarti CS menerima "Assalamualaikum" tanpa
+nama, jumlah jemaah, tanggal, maupun kebutuhan — dan atribusi iklannya hilang,
+jadi tidak ada cara tahu kampanye mana yang membayarnya.
+
+Akibatnya untuk pelacakan: conversion action **klik WhatsApp praktis tidak lagi
+menyala dari trafik iklan**. Itu bukan tanda tracking rusak — memang tidak ada
+yang mengklik WhatsApp di halaman itu. Satu-satunya konversi dari halaman iklan
+adalah pengiriman form, yang justru action Primary yang dioptimalkan Google.
+Beri tahu tim ads sebelum mereka mengira ada yang mati.
 
 **Lead dari orang yang sama tidak digabung jadi satu baris.** Tiap pengiriman
 form membawa atribusi iklannya sendiri; menggabungkannya akan menghapus jejak

@@ -53,6 +53,18 @@ function sendAndWait(sendTo: string): Promise<void> {
 }
 
 /**
+ * Tombol di halaman iklan yang menggulir ke form, bukan membuka WhatsApp.
+ *
+ * Sengaja **tidak** melaporkan konversi ke Google Ads: tidak ada percakapan
+ * WhatsApp yang dimulai di sini, dan melaporkannya sebagai klik WhatsApp berarti
+ * mengaku ada konversi yang tidak terjadi. Cukup dicatat di GA4 supaya terlihat
+ * tombol mana yang benar-benar membawa orang ke form.
+ */
+export function reportFormCtaClick(source: string) {
+  send('event', 'cta_to_form', { send_to: GA4_MEASUREMENT_ID, source })
+}
+
+/**
  * Klik tombol WhatsApp mana pun di situs publik. `source` menandai tombol yang
  * diklik, supaya di GA4 terlihat tombol mana yang menghasilkan percakapan.
  *

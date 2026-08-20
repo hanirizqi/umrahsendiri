@@ -1,5 +1,4 @@
 <script setup lang="ts">
-const { cta } = useWhatsapp()
 
 const POINTS = [
   { icon: 'lucide:compass', text: 'Kontrol penuh atas setiap keputusan perjalanan Anda' },
@@ -25,9 +24,9 @@ const POINTS = [
         </div>
       </div>
 
-      <AppButton v-bind="cta('landing_solution')" variant="secondary" size="lg" class="mt-8 w-full sm:w-auto">
+      <LandingFormCta source="solusi" variant="secondary" class="mt-8 block sm:inline-block" full-width>
         Mulai Konsultasi Gratis
-      </AppButton>
+      </LandingFormCta>
     </div>
   </section>
 </template>

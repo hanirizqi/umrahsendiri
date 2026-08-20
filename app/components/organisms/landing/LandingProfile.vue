@@ -10,7 +10,6 @@ import { SITE } from '~/constants/site'
  * ibadah dan uang yang tidak sedikit, dan peninjau iklan mencari tanda bahwa
  * ada usaha nyata dengan kontak yang bisa dihubungi.
  */
-const { cta } = useWhatsapp()
 
 const FACTS = [
   {
@@ -60,10 +59,9 @@ const FACTS = [
         <p class="mt-1 text-sm text-ink/60">{{ SITE.email }}</p>
         <p class="mt-1 text-sm text-ink/60">Senin – Sabtu, 09.00 – 20.00 WIB</p>
 
-        <AppButton v-bind="cta('landing_profile')" variant="ghost" size="md" class="mt-5">
-          Chat via WhatsApp
-          <Icon name="lucide:message-circle" class="size-4" />
-        </AppButton>
+        <LandingFormCta source="profil" variant="ghost" size="md" class="mt-5">
+          Ceritakan Rencana Anda
+        </LandingFormCta>
       </div>
     </div>
   </section>

@@ -2,6 +2,14 @@
 
 Record notable project changes.
 
+## 2026-08-20 — the ads landing page no longer lets anyone skip the form
+
+- **All five calls to action on `/konsultasi` now scroll to the form** instead of opening WhatsApp. WhatsApp opens only after the form is submitted, pre-filled from the answers. A conversation that starts without the form reaches CS as "Assalamualaikum" with no name, group size, dates or requirements, and the ad attribution is gone with it — there is no way to tell which campaign paid for it.
+- **Those buttons do not report a WhatsApp conversion**, because nobody went to WhatsApp. They send a GA4 `cta_to_form` event carrying which button was used, so it stays visible which one actually drives form views. Reporting them as WhatsApp clicks would have claimed conversions that never happened.
+- **Expect the WhatsApp-click conversion to go quiet on ad traffic.** That is the intended outcome, not a broken tag: the only conversion the landing page can now produce is the form submission, which is the Primary action Google optimises toward.
+- `AppButton` stopped forcing `target="_blank"` on every `href`. An in-page link like `#form` was opening a second copy of the page in a new tab instead of scrolling. Only `http(s)`, `mailto:` and `tel:` open externally now.
+- `StickyBottomCta` deleted — dead since the old landing layout went.
+
 ## 2026-08-19 — September hotels replaced with Musafirin's official LA document
 
 - **Musafirin sent the official `LA Basic Private September 2026` document**, which names different hotels than the estimate used since 2026-08-04 and gives authoritative bundled 9-day (4N Makkah + 3N Madinah) totals per tier/okupansi. All three tiers changed: Bintang 3 Makkah/Madinah → Grand Al Massa / Kingsgate Durrat, Bintang 4 → Maysan Al Mashaer / Kingsgate Deyar, Bintang 5 Makkah unchanged (Movenpick Hajar) but Madinah → Venue Al Harithia (a different hotel from the previously-used Maysan Al Harithia).
