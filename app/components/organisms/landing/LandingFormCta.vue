@@ -16,6 +16,15 @@ const props = withDefaults(defineProps<{
   source: string
   variant?: 'primary' | 'secondary' | 'ghost'
   size?: 'md' | 'lg'
+  /**
+   * Melebar penuh di layar kecil, menyusut sesuai isi mulai `sm`.
+   *
+   * Pakai ini, jangan menambahkan kelas display sendiri dari pemanggil.
+   * `block sm:inline-block` pernah dipasang di tiga pemanggil dan varian `sm:`
+   * mengalahkan `inline-flex` milik AppButton pada layar >= 640px: tombolnya
+   * berhenti jadi flex, ikon panahnya turun ke baris kedua, dan tingginya
+   * berubah 46px -> 72px. Di layar kecil tidak terlihat sama sekali.
+   */
   fullWidth?: boolean
 }>(), {
   variant: 'primary',

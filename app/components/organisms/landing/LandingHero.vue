@@ -16,7 +16,7 @@ import { HOME_STATS } from '~/constants/faqs'
         Hotel, transportasi, dan pembimbing — pilih sesuai kebutuhan Anda. Konsultasi awal tanpa kewajiban apa pun.
       </p>
 
-      <LandingFormCta source="hero" class="mt-8 block sm:inline-block" full-width>
+      <LandingFormCta source="hero" class="mt-8" full-width>
         Mulai Konsultasi Gratis
       </LandingFormCta>
 

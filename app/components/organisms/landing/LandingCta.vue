@@ -10,7 +10,7 @@
       <p class="mt-3 text-sm text-ink/70 md:text-base">
         Mulai dengan konsultasi awal tanpa kewajiban apa pun.
       </p>
-      <LandingFormCta source="penutup" class="mt-6 block sm:inline-block" full-width>
+      <LandingFormCta source="penutup" class="mt-6" full-width>
         Isi Form Konsultasi
       </LandingFormCta>
     </div>

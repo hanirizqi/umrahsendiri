@@ -24,7 +24,7 @@ const POINTS = [
         </div>
       </div>
 
-      <LandingFormCta source="solusi" variant="secondary" class="mt-8 block sm:inline-block" full-width>
+      <LandingFormCta source="solusi" variant="secondary" class="mt-8" full-width>
         Mulai Konsultasi Gratis
       </LandingFormCta>
     </div>
