@@ -157,6 +157,8 @@ Satu `gtag.js` melayani dua tujuan sekaligus, keduanya di-config di `app/composa
 
 **Cuplikannya hanya terpasang di halaman iklan.** Sampai 20 Agustus 2026 ia ada di `app.head` pada `nuxt.config.ts` dan ikut ke seluruh situs; atas permintaan tim ads, Google Ads ID dan GA4 ID dicabut dari web utama. Sekarang `useGoogleTag()` dipanggil dari layout `lp` — satu-satunya layout halaman iklan — jadi di luar `/konsultasi` tidak ada `gtag` sama sekali dan tabel di bawah tidak berlaku di sana. Yang ikut diam: pengiriman form di `/contact`, klik WhatsApp di halaman publik dan di `/q/[token]`, serta cookie `_ga` yang tidak pernah dibuat sehingga `gaClientId` pada lead dari luar halaman iklan akan kosong. Leadnya sendiri tetap tersimpan lengkap dengan UTM dan `gclid`, karena `useAttribution` membaca URL, bukan gtag.
 
+Ini keputusan yang sudah ditimbang: yang dilepas adalah pengukuran GA4 atas situs organik, dan GA4 tidak bisa mengisi mundur. **Jangan mengembalikan tagnya ke sitewide tanpa permintaan baru dari tim ads.**
+
 Dua peristiwa yang dicatat, keduanya lewat `app/composables/useAnalytics.ts`:
 
 | Peristiwa | Google Ads | GA4 |

@@ -179,12 +179,22 @@ di `/q/[token]` tidak tercatat, dan cookie `_ga` tidak pernah dibuat — sehingg
 tetap tersimpan lengkap: UTM dan `gclid` dibaca dari URL, bukan dari gtag.
 
 Konversi iklan tidak dirugikan — trafik iklan hanya pernah melihat `/konsultasi`,
-dan halaman itu tidak punya jalan keluar. Yang benar-benar hilang adalah **GA4 di
-situs organik**: tidak ada lagi sesi, page view, maupun sumber trafik dari web
-utama, dan GA4 tidak bisa mengisi mundur, jadi lubangnya permanen. Kalau maksud
-permintaan itu sebenarnya hanya menjaga trafik web utama tidak masuk akun Ads,
-mencabut Ads ID saja dan membiarkan GA4 sitewide sudah cukup — tanpa kehilangan
-apa pun. Belum dikonfirmasi ke tim ads.
+dan halaman itu tidak punya jalan keluar. Yang dilepas adalah **GA4 di situs
+organik**: tidak ada lagi sesi, page view, maupun sumber trafik dari web utama,
+dan GA4 tidak bisa mengisi mundur, jadi setiap hari tagnya mati datanya kosong
+permanen.
+
+**Itu sudah ditimbang dan diterima, bukan kelalaian.** Keberatannya sempat
+diajukan — kalau tujuannya hanya menjaga trafik web utama tidak masuk akun Ads,
+mencabut Ads ID saja sudah cukup — dan Hani memutuskan mengikuti tim ads: iklan
+difokuskan ke halaman iklan saja, web utama dibersihkan. Jangan mengembalikan
+GA4 ke sitewide tanpa permintaan baru dari tim ads.
+
+Terverifikasi di localhost dengan cookie dikosongkan lebih dulu: di `/`,
+`/contact`, dan `/services` tidak ada satu pun skrip Google, tidak ada permintaan
+keluar, dan tidak ada cookie yang dibuat. Di `/konsultasi` ketiganya muncul —
+gtag.js, pixel konversi ke `googleads.g.doubleclick.net/.../18372297695/`, serta
+cookie `_gcl_au`, `_ga`, dan `_ga_PH99JXKHC9`.
 
 **Lead dari orang yang sama tidak digabung jadi satu baris.** Tiap pengiriman
 form membawa atribusi iklannya sendiri; menggabungkannya akan menghapus jejak
