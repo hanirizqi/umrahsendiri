@@ -99,10 +99,10 @@ app/
     organisms/          Blok halaman penuh (header, footer, hero)
       landing/          Blok khusus landing ads (/konsultasi)
       sections/          Blok section untuk home & halaman lain
-  composables/        useJsonLd, useReadingTime, useWhatsapp, useAttribution, useAnalytics, usePriceCalculator
+  composables/        useJsonLd, useReadingTime, useWhatsapp, useAttribution, useAnalytics, useGoogleTag, usePriceCalculator
   plugins/            attribution.client (menangkap asal-usul di kunjungan pertama)
   constants/          Data statis (nav, faqs, services, dst.)
-  layouts/            default (halaman umum), lp (/konsultasi), admin (panel staf)
+  layouts/            default (halaman umum), lp (/konsultasi — satu-satunya yang memuat gtag), admin (panel staf)
   pages/              Routing berbasis file (lihat Sitemap di bawah)
   types/               Tipe TypeScript bersama
   utils/               Helper (content, date)
@@ -153,7 +153,9 @@ URL lama berbahasa Indonesia (`/tentang`, `/layanan`, `/cara-kerja`, `/kontak`, 
 
 ## Pelacakan Konversi
 
-Satu `gtag.js` melayani dua tujuan sekaligus, keduanya di-config di `nuxt.config.ts` dan ID-nya tersimpan di `app/constants/analytics.ts`: **Google Ads** untuk konversi iklan dan **GA4** untuk perilaku pengunjung. Setiap event diarahkan lewat `send_to`, jadi tidak ada yang bocor ke tujuan yang salah.
+Satu `gtag.js` melayani dua tujuan sekaligus, keduanya di-config di `app/composables/useGoogleTag.ts` dan ID-nya tersimpan di `app/constants/analytics.ts`: **Google Ads** untuk konversi iklan dan **GA4** untuk perilaku pengunjung. Setiap event diarahkan lewat `send_to`, jadi tidak ada yang bocor ke tujuan yang salah.
+
+**Cuplikannya hanya terpasang di halaman iklan.** Sampai 20 Agustus 2026 ia ada di `app.head` pada `nuxt.config.ts` dan ikut ke seluruh situs; atas permintaan tim ads, Google Ads ID dan GA4 ID dicabut dari web utama. Sekarang `useGoogleTag()` dipanggil dari layout `lp` — satu-satunya layout halaman iklan — jadi di luar `/konsultasi` tidak ada `gtag` sama sekali dan tabel di bawah tidak berlaku di sana. Yang ikut diam: pengiriman form di `/contact`, klik WhatsApp di halaman publik dan di `/q/[token]`, serta cookie `_ga` yang tidak pernah dibuat sehingga `gaClientId` pada lead dari luar halaman iklan akan kosong. Leadnya sendiri tetap tersimpan lengkap dengan UTM dan `gclid`, karena `useAttribution` membaca URL, bukan gtag.
 
 Dua peristiwa yang dicatat, keduanya lewat `app/composables/useAnalytics.ts`:
 
@@ -165,7 +167,7 @@ Dua peristiwa yang dicatat, keduanya lewat `app/composables/useAnalytics.ts`:
 Tombol WhatsApp tidak pernah memanggil gtag sendiri. Semuanya dipasang lewat `cta()` dari `useWhatsapp`, yang mengembalikan `href` sekaligus pencatatnya:
 
 ```vue
-<AppButton v-bind="cta('sticky_bottom')">Konsultasi Gratis via WhatsApp</AppButton>
+<AppButton v-bind="cta('contact_channel')">Konsultasi Gratis via WhatsApp</AppButton>
 ```
 
 Menambah tombol WhatsApp baru berarti memakai helper yang sama, jadi tidak ada tombol yang tertinggal tanpa pencatatan. Isi `source` dengan nama yang menjelaskan letak tombolnya — itulah yang membedakan tombol satu dengan lainnya di GA4.
@@ -178,13 +180,9 @@ Pembagian perannya diatur di sisi Google Ads: form berstatus **Primary** dan dio
 
 Kalau akun Ads berganti lagi, kedua label ikut mati — label melekat pada akunnya. Kosongkan keduanya di `app/constants/analytics.ts` sampai penggantinya tiba; jangan biarkan menunjuk akun lama, karena permintaannya tetap terkirim tanpa error sementara tidak ada satu pun konversi tercatat.
 
-Tombol berbagi ke WhatsApp (`ShareButtons`) dan tautan WhatsApp di panel admin sengaja tidak dicatat: yang pertama berbagi artikel, yang kedua dipakai staf menghubungi lead.
+**Kedua label sudah terisi** sejak tim ads mengirimkannya pada 9 Agustus 2026, jadi conversion action-nya aktif — selama halamannya memuat gtag. Yang belum terbukti adalah Google Ads benar-benar menerimanya di akun mereka; sisi situs sudah diuji dari produksi pada 12 Agustus 2026.
 
-**Tidak ada satu pun konversi yang dilaporkan ke Google Ads saat ini.** Akun Ads berganti dari `AW-18371371265` ke `AW-18372297695` pada 9 Agustus 2026, dan label conversion action melekat pada akunnya — label lama menunjuk ke tujuan yang tidak ada. Melapor ke sana berarti data hilang tanpa jejak sementara semuanya tampak berjalan normal, jadi keduanya dikosongkan sampai penggantinya tiba.
-
-Tidak ada data yang hilang: GA4 tetap mencatat kedua peristiwa, dan iklan belum dinyalakan.
-
-Untuk mengaktifkannya, isi `WHATSAPP_FORM_CONVERSION` dan `WHATSAPP_CLICK_CONVERSION` di `app/constants/analytics.ts` dengan `AW-18372297695/<label>` masing-masing. **Dua conversion action terpisah, bukan satu** — klik tombol baru menandakan niat, pengiriman form berarti lead lengkap tersimpan; digabung, Google mengoptimalkan ke arah yang paling murah didapat, dan di akun tanpa riwayat konversi sinyal paling awal itulah yang membentuk fase belajarnya. Jadikan form sebagai konversi utama yang dioptimalkan, klik tombol sebagai penanda sekunder.
+Konversi klik WhatsApp praktis tidak lagi menyala dari trafik iklan, dan itu disengaja: kelima tombol di `/konsultasi` menggulir ke form, bukan membuka WhatsApp. Satu-satunya konversi dari halaman iklan adalah pengiriman form — action Primary yang justru dioptimalkan Google.
 
 ## Deployment
 

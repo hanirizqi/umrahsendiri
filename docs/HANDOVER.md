@@ -41,7 +41,7 @@ Yang sudah berjalan di produksi:
 - Form kontak menyimpan lead lengkap dengan atribusi iklan sejak kunjungan pertama
 - Panel admin `/admin`: Leads, Contacts, LPP Rates, Price Calculator
 - Pembuatan penawaran, halaman siap cetak, tautan publik `/q/[token]`
-- Google Ads + GA4 (`G-PH99JXKHC9`) pada satu gtag.js
+- Google Ads + GA4 (`G-PH99JXKHC9`) pada satu gtag.js, **hanya di `/konsultasi`**
 
 ## Siapa mengerjakan apa
 
@@ -166,6 +166,25 @@ menyala dari trafik iklan**. Itu bukan tanda tracking rusak — memang tidak ada
 yang mengklik WhatsApp di halaman itu. Satu-satunya konversi dari halaman iklan
 adalah pengiriman form, yang justru action Primary yang dioptimalkan Google.
 Beri tahu tim ads sebelum mereka mengira ada yang mati.
+
+**gtag.js hanya terpasang di halaman iklan, bukan di seluruh situs.** Atas
+permintaan tim ads, 20 Agustus 2026: Google Ads ID dan GA4 ID dicabut dari web
+utama. Sekarang `useGoogleTag()` dipanggil dari layout `lp`, jadi di luar
+`/konsultasi` tidak ada `gtag` sama sekali.
+
+Yang perlu diketahui sebelum ada yang mengira tracking rusak: pengiriman form di
+`/contact` tidak melaporkan konversi apa pun, klik WhatsApp di halaman publik dan
+di `/q/[token]` tidak tercatat, dan cookie `_ga` tidak pernah dibuat — sehingga
+`ga_client_id` pada lead dari luar halaman iklan akan kosong. Leadnya sendiri
+tetap tersimpan lengkap: UTM dan `gclid` dibaca dari URL, bukan dari gtag.
+
+Konversi iklan tidak dirugikan — trafik iklan hanya pernah melihat `/konsultasi`,
+dan halaman itu tidak punya jalan keluar. Yang benar-benar hilang adalah **GA4 di
+situs organik**: tidak ada lagi sesi, page view, maupun sumber trafik dari web
+utama, dan GA4 tidak bisa mengisi mundur, jadi lubangnya permanen. Kalau maksud
+permintaan itu sebenarnya hanya menjaga trafik web utama tidak masuk akun Ads,
+mencabut Ads ID saja dan membiarkan GA4 sitewide sudah cukup — tanpa kehilangan
+apa pun. Belum dikonfirmasi ke tim ads.
 
 **Lead dari orang yang sama tidak digabung jadi satu baris.** Tiap pengiriman
 form membawa atribusi iklannya sendiri; menggabungkannya akan menghapus jejak

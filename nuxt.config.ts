@@ -1,5 +1,4 @@
 import tailwindcss from '@tailwindcss/vite'
-import { GA4_MEASUREMENT_ID, GOOGLE_ADS_ID, GOOGLE_TAG_ID } from './app/constants/analytics'
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
@@ -32,22 +31,9 @@ export default defineNuxtConfig({
         { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16.png' },
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
       ],
-      script: [
-        // Dimuat dengan Google tag milik akun Ads, lalu tiap tujuan di-config
-        // terang-terangan: Google Ads untuk konversi iklan, GA4 untuk perilaku
-        // pengunjung. Config eksplisit dipertahankan meski Google tag bisa
-        // meneruskannya sendiri — supaya tujuan mana yang aktif terbaca dari
-        // repo ini, bukan bergantung pada setelan di layar Google Ads yang tidak
-        // kelihatan dari sini. Setiap event diarahkan lewat send_to.
-        { src: `https://www.googletagmanager.com/gtag/js?id=${GOOGLE_TAG_ID}`, async: true },
-        {
-          innerHTML: 'window.dataLayer = window.dataLayer || [];'
-            + 'function gtag(){dataLayer.push(arguments);}'
-            + 'gtag(\'js\', new Date());'
-            + `gtag('config', '${GOOGLE_ADS_ID}');`
-            + `gtag('config', '${GA4_MEASUREMENT_ID}');`,
-        },
-      ],
+      // gtag.js sengaja tidak dipasang di sini. Atas permintaan tim ads,
+      // Google Ads ID dan GA4 ID hanya terpasang di halaman iklan — lihat
+      // `useGoogleTag()`, yang dipanggil dari layout `lp`.
     },
   },
 

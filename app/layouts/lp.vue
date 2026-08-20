@@ -11,7 +11,14 @@
  *
  * Tidak ada tombol melayang dan tidak ada sticky CTA karena form-nya sudah
  * berada di halaman yang sama, hanya sejauh satu kali gulir.
+ *
+ * Layout ini juga satu-satunya yang memasang gtag.js. Tim ads meminta Google
+ * Ads ID dan GA4 ID dicabut dari web utama dan hanya dipasang di halaman iklan;
+ * karena layout inilah yang mendefinisikan "halaman iklan", pemasangannya
+ * ditaruh di sini, bukan di satu halaman. Yang ikut mati di luar sini
+ * disebutkan di `useGoogleTag()`.
  */
+useGoogleTag()
 </script>
 
 <template>
