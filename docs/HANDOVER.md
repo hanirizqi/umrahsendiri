@@ -41,7 +41,7 @@ Yang sudah berjalan di produksi:
 - Form kontak menyimpan lead lengkap dengan atribusi iklan sejak kunjungan pertama
 - Panel admin `/admin`: Leads, Contacts, LPP Rates, Price Calculator
 - Pembuatan penawaran, halaman siap cetak, tautan publik `/q/[token]`
-- Google Ads + GA4 (`G-PH99JXKHC9`) pada satu gtag.js, **hanya di `/konsultasi`**
+- GA4 (`G-PH99JXKHC9`) di seluruh situs publik; Google Ads (`AW-18372297695`) **hanya di `/konsultasi`**; panel admin tidak dilacak
 
 ## Siapa mengerjakan apa
 
@@ -167,16 +167,31 @@ yang mengklik WhatsApp di halaman itu. Satu-satunya konversi dari halaman iklan
 adalah pengiriman form, yang justru action Primary yang dioptimalkan Google.
 Beri tahu tim ads sebelum mereka mengira ada yang mati.
 
-**gtag.js hanya terpasang di halaman iklan, bukan di seluruh situs.** Atas
-permintaan tim ads, 20 Agustus 2026: Google Ads ID dan GA4 ID dicabut dari web
-utama. Sekarang `useGoogleTag()` dipanggil dari layout `lp`, jadi di luar
-`/konsultasi` tidak ada `gtag` sama sekali.
+**Google Ads hanya di halaman iklan; GA4 di seluruh situs publik.** Dua
+permintaan tim ads yang berurutan: 20 Agustus 2026 keduanya dicabut dari web
+utama, lalu 21 Agustus GA4 diminta dipasang kembali sementara Ads tetap di
+halaman iklan saja. Keadaan sekarang adalah hasil keduanya, bukan setengah
+jadi:
 
-Yang perlu diketahui sebelum ada yang mengira tracking rusak: pengiriman form di
-`/contact` tidak melaporkan konversi apa pun, klik WhatsApp di halaman publik dan
-di `/q/[token]` tidak tercatat, dan cookie `_ga` tidak pernah dibuat — sehingga
-`ga_client_id` pada lead dari luar halaman iklan akan kosong. Leadnya sendiri
-tetap tersimpan lengkap: UTM dan `gclid` dibaca dari URL, bukan dari gtag.
+- `layouts/default.vue` dan `pages/q/[token].vue` — GA4 saja
+- `layouts/lp.vue` — Google Ads plus GA4
+- `layouts/admin.vue` dan `pages/admin/login.vue` — **tidak sama sekali**
+
+Panel admin dulu ikut terlacak karena cuplikannya global, dan itu berarti tiap
+sesi staf terhitung sebagai pengunjung. Sekarang tidak lagi, dan itu disengaja.
+
+Situs utama memuat `gtag/js?id=G-PH99JXKHC9` langsung, bukan Google tag milik
+akun Ads (`GT-KFH6S89B`). Google tag bisa meneruskan ke tujuan yang diatur di
+layar Google Ads, dan setelan itu tidak kelihatan dari repo ini — memuatnya di
+web utama berisiko menghidupkan Ads di tempat yang diminta bersih.
+
+**Konversi Google Ads hanya dicoba di halaman yang memasang tag Ads.** Ini
+kegagalan diam yang tertangkap 21 Agustus: klik WhatsApp di `/contact` masih
+menembakkan `gtag('event','conversion', {send_to:'AW-…/label'})` padahal
+halaman itu tidak pernah meng-config `AW-18372297695`. Tidak ada error, tidak
+ada konversi, tidak ada yang terlihat aneh. Aturan tujuan per halaman sekarang
+ada di `tagDestinations()`, satu berkas dengan pemasangan tagnya, supaya yang
+mengubah pemasangan otomatis mengubah pengarahan eventnya.
 
 Konversi iklan tidak dirugikan — trafik iklan hanya pernah melihat `/konsultasi`,
 dan halaman itu tidak punya jalan keluar. Yang dilepas adalah **GA4 di situs
@@ -184,11 +199,29 @@ organik**: tidak ada lagi sesi, page view, maupun sumber trafik dari web utama,
 dan GA4 tidak bisa mengisi mundur, jadi setiap hari tagnya mati datanya kosong
 permanen.
 
-**Itu sudah ditimbang dan diterima, bukan kelalaian.** Keberatannya sempat
-diajukan — kalau tujuannya hanya menjaga trafik web utama tidak masuk akun Ads,
-mencabut Ads ID saja sudah cukup — dan Hani memutuskan mengikuti tim ads: iklan
-difokuskan ke halaman iklan saja, web utama dibersihkan. Jangan mengembalikan
-GA4 ke sitewide tanpa permintaan baru dari tim ads.
+Pencabutan GA4 itu **berlangsung satu hari** dan sudah dibatalkan tim ads
+sendiri pada 21 Agustus, dengan alasan yang sama seperti keberatan yang sempat
+diajukan. Yang tersisa dari periode itu hanyalah lubang satu hari di data GA4
+situs utama, dan GA4 tidak bisa mengisi mundur.
+
+**Properti GA4 terpisah untuk halaman iklan belum ada.** Tim ads memintanya 21
+Agustus supaya data kampanye tidak bercampur dengan trafik situs utama.
+`GA4_LANDING_MEASUREMENT_ID` di `app/constants/analytics.ts` sudah disiapkan
+dan sengaja kosong; selama kosong, halaman iklan melapor ke properti utama.
+Isi dengan `G-XXXXXXXXXX` begitu tim ads mengirimkannya — tidak ada yang lain
+yang perlu diubah.
+
+**Yang diminta harus properti, bukan data stream kedua.** Stream bukan batas
+pelaporan: dua stream pada satu properti tetap dilaporkan menyatu, jadi
+pemisahannya tidak terjadi, dan kalau keduanya menyala di halaman yang sama
+kunjungannya terhitung dua kali. Kalau tim ads terlanjur membuat data stream,
+itu tidak menyelesaikan permintaan mereka sendiri.
+
+**Belum terjawab dan tidak kelihatan dari repo:** apakah Google tag
+`GT-KFH6S89B` di layar Google Ads juga meneruskan ke `G-PH99JXKHC9`. Kalau ya,
+halaman iklan tetap ikut masuk ke properti utama meski kodenya sudah diarahkan
+ke properti kampanye, dan pemisahannya tidak akan sepenuhnya rapi. Perlu
+dicek di setelan Google tag mereka, bukan di sini.
 
 Terverifikasi di localhost dengan cookie dikosongkan lebih dulu: di `/`,
 `/contact`, dan `/services` tidak ada satu pun skrip Google, tidak ada permintaan

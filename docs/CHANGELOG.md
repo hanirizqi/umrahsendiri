@@ -2,6 +2,15 @@
 
 Record notable project changes.
 
+## 2026-08-21 — GA4 back on the main site, Google Ads still landing-page only
+
+- **`G-PH99JXKHC9` is installed across the public site again**, at the ads team's request, one day after it came off. The main site loads `gtag/js?id=G-PH99JXKHC9` directly rather than the Ads account's Google tag — a Google tag can forward to destinations configured in a console this repo cannot see, and the ads team asked for the Ads tag to stay on the landing page only.
+- **`AW-18372297695` did not move.** It is still configured on `/konsultasi` alone, so the main site loads GA4 and nothing else. Verified with cookies cleared first: `/services` sets `_ga` and `_ga_PH99JXKHC9` and no `_gcl_au`.
+- **The admin panel is no longer tracked, and that is a change from how it was before.** The old snippet sat in `app.head`, so `/admin/**` and `/admin/login` were counted like any other page and every staff session showed up in GA4 as a visitor. The panel is behind a login and `noindex`; there is nothing there to measure. `/q/[token]` does call the tag — it is a public page a jemaah opens from a link, and it was tracked before — and because it sets `layout: false` it has to ask for the tag itself rather than inherit it.
+- **A silent failure was found while testing and fixed.** With the Ads tag gone from the main site, a WhatsApp click on `/contact` still fired `gtag('event', 'conversion', {send_to: 'AW-…/label'})` at a destination that page never configured: no error, no conversion, nothing to notice. Ads conversions are now attempted only where the Ads tag is actually installed. The rule for what a page carries lives in `tagDestinations()`, next to the code that installs it, so the two cannot drift apart.
+- **Prepared, not finished: the separate GA4 property for the landing page.** `GA4_LANDING_MEASUREMENT_ID` is in place and empty, and the landing page falls back to the main property while it stays empty — an unset id would have sent `cta_to_form` and `generate_lead` nowhere while everything looked normal. Filling in that one constant is the whole change.
+- **It has to be a separate property, not a second data stream.** Streams are not a reporting boundary: two streams on one property are still reported together, so the separation would not happen, and if both fired on the same page the visit would be counted twice.
+
 ## 2026-08-20 — the ads landing page no longer lets anyone skip the form
 
 - **All five calls to action on `/konsultasi` now scroll to the form** instead of opening WhatsApp. WhatsApp opens only after the form is submitted, pre-filled from the answers. A conversation that starts without the form reaches CS as "Assalamualaikum" with no name, group size, dates or requirements, and the ad attribution is gone with it — there is no way to tell which campaign paid for it.

@@ -9,8 +9,31 @@
 export const GOOGLE_TAG_ID = 'GT-KFH6S89B'
 export const GOOGLE_ADS_ID = 'AW-18372297695'
 
-/** Google Analytics 4. Tidak ikut berganti. */
+/** Google Analytics 4 situs utama. Tidak ikut berganti saat akun Ads berganti. */
 export const GA4_MEASUREMENT_ID = 'G-PH99JXKHC9'
+
+/**
+ * Properti GA4 terpisah khusus halaman iklan, diminta tim ads 21 Agustus 2026
+ * supaya data kampanye tidak bercampur dengan trafik situs utama.
+ *
+ * **Harus properti, bukan data stream kedua pada properti yang sama.** Stream
+ * bukan batas pelaporan: dua stream pada satu properti tetap dilaporkan
+ * menyatu, jadi pemisahannya tidak terjadi — dan kalau keduanya menyala di
+ * halaman yang sama, kunjungannya terhitung dua kali.
+ *
+ * Kosong selama propertinya belum dibuat. Selama kosong, halaman iklan melapor
+ * ke properti utama; lihat `GA4_LANDING_ACTIVE_ID` di `useGoogleTag`. Isi
+ * dengan `G-XXXXXXXXXX` begitu tim ads mengirimkannya — tidak ada yang lain
+ * yang perlu diubah.
+ */
+export const GA4_LANDING_MEASUREMENT_ID = ''
+
+/**
+ * Path halaman iklan. Dipakai memilih properti GA4 mana yang dituju sebuah
+ * event, karena `ContactForm` dipakai di halaman iklan maupun di `/contact`
+ * dan keduanya melapor ke properti yang berbeda.
+ */
+export const LANDING_PAGE_PATH = '/konsultasi'
 
 /**
  * Nilai `send_to` tiap conversion action Google Ads. Label dibuat tim ads di

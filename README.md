@@ -155,9 +155,22 @@ URL lama berbahasa Indonesia (`/tentang`, `/layanan`, `/cara-kerja`, `/kontak`, 
 
 Satu `gtag.js` melayani dua tujuan sekaligus, keduanya di-config di `app/composables/useGoogleTag.ts` dan ID-nya tersimpan di `app/constants/analytics.ts`: **Google Ads** untuk konversi iklan dan **GA4** untuk perilaku pengunjung. Setiap event diarahkan lewat `send_to`, jadi tidak ada yang bocor ke tujuan yang salah.
 
-**Cuplikannya hanya terpasang di halaman iklan.** Sampai 20 Agustus 2026 ia ada di `app.head` pada `nuxt.config.ts` dan ikut ke seluruh situs; atas permintaan tim ads, Google Ads ID dan GA4 ID dicabut dari web utama. Sekarang `useGoogleTag()` dipanggil dari layout `lp` — satu-satunya layout halaman iklan — jadi di luar `/konsultasi` tidak ada `gtag` sama sekali dan tabel di bawah tidak berlaku di sana. Yang ikut diam: pengiriman form di `/contact`, klik WhatsApp di halaman publik dan di `/q/[token]`, serta cookie `_ga` yang tidak pernah dibuat sehingga `gaClientId` pada lead dari luar halaman iklan akan kosong. Leadnya sendiri tetap tersimpan lengkap dengan UTM dan `gclid`, karena `useAttribution` membaca URL, bukan gtag.
+**Tiap permukaan memasang tagnya sendiri lewat `useGoogleTag()`, dan yang tidak memanggil tidak dilacak.** Sampai 20 Agustus 2026 cuplikannya ada di `app.head` pada `nuxt.config.ts` sehingga ikut ke seluruh situs termasuk panel admin.
 
-Ini keputusan yang sudah ditimbang: yang dilepas adalah pengukuran GA4 atas situs organik, dan GA4 tidak bisa mengisi mundur. **Jangan mengembalikan tagnya ke sitewide tanpa permintaan baru dari tim ads.**
+| Permukaan | Dipasang di | Google Ads | GA4 |
+|---|---|---|---|
+| Halaman publik | `layouts/default.vue` | — | `G-PH99JXKHC9` |
+| Halaman penawaran `/q/[token]` | halamannya sendiri (`layout: false`) | — | `G-PH99JXKHC9` |
+| Halaman iklan `/konsultasi` | `layouts/lp.vue` | `AW-18372297695` | properti kampanye, sementara masih properti utama |
+| Panel admin | tidak ada | — | — |
+
+Situs utama memuat `gtag/js?id=G-PH99JXKHC9` langsung, bukan Google tag milik akun Ads (`GT-KFH6S89B`): Google tag bisa meneruskan ke tujuan yang diatur di layar Google Ads, dan setelan itu tidak kelihatan dari repo ini.
+
+**Panel admin sengaja tidak dilacak**, berbeda dari sebelum 20 Agustus. Tiap sesi staf dulu terhitung sebagai pengunjung di GA4; panelnya di balik login dan `noindex`, tidak ada yang perlu diukur.
+
+**Properti GA4 terpisah untuk halaman iklan belum ada.** Diminta tim ads 21 Agustus 2026 supaya data kampanye tidak bercampur dengan trafik situs utama. Isi `GA4_LANDING_MEASUREMENT_ID` di `app/constants/analytics.ts` begitu ID-nya tiba; selama kosong, halaman iklan melapor ke properti utama supaya tidak ada event yang hilang diam-diam. **Harus properti, bukan data stream kedua** — dua stream pada satu properti tetap dilaporkan menyatu, jadi tidak memisahkan apa pun.
+
+Event hanya dikirim ke tujuan yang benar-benar terpasang di halaman itu; aturannya di `tagDestinations()`, satu berkas dengan pemasangan tagnya. Klik WhatsApp di `/contact` sempat menembakkan konversi Ads ke halaman yang tidak meng-config `AW-18372297695` — tidak ada error, tidak ada konversi, tidak ada yang terlihat aneh.
 
 Dua peristiwa yang dicatat, keduanya lewat `app/composables/useAnalytics.ts`:
 

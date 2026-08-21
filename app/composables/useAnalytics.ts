@@ -3,6 +3,7 @@ import {
   WHATSAPP_CLICK_CONVERSION,
   WHATSAPP_FORM_CONVERSION,
 } from '~/constants/analytics'
+import { tagDestinations } from '~/composables/useGoogleTag'
 
 declare global {
   interface Window {
@@ -11,9 +12,27 @@ declare global {
 }
 
 /**
- * gtag selalu ada sebagai fungsi begitu cuplikan di nuxt.config berjalan, tapi
- * pemanggilnya tetap dijaga: pemblokir iklan bisa menghapusnya sebelum kita
- * sempat memakainya, dan pencatatan yang gagal tidak boleh mengganggu jemaah.
+ * Tujuan yang terpasang di halaman tempat event ini dipanggil.
+ *
+ * Halaman iklan dan situs utama tidak memuat tujuan yang sama, sedangkan
+ * `ContactForm` dan tombol WhatsApp dipakai di keduanya — jadi tujuannya tidak
+ * bisa ditetapkan sekali di berkas ini. Dibaca dari `location` dan bukan dari
+ * `useRoute()` karena seluruh pemanggil di bawah adalah penangan event, yang
+ * berjalan di luar konteks setup sebuah komponen.
+ *
+ * Aturannya sendiri ada di `tagDestinations()`, satu berkas dengan pemasangan
+ * tagnya, supaya keduanya tidak bisa berbeda pendapat.
+ */
+function here() {
+  if (typeof window === 'undefined') return { ads: '', ga4: GA4_MEASUREMENT_ID }
+  return tagDestinations(window.location.pathname)
+}
+
+/**
+ * gtag selalu ada sebagai fungsi begitu cuplikan `useGoogleTag()` berjalan,
+ * tapi pemanggilnya tetap dijaga: pemblokir iklan bisa menghapusnya sebelum
+ * kita sempat memakainya, dan pencatatan yang gagal tidak boleh mengganggu
+ * jemaah. Halaman admin sengaja tidak memasang tag sama sekali.
  */
 function send(...args: unknown[]) {
   if (typeof window.gtag !== 'function') return false
@@ -61,7 +80,7 @@ function sendAndWait(sendTo: string): Promise<void> {
  * tombol mana yang benar-benar membawa orang ke form.
  */
 export function reportFormCtaClick(source: string) {
-  send('event', 'cta_to_form', { send_to: GA4_MEASUREMENT_ID, source })
+  send('event', 'cta_to_form', { send_to: here().ga4, source })
 }
 
 /**
@@ -72,16 +91,16 @@ export function reportFormCtaClick(source: string) {
  * alasannya ada di `~/constants/analytics`.
  */
 export function reportWhatsappClick(source: string) {
-  send('event', 'whatsapp_click', { send_to: GA4_MEASUREMENT_ID, source })
-  if (WHATSAPP_CLICK_CONVERSION) {
+  send('event', 'whatsapp_click', { send_to: here().ga4, source })
+  if (here().ads && WHATSAPP_CLICK_CONVERSION) {
     send('event', 'conversion', { send_to: WHATSAPP_CLICK_CONVERSION })
   }
 }
 
 /** Sama dengan di atas, untuk tautan yang berpindah di tab yang sama. */
 export function reportWhatsappClickBeforeLeaving(source: string): Promise<void> {
-  send('event', 'whatsapp_click', { send_to: GA4_MEASUREMENT_ID, source })
-  if (!WHATSAPP_CLICK_CONVERSION) return Promise.resolve()
+  send('event', 'whatsapp_click', { send_to: here().ga4, source })
+  if (!here().ads || !WHATSAPP_CLICK_CONVERSION) return Promise.resolve()
   return sendAndWait(WHATSAPP_CLICK_CONVERSION)
 }
 
@@ -94,7 +113,7 @@ export function reportWhatsappClickBeforeLeaving(source: string): Promise<void> 
  * yang tidak dikirim.
  */
 export function reportWhatsappFormConversion(): Promise<void> {
-  send('event', 'generate_lead', { send_to: GA4_MEASUREMENT_ID })
-  if (!WHATSAPP_FORM_CONVERSION) return Promise.resolve()
+  send('event', 'generate_lead', { send_to: here().ga4 })
+  if (!here().ads || !WHATSAPP_FORM_CONVERSION) return Promise.resolve()
   return sendAndWait(WHATSAPP_FORM_CONVERSION)
 }

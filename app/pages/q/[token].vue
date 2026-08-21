@@ -1,6 +1,14 @@
 <script setup lang="ts">
 definePageMeta({ layout: false })
 
+/**
+ * `layout: false` berarti halaman ini tidak kebagian tag dari layout mana pun,
+ * jadi ia memanggilnya sendiri. Halaman penawaran itu permukaan publik — jemaah
+ * membukanya dari tautan yang dikirim CS — dan sebelum 20 Agustus 2026 ia ikut
+ * terlacak seperti halaman publik lainnya.
+ */
+useGoogleTag('main')
+
 const route = useRoute()
 const token = route.params.token as string
 
